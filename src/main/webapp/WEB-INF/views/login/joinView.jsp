@@ -24,6 +24,10 @@
             <label for="userPassword" class="sr-only">비밀번호</label>
             <input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="비밀번호" required="">
         </p>
+        <p>
+            <label for="userName" class="sr-only">이름</label>
+            <input type="text" id="userName" name="userName" class="form-control" placeholder="이름" required="">
+        </p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">회원가입</button>
     </form>
 
@@ -36,14 +40,15 @@
             const data = new FormData(form);
             const param = JSON.stringify(Object.fromEntries(data));
 
-            fetch('/login/join', {
+            fetch('/login/joinUser', {
                 method: 'POST',
-                body: param,
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: param,
             })
             .then(response => {
+            	debugger;
                 if (response.status == 200) {
                     window.location.href = '/login/loginView';
                     alert("회원가입 성공")

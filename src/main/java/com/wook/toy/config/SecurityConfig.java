@@ -29,12 +29,12 @@ public class SecurityConfig {
 			.cors().disable()
 			.authorizeHttpRequests(request -> request
 				.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-				.requestMatchers("/images/**", "/index", "/login/loginView", "/login/joinView").permitAll()
+				.requestMatchers("/images/**", "/index", "/login/**").permitAll()
 				.anyRequest().authenticated()
 			)
 			.formLogin(login -> login
 					.loginPage("/login/loginView")
-					.loginProcessingUrl("/login")
+					.loginProcessingUrl("/login/loginProcess")
 					.usernameParameter("userId")
 					.passwordParameter("userPassword")
 					.defaultSuccessUrl("/index", true)

@@ -17,12 +17,12 @@
 
     <h3 class="overview-normalize">접속 아이디</h3>
     <p>
-        ${loginId}
+        ${userId}
     </p>
     <hr/>
     <h3 class="overview-normalize">역할</h3>
     <p>
-        ${loginRoles}
+        ${userRoles}
     </p>
     <hr/>
     <h3 class="overview-normalize">역할에 따른 페이지 이동 권한 확인</h3>

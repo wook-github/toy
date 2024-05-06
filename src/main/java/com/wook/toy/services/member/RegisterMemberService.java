@@ -1,10 +1,14 @@
 package com.wook.toy.services.member;
 
+import java.math.BigDecimal;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.wook.toy.domain.Member;
 import com.wook.toy.repository.MemberRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class RegisterMemberService {
@@ -17,13 +21,13 @@ public class RegisterMemberService {
 		this.repository = repository;
 	}
 	
-	public Long joinUser(String userId, String userPassword) {
-		Member member = Member.createMember(userId, userPassword, passwordEncoder);
+	public BigDecimal joinUser(String userId, String userPassword, String userName, HttpServletRequest request) {
+		Member member = Member.createMember(userId, userPassword, userName, passwordEncoder, request);
 		
 		this.validateDuplicateMember(member);
 		repository.save(member);
 		
-		return member.getUserNo();
+		return member.getUserNumber();
 	}
 	
 	private void validateDuplicateMember(Member member) {

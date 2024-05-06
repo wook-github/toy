@@ -12,8 +12,13 @@ public class MainController {
 
 	@GetMapping("/index")
 	public String index(@AuthenticationPrincipal User user, Model model) {
-		model.addAttribute("userId", user.getUsername());
-		model.addAttribute("userRoles", user.getAuthorities());
+		if(user != null
+			&& user.getUsername() != null && !"".equals(user.getUsername())
+			&& user.getAuthorities() != null && !"".equals(user.getAuthorities())) {
+			
+			model.addAttribute("userId", user.getUsername());
+			model.addAttribute("userRoles", user.getAuthorities());
+		}
 		return "index";
 	}
 	
