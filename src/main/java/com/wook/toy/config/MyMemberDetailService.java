@@ -14,15 +14,15 @@ import com.wook.toy.services.member.MemberService;
 @Component
 public class MyMemberDetailService implements UserDetailsService {
 
-	private final MemberService userService;
+	private final MemberService memberService;
 	
-	public MyMemberDetailService(MemberService userService) {
-		this.userService = userService;
+	public MyMemberDetailService(MemberService memberService) {
+		this.memberService = memberService;
 	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		Optional<Member> findOne = userService.findOne(userId);
+		Optional<Member> findOne = memberService.findOne(userId);
 		Member member = findOne.orElseThrow(() -> new UsernameNotFoundException("없는 계정입니다."));
 		
 		return User.builder()

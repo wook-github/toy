@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.wook.toy.dto.JoinMemberDto;
 import com.wook.toy.services.member.RegisterMemberService;
@@ -17,27 +18,29 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/login")
 public class LoginController {
 	
-	private final RegisterMemberService registerUserService;
+	private final RegisterMemberService registerMemberService;
 	
-	public LoginController(RegisterMemberService registerUserService) {
-		this.registerUserService = registerUserService;
+	public LoginController(RegisterMemberService registerMemberService) {
+		this.registerMemberService = registerMemberService;
 	}
 	
 	@GetMapping("/loginView")
-	public String loginPage() {
-		return "login/loginView";
+	public ModelAndView loginPage(ModelAndView model) {
+		model.setViewName("contents/login/loginView");
+		return model;
 	}
 	
 	@GetMapping("/joinView")
-	public String joinPage() {
-		return "login/joinView";
+	public ModelAndView joinPage(ModelAndView model) {
+		model.setViewName("contents/login/joinView");
+		return model;
 	}
 	
 	@PostMapping("/joinUser")
 	@ResponseBody
 	public ResponseEntity<String> join(@RequestBody JoinMemberDto dto, HttpServletRequest request) {
 		try {
-			registerUserService.joinUser(dto.getUserId(), dto.getUserPassword(), dto.getUserName(), request);
+			registerMemberService.joinUser(dto, request);
 			return ResponseEntity.ok("join success");
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());

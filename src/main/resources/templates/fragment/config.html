@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+	<th:block th:fragment="configFragment">
+	
+		<link rel="shortcut icon" 	th:href="@{/images/favicon.ico}">
+	
+		<!-- css 파일 import -->
+		<link rel="stylesheet" 		th:href="@{/css/main.css}" type="text/css">
+		<link rel="stylesheet" 		th:href="@{/css/jquery-ui.css}" >
+	    <link rel="stylesheet" 		th:href="@{/framework/jquery/jquery-modal/jquery.modal.css}" >
+	    <!--
+	    <link rel="stylesheet" href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" >
+	     -->
+		
+		<!-- script 파일 import -->
+		<script th:src="@{/framework/jquery/jquery-1.12.4.min.js}"></script>
+		<script th:src="@{/framework/jquery/jquery-ui.js}"></script>
+		<script th:src="@{/framework/jquery/jquery.metadata.js}"></script>
+		<script th:src="@{/framework/jquery/jquery.form.min.js}"></script>
+		<script th:src="@{/framework/jquery/jquery-modal/jquery.modal.js}"></script>
+		<script th:src="@{/framework/jquery/slick.js}"></script>
+		<script th:src="@{/framework/jquery/jquery.serialize-object.js}"></script>
+		<script th:src="@{https://unpkg.com/sweetalert/dist/sweetalert.min.js}"></script>
+		
+		<script th:src="@{/js/common.js}"></script>
+		<script th:src="@{/js/main.js}"></script>
+		<script th:src="@{/js/fileupload.js}"></script>
+		<script th:src="@{/js/paginator.js}"></script>
+	
+	</th:block>
+
+</html>

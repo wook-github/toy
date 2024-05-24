@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>회원가입</title>
+    <title>íìê°ì</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
 </head>
@@ -14,21 +14,21 @@
 <body>
 <div class="container">
     <form class="form-signin" id='join_form'>
-        <h2 class="form-signin-heading text-center mb-5">회원가입!</h2>
+        <h2 class="form-signin-heading text-center mb-5">íìê°ì!</h2>
 
         <p>
-            <label for="userId" class="sr-only">아이디</label>
-            <input type="text" id="userId" name="userId" class="form-control" placeholder="아이디" required="" autofocus="">
+            <label for="userId" class="sr-only">ìì´ë</label>
+            <input type="text" id="userId" name="userId" class="form-control" placeholder="ìì´ë" required="" autofocus="">
         </p>
         <p>
-            <label for="userPassword" class="sr-only">비밀번호</label>
-            <input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="비밀번호" required="">
+            <label for="userPassword" class="sr-only">ë¹ë°ë²í¸</label>
+            <input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="ë¹ë°ë²í¸" required="">
         </p>
         <p>
-            <label for="userName" class="sr-only">이름</label>
-            <input type="text" id="userName" name="userName" class="form-control" placeholder="이름" required="">
+            <label for="userName" class="sr-only">ì´ë¦</label>
+            <input type="text" id="userName" name="userName" class="form-control" placeholder="ì´ë¦" required="">
         </p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">회원가입</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">íìê°ì</button>
     </form>
 
     <script>
@@ -51,9 +51,9 @@
             	debugger;
                 if (response.status == 200) {
                     window.location.href = '/login/loginView';
-                    alert("회원가입 성공")
+                    alert("íìê°ì ì±ê³µ")
                 } else {
-                    alert("회원가입 실패")
+                    alert("íìê°ì ì¤í¨")
                 }
             })
             .catch(error => console.log(error))

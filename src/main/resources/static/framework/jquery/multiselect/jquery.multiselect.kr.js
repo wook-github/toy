@@ -1,0 +1,1 @@
+(function($){$.extend($.ech.multiselect.prototype.options,{checkAllText:'전체',uncheckAllText:'선택해제',noneSelectedText:'전체',selectedText:'#개 선택'})})(jQuery);

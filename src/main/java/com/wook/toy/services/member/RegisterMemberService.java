@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.wook.toy.domain.Member;
+import com.wook.toy.dto.JoinMemberDto;
 import com.wook.toy.repository.MemberRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,17 +22,17 @@ public class RegisterMemberService {
 		this.repository = repository;
 	}
 	
-	public BigDecimal joinUser(String userId, String userPassword, String userName, HttpServletRequest request) {
-		Member member = Member.createMember(userId, userPassword, userName, passwordEncoder, request);
+	public BigDecimal joinUser(JoinMemberDto dto, HttpServletRequest request) {
+		Member member = dto.toEntity(passwordEncoder, request);
 		
-		this.validateDuplicateMember(member);
+		this.validateDuplicateMember(dto.getUserId());
 		repository.save(member);
 		
 		return member.getUserNumber();
 	}
 	
-	private void validateDuplicateMember(Member member) {
-		repository.findByUserId(member.getUserId())
+	private void validateDuplicateMember(String userId) {
+		repository.findByUserId(userId)
 			.ifPresent(m -> {
 				throw new IllegalStateException("가입 이력이 있는 회원입니다.");
 			});

@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>관리자 설정</title>
+    <title>ê´ë¦¬ì ì¤ì </title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 
 <body>
 <div class="container">
-    <h2 class="form-signin-heading text-center mb-5">관리자 설정 페이지 입니다.</h2>
+    <h2 class="form-signin-heading text-center mb-5">ê´ë¦¬ì ì¤ì  íì´ì§ ìëë¤.</h2>
 </div>
 </body>
 </html>

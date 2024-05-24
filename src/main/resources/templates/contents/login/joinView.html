@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+      
+	<head></head>
+	
+	<body layout:fragment="content">
+		
+		<div class="content container">
+			<form class="form-signin" id='join_form'>
+				<h2 class="form-signin-heading text-center mb-5">회원가입</h2>
+				<p>
+					<label for="userId" class="sr-only">사용자ID</label>
+					<input type="text" id="userId" name="userId" class="form-control" placeholder="사용자ID" required="" autofocus="">
+				</p>
+				<p>
+					<label for="userPassword" class="sr-only">사용자비밀번호</label>
+					<input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="사용자비밀번호" required="">
+				</p>
+				<p>
+					<label for="userName" class="sr-only">사용자명</label>
+					<input type="text" id="userName" name="userName" class="form-control" placeholder="사용자명" required="">
+				</p>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">가입신청</button>
+		    </form>
+		</div>
+		
+	</body>
+	
+	<script>
+		const form = document.getElementById('join_form');
+
+		form.addEventListener('submit', e => {
+			e.preventDefault();
+
+			const data = new FormData(form);
+			const param = JSON.stringify(Object.fromEntries(data));
+
+			fetch('/login/joinUser', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: param,
+			})
+			.then(response => {
+				if (response.status == 200) {
+					window.location.href = '/login/loginView';
+					alert("회원가입 완료");
+				} else {
+					alert("회원가입 실패");
+				}
+			})
+			.catch(error => console.log(error))
+		});
+    </script>
+      
+</html>

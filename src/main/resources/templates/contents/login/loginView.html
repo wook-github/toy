@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+      
+	<head>
+		<title>Spring Boot - toy(로그인)</title>
+	</head>
+	
+	<body layout:fragment="content">
+	
+		<div class="content container">
+			<form class="form-signin" method="post" action="/login/loginProcess">
+				<p class="text-center">
+					<img src="/images/nahwasa-profile.png" class="img-thumbnail" style="width: 200px;" alt="이미지 없음">
+				</p>
+				<h2 class="form-signin-heading text-center mb-5">toy_project</h2>
+		
+				<p>
+					<label for="userId" class="sr-only">사용자ID</label>
+					<input type="text" id="userId" name="userId" class="form-control" placeholder="사용자ID" required="" autofocus="">
+				</p>
+				<p>
+					<label for="userPassword" class="sr-only">사용자비밀번호</label>
+					<input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="사용자비밀번호" required="">
+				</p>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+			</form>
+		
+			<form class="form-signin" method="get" action="/login/joinView">
+				<button class="btn btn-lg btn-warning btn-block" type="submit">회원가입</button>
+			</form>
+		</div>
+		
+	</body>
+      
+</html>

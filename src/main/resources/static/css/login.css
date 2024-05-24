@@ -1,0 +1,238 @@
+.login_wrap {
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    padding: 70px 0;
+    margin-bottom: 30px;
+}
+
+.login_wrap .login_inner {
+    position: relative;
+    width: 500px;
+    margin: auto;
+}
+
+
+
+.login_wrap .login_inner .login_form {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.login_wrap .login_inner .login_form dl {
+    overflow: hidden;
+}
+
+.login_wrap .login_inner .login_form dl dt {
+    display: inline-block;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    width: 80px;
+    line-height: 36px;
+}
+
+.login_wrap .login_inner .login_form dl dd {
+    display: inline-block;
+    float: left;
+}
+
+.login_wrap .login_inner .login_form dl dd input {
+    width: 300px;
+    border: 1px solid #e0e0e0;
+    height: 36px;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.login_wrap .login_inner .login_form dl dd input:placeholder {
+    color: #d3d3d3;
+}
+
+.login_wrap .login_inner .login_form dl:first-child {
+    margin-bottom: 10px;
+}
+
+.login_wrap .login_inner .login_form .id_check {
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 80px;
+    font-size: 14px;
+    color: #666666;
+}
+
+.login_wrap .login_inner .login_form .id_check input {
+    margin-right: 10px;
+}
+
+.login_wrap .login_inner .login_form .login_btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 18px;
+    width: 108px;
+    height: 82px;
+    color: #fff;
+    display: inline-block;
+    background: url(../images/sub/login_btn.gif);
+    border-radius: 6px;
+}
+
+.login_wrap .login_inner .login_util {
+    overflow: hidden;
+}
+
+.login_wrap .login_inner .login_util ul {
+    float: right;
+    overflow: hidden;
+}
+
+.login_wrap .login_inner .login_util ul li {
+    float: left;
+    margin-left: 20px;
+}
+
+.login_wrap .login_inner .login_util ul li a {
+    font-size: 14px;
+    color: #666666;
+}
+
+.login_wrap .login_inner .login_util ul li .btnJoin {
+	display:inline-block; padding:0 25px; height:36px; color:#fff; background:#313647; font-size:14px; border-radius:6px;
+}
+
+.login_notice {
+    border: 1px solid #e0e0e0;
+    padding: 30px 0;
+    margin-bottom: 60px;
+    background: url(../images/sub/ico_login_notice.png) no-repeat 357px 40px;
+}
+
+.login_notice ul {
+    margin-left: 390px;
+}
+
+.login_notice ul li {
+    position: relative;
+    padding-left: 15px;
+    font-size: 14px;
+    color: #666666;
+}
+
+.login_notice ul li:first-child {
+    margin-bottom: 10px;
+}
+
+.login_notice ul li:after {
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    display: block;
+    content: '';
+    width: 3px;
+    height: 2px;
+    background: #666666;
+    border-radius: 50%;
+}
+
+.login_notice ul li span {
+    color: #eb6100;
+}
+
+
+.join_wrap {
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    padding: 20px 0;
+    margin-bottom: 30px;
+}
+
+.join_wrap .join_inner {
+	position: relative;
+    width: 1000px;
+    margin: auto;
+}
+.join_wrap .join_inner .join_form{
+	margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+.join_wrap .join_inner .join_form  .checkCursor{
+    cursor: pointer;
+}
+
+.join_wrap .join_inner .join_form div{
+	margin-top: 10px;
+}
+.join_wrap .join_inner .join_form h3{
+	margin: 10px 0;
+}
+.join_wrap .join_inner .join_form textarea{
+	width: 100%;
+}
+
+.buttonArea .right button:nth-child(n+2) 			{ margin-right:10px;}
+.buttonArea .left button:nth-child(n+2) 			{ margin-left:10px;}
+
+/* -----------------------------
+	userSe : 유저 구분 선택
+----------------------------- */
+.userSe 						{ display:block; width:100%; text-align:center; margin:2em 0; }
+.userSe ul 						{ display:inline-block; }
+.userSe ul li 					{ cursor: pointer; float:left; color:#000; border-radius:15px; border:10px solid #f8f8f8; padding:1.4em; width: 200px; position:relative; margin-right:60px; font-weight: 700; font-size: 21px;}
+.userSe ul li:first-child 		{ margin-left:0px; }
+.userSe ul li:after				{}
+.userSe ul li:last-child		{ margin-right:0; }
+.userSe ul li:last-child:after	{ background:none; width:0; height:0px; }
+.userSe ul li.on 				{ border:10px solid transparent; background:linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #0175d3, #03b166) border-box; color:#000; font-weight:bold; }
+
+
+
+
+.login_wrap .login_inner .password_form {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.login_wrap .login_inner .chk_password_form {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eaeaea;
+    text-align: center;
+}
+
+.login_wrap .login_inner .password_form dl {
+    overflow: hidden;
+}
+
+.login_wrap .login_inner .password_form dl dt {
+    display: inline-block;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    width: 130px;
+    line-height: 36px;
+}
+
+.login_wrap .login_inner .password_form dl dd {
+    display: inline-block;
+    float: left;
+}
+
+.login_wrap .login_inner .password_form dl dd input {
+    width: 340px;
+    border: 1px solid #e0e0e0;
+    height: 36px;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.login_wrap .login_inner .password_form dl dd input:placeholder {
+    color: #d3d3d3;
+}
+
+.login_wrap .login_inner .password_form dl{
+    margin-bottom: 20px;
+}
+

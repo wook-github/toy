@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko"
+	xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+    	<meta charset="UTF-8">
+    	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=yes">
+	    <!--[if lt IE 7]><meta http-equiv="imagetoolbar" content="no"><![endif]-->
+	    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	    
+    	<title>Spring Boot - toy</title>
+    	<th:block th:replace="~{fragment/config::configFragment}"></th:block>
+    </head>
+    
+    <body>
+    	<header id="header" class="Sec_header">
+    		<div th:replace="~{fragment/header::headerFragment}"></div>
+    	</header>
+    	
+    	<section>
+    		<article>
+    			<div layout:fragment="content"></div>
+    		</article>
+    	</section>
+    	
+    	<footer th:replace="~{fragment/footer::footerFragment}" id="footer" class="footer"></footer>
+    </body>
+    
+</html>

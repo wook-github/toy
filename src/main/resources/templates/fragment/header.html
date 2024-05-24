@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	
+	<div th:fragment="headerFragment" class="Artc_header" style="min-height: 0px;">
+	
+		<div class="artc">
+	    	<div class="inner">
+	        	<h1 class="site-name">
+	            	<a th:href="@{/index}" class="link">동네 한 바퀴</a>
+	            </h1>
+	            <div class="header_area">
+	            	<div class="header_menu">
+	            		<ul id="gnb">
+							<li>
+								<a th:href="@{/index}">동네맛집</a>
+							</li>
+							<li>
+								<a th:href="@{/index}">동네소식</a>
+							</li>
+							<li>
+								<a th:href="@{/index}">동네장터</a>
+							</li>
+							<li>
+								<a th:href="@{/board}">고객센터</a>
+							</li>
+						</ul>
+	            	</div>
+	            </div>
+	            <nav class="nav-mine">
+	            	<a th:href="@{/user/mypage}" class="btn-mypage">마이페이지</a>
+	            </nav>
+	    	</div>
+		</div>
+		
+	</div>
+	
+</html>
