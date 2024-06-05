@@ -36,7 +36,7 @@ public class JoinMemberDto {
 		member.setUserId(userId);
 		member.setUserPassword(passwordEncoder.encode(userPassword));
 		member.setUserName(userName);
-		member.setUserRole("ROLE_MEMBER");
+		member.setUserRole("MEMBER");
 		member.setJoinDt(formatDt.format(now));
 		member.setUseYn("Y");
 		member.setUpdtYmd(formatYmd.format(now));

@@ -4,57 +4,216 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
       
-	<head></head>
+	<head>
+		<title>Spring Boot - toy(회원가입)</title>
+	</head>
 	
 	<body layout:fragment="content">
 		
-		<div class="content container">
-			<form class="form-signin" id='join_form'>
-				<h2 class="form-signin-heading text-center mb-5">회원가입</h2>
-				<p>
-					<label for="userId" class="sr-only">사용자ID</label>
-					<input type="text" id="userId" name="userId" class="form-control" placeholder="사용자ID" required="" autofocus="">
-				</p>
-				<p>
-					<label for="userPassword" class="sr-only">사용자비밀번호</label>
-					<input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="사용자비밀번호" required="">
-				</p>
-				<p>
-					<label for="userName" class="sr-only">사용자명</label>
-					<input type="text" id="userName" name="userName" class="form-control" placeholder="사용자명" required="">
-				</p>
-				<button class="btn btn-lg btn-primary btn-block" type="submit">가입신청</button>
-		    </form>
+		<div class="join_wrap">
+			<div class="join_inner">
+				<form id='joinForm'>
+					<input type="hidden" name="userId" 			value="" />
+					<input type="hidden" name="userPassword" 	value="" />
+					<input type="hidden" name="userName" 		value="" />
+				</form>
+				<div class="join_form">
+					<ul>
+						<li>
+							<div class="joinFormLabelDiv">
+								<p><b>약관동의</b></p>
+							</div>
+							<div class="joinFormAgree">
+								<ul>
+									<li>
+										<input type="checkbox" id="checkbox_1" class="" />
+										<label for="checkbox_1">이용약관</label>
+										<div class="joinFormAgreeeLink">
+											<a>></a>
+										</div>
+									</li>
+									<li>
+										<input type="checkbox" id="checkbox_2" class="" />
+										<label for="checkbox_2">개인정보수집 및 이용동의</label>
+										<div class="joinFormAgreeeLink">
+											<a>></a>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="divRequiredWarn" style="display:none;">
+								<p>필수 입력 항목입니다.</p>
+							</div>
+						</li>
+						<li>
+							<div class="joinFormLabelDiv">
+								<p><b>사용자ID</b></p>
+							</div>
+							<label for="inpUserId" class="blind">사용자ID</label>
+							<input type="text" id="inpUserId" class="input_text required" placeholder="사용자ID" />
+							<input type="hidden" id="idCheckYn" value="N" />
+							<button id="btnCheckId" class="btnCheckId">중복확인</button>
+							<div class="divRequiredWarn" style="display:none;">
+								<p>필수 입력 항목입니다.</p>
+							</div>
+						</li>
+						<li>
+							<div class="joinFormLabelDiv">
+								<p><b>사용자비밀번호</b><br><span>영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</span></p>
+							</div>
+							<label for="inpUserPassword" class="blind">사용자비밀번호</label>
+							<input type="password" id="inpUserPassword" class="input_text required" placeholder="사용자비밀번호" />
+							<div class="divRequiredWarn" style="display:none;">
+								<p>필수 입력 항목입니다.</p>
+							</div>
+						</li>
+						<li>
+							<div class="joinFormLabelDiv">
+								<p><b>비밀번호 확인</b></p>
+							</div>
+							<label for="inpUserPassword2" class="blind">사용자비밀번호</label>
+							<input type="password" id="inpUserPassword2" class="input_text required" placeholder="비밀번호 확인" />
+							<div class="divRequiredWarn" style="display:none;">
+								<p>비밀번호 확인을 위해 한번 더 입력하시기 바랍니다.</p>
+							</div>
+							<div id="passwordCheckMsg" style="display:none;">
+								<p></p>
+							</div>
+						</li>
+						<li>
+							<div class="joinFormLabelDiv">
+								<p><b>사용자명</b></p>
+							</div>
+							<label for="inpUserName" class="blind">사용자명</label>
+							<input type="text" id="inpUserName" class="input_text required" placeholder="사용자명">
+							<div class="divRequiredWarn" style="display:none;">
+								<p>필수 입력 항목입니다.</p>
+							</div>
+						</li>
+						
+					</ul>
+					<button id="btnJoinSubmit" class="btnJoinSubmit" type="submit">가입신청</button>
+				</div>
+			</div>
 		</div>
 		
 	</body>
 	
-	<script>
-		const form = document.getElementById('join_form');
-
-		form.addEventListener('submit', e => {
-			e.preventDefault();
-
-			const data = new FormData(form);
-			const param = JSON.stringify(Object.fromEntries(data));
-
-			fetch('/login/joinUser', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: param,
-			})
-			.then(response => {
-				if (response.status == 200) {
-					window.location.href = '/login/loginView';
-					alert("회원가입 완료");
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 아이디 중복확인
+				$("#btnCheckId").click(function() {
+					if($("#inpUserId").val() != null && $("#inpUserId").val() != '') {
+						$.ajax({
+							url  : "/login/checkId",
+							data : {
+										userId : $("#inpUserId").val()
+									},
+							type : "POST",
+							success: function (data) {
+								if(data.userId == null || data.userId == '') {
+									$("#idCheckYn").val("Y");
+									swal("사용자ID 확인", "사용가능한 ID입니다.", "success");
+								} else {
+									$("#idCheckYn").val("N");
+									swal("사용자ID 확인", "현재 사용중인 ID입니다.", "error");
+								}
+							},
+							error: function (error) {
+								swal("사용자ID 검증 실패", "일시적인 오류로 ID 검증에 실패하였습니다.", "warning");
+							}
+						});
+					} else {
+						swal("사용자ID 미입력", "사용자ID를 입력하시기 바랍니다.", "error");
+						return false;
+					}
+					
+				});
+				
+				// 회원가입
+				$("#btnJoinSubmit").click(function() {
+					
+					if(validationCheck()) {
+						$("#joinForm input[name=userId]").val($("#inpUserId").val());
+						$("#joinForm input[name=userPassword]").val($("#inpUserPassword").val());
+						$("#joinForm input[name=userName]").val($("#inpUserName").val());
+						
+						$("#joinForm").ajaxForm({
+							type		: 	"POST",
+							dataType 	: 	"json",
+							url 		: 	"/login/joinUser",
+							success 	: 	function(data) {
+												if(data.userNum != null && data.userNum > 0) {
+													swal("회원가입 완료", "회원가입에 성공하였습니다. 로그인하여 사용하시기 바랍니다.", "success")
+													.then((value) => {
+														window.location.href = '/login/loginView';
+													});
+												} else {
+													swal("회원가입 실패", "회원가입에 실패하였습니다.", "error");
+												}
+											},
+							beforeSend	:	function(XMLHttpRequest) {
+												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+											},
+							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+													
+												} else {
+													swal("회원가입 실패", "회원가입에 실패하였습니다.", "error");
+												}
+											}
+						}).submit();
+					} else {
+						return false;
+					}
+				});
+				
+		
+			}
+			
+			function validationCheck() {
+				
+				var inputCheck = false;
+				
+				if($(".joinFormAgree input[type=checkbox]").not(":checked").length > 0) {
+					inputCheck = false;
+					
+					swal("약관동의", "필수 항목에 체크하시기 바랍니다.", "error");
+				} else if($("#idCheckYn").val() != "Y" ) {
+					inputCheck = false;
+					
+					swal("아이디 중복확인", "아이디 중복확인을 하시기 바랍니다.", "error");
 				} else {
-					alert("회원가입 실패");
+					var inputList = $(".join_form").find(".required");
+					
+					inputList.each(function (idx, item) {
+						if(item.value == null || item.value == '') {
+							$(item).css("border", "2px solid #FF4848");
+							$(item).parent("li").find(".divRequiredWarn").show();
+							
+							inputCheck = false;
+						} else {
+							$(item).css("border", "1px solid #E0E0E0");
+							$(item).parent("li").find(".divRequiredWarn").hide();
+							
+							inputCheck = true;
+						}
+						
+					});
 				}
-			})
-			.catch(error => console.log(error))
-		});
-    </script>
+				
+				return inputCheck;
+				
+			}
+	    </script>
+    </th:block>
       
 </html>

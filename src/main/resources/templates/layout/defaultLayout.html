@@ -19,7 +19,10 @@
     	
     	<section>
     		<article>
+    			<div th:replace="~{fragment/nav::navFragment}"></div>
     			<div layout:fragment="content"></div>
+    			<th:block layout:fragment="bodyScript"></th:block>
+    			<script th:inline="javascript"></script>
     		</article>
     	</section>
     	

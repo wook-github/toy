@@ -1,35 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-	<script>
-	$(document).ready(function(){
-		foorterInvokeEvent();
-	});
-	
-	function foorterInvokeEvent() {
-		footerLinkEventHandler();				// Top Menu
-	}
-	
-	function footerLinkEventHandler() {
-		$('.footer__links .container > ul > li').each(function() {
-			$(this).addClass('has-depth1');
-		});
-		
-		//클릭한 menu로 이동
-		$('.footer__links .container > ul.depth1 > li a').on('click', function(e) {
-			$('.footer__links .container > li.has-depth1 > a').removeClass("on");
-			$(this).addClass("on");
-			var mMenuId = $(this).data("mmenuid").toString();
-			var sMenuId = $(this).data("smenuid").toString();
-		
-			$("#breadcrumb ul.list #depth1 > a").prop("text", "시스템 안내");
-			$("#breadcrumb ul.list #depth2 > a").prop("text", $(this).text());
-			
-			moveSubmenu(mMenuId + sMenuId);
-		});
-	}
-	</script>
-	
 	<div th:fragment="footerFragment" class="inner_footer">
 		<section class="section_service">
 			<h2 class="blind">하단 메뉴</h2>

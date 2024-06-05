@@ -10,27 +10,48 @@
 	
 	<body layout:fragment="content">
 	
-		<div class="content container">
-			<form class="form-signin" method="post" action="/login/loginProcess">
-				<p class="text-center">
-					<img src="/images/nahwasa-profile.png" class="img-thumbnail" style="width: 200px;" alt="이미지 없음">
-				</p>
-				<h2 class="form-signin-heading text-center mb-5">toy_project</h2>
-		
-				<p>
-					<label for="userId" class="sr-only">사용자ID</label>
-					<input type="text" id="userId" name="userId" class="form-control" placeholder="사용자ID" required="" autofocus="">
-				</p>
-				<p>
-					<label for="userPassword" class="sr-only">사용자비밀번호</label>
-					<input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="사용자비밀번호" required="">
-				</p>
-				<button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
-			</form>
-		
-			<form class="form-signin" method="get" action="/login/joinView">
-				<button class="btn btn-lg btn-warning btn-block" type="submit">회원가입</button>
-			</form>
+		<div class="login_wrap">
+			<div class="login_inner">
+				<form class="login_form" method="post" action="/login/loginProcess">
+					<ul>
+						<li>
+							<label for="userId" class="blind">사용자ID</label>
+							<input type="text" id="userId" name="userId" class="form-control" placeholder="사용자ID" required="" autofocus="">
+						</li>
+						<li>
+							<label for="userPassword" class="blind">사용자비밀번호</label>
+							<input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="사용자비밀번호" required="">
+						</li>
+					</ul>
+					<button class="login_btn" type="submit">로그인</button>
+				</form>
+				<div class="login_util">
+					<ul>
+						<li>
+							<a>아이디 찾기</a>
+						</li>
+						<li>
+							<a>비밀번호 재설정</a>
+						</li>
+						<li>
+							<a th:href="@{/login/joinView}" class="btnJoin">회원가입</a>
+						</li>
+					</ul>
+				</div>
+				<div class="login_social">
+					<ul>
+						<li>
+							<a id="btnNvLogin" class="btnNaver">네이버 로그인</a>
+						</li>
+						<li>
+							<a id="btnKkLogin" class="btnKakao">카카오 로그인</a>
+						</li>
+						<li>
+							<a id="btnGgLogin" class="btnGoogle">구글 로그인</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 		
 	</body>

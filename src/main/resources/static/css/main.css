@@ -8,8 +8,6 @@
 /* -----------------------------
 	클래스별 CSS
 ----------------------------- */
-
-
 .clear {
 	clear:both;
 }
@@ -35,21 +33,21 @@
 }
 
 .required {
-	background-color: #faebd7;
+	border : 1px solid #E0E0E0;
 }
 
 .input_text {
-	font-size: 13px;
-	padding:2px 6px;
-	border: #C0C0C0;
+	font-size: 16px;
+	padding:15px 10px;
+	border: #E0E0E0;
 	border-style: solid;
 	border-width: 1px;
-	height:28px;
+	height:40px;
 	line-height:22px;
 }
 
 .input_box {
-	font-size: 13px;
+	font-size: 16px;
 	height: 70px;
 	border: #C0C0C0;
 	border-style: solid;
@@ -57,8 +55,8 @@
 }
 
 .input_list {
-	font-size: 13px;
-	height: 26px;
+	font-size: 16px;
+	height: 28px;
 	border: #C0C0C0;
 	border-style: solid;
 	border-width: 1px;
@@ -66,11 +64,11 @@
 }
 
 .input_select {
-	font-size: 13px;
-	border: #C0C0C0;
+	font-size: 16px;
+	border: #E0E0E0;
 	border-style: solid;
 	border-width: 1px;
-	height:28px;
+	height:40px;
 	line-height:22px;
 }
 
@@ -228,15 +226,7 @@
 /* 마이페이지 관련 */
 .Artc_header .btn-mypage { position: relative; background-repeat: no-repeat; background-position: 50%; background-size: 100% 100%; overflow: hidden; text-indent: -999px; background-image: url(../images/header/user.png); display: inline-block; width: 40px; height: 40px; margin-left: 16px; }
 
-/* -----------------------------
-	SECTION > NAV
------------------------------ */
-.nav 				{ display: inline-block; margin-top: 10px; }
-.nav #lnb			{ padding: 20px 0; font-size: 1.1em; border-bottom: 1px solid #000; }
-.nav #lnb .frame 	{ overflow: visible; }
-.nav #lnb .frame a,
-.nav #lnb .frame span	{ display: inline-block; color: #000; vertical-align: middle; }
-.frame 				{ width:100%; max-width:1280px; margin: 0px auto; clear: both; }
+
 
 /* -----------------------------
 	CONTAINER
@@ -249,50 +239,19 @@ div.wrap:after 		{ content:""; display:block; clear:both; float:none; }
 	SECTION
 ----------------------------- */
 section	{ min-height: 800px; }
-section.section { min-height: 900px; background: #fff url(../images/section/section_background_1920.jpg) no-repeat; background-size:cover; opacity: 0.5; }
-
-/* 섹션  > Article	> Head */
-.page-head			{margin : 5px 0px 10px; width: 100%; height: 30px; line-height:30px; }
-.page-title			{float:left; font-size: 20px; font-weight: 300; color: #1c2238;}
-.page-loca			{float:right; font-size: 14px; font-weight: 400;}
-.page-loca:after	{content: ""; display: block; clear: both;}
-.page-loca li		{float: left; padding-left: 22px; background: url(../images/common/objDivLoca.png) no-repeat 10px 11px;}
-.page-loca li:first-child {padding-left: 0; background: none;}
-
 
 
 /* -----------------------------
-	SECTION > WRAP > NAV
+	SECTION > NAV
 ----------------------------- */
-
-section nav			{float:left; width : 220px; padding-top:10px;}
-section nav:after 	{content:""; display:block; clear:both; float:none; }
-#lnb div.title		{font-size: 21px; background: url(../images/sub/blit.gif) no-repeat 0 6px; padding-left: 30px; color: #222; font-weight: 700;line-height: 30px;height: 30px;margin: 5px 0 10px; clear: both; }
-
-#lnb ul.depth2 		{border-top: solid 2px #3872dc;}
-#lnb ul.depth2 > li {border-bottom: solid 1px #c7cdd7;}
-#lnb ul.depth2 > li > a {display: block; padding: 14px 45px 14px 20px; background: #fff url(../images/common/icnMoreLnb.png) no-repeat 180px 17px; line-height: 1.2; font-size: 19px; font-weight: 400; color: #000; letter-spacing: -1px; }
-#lnb ul.depth2 > li > a:hover,
-#lnb ul.depth2 > li > a:focus {background-color: #e8ebf0;}
-
-#lnb ul.depth2 > li.on > a {background-color: #5b5d66 !important; color: #fff;}
-#lnb ul.depth2 > li.on > ul.depth3 {display: block;}
-
-#lnb ul.depth3 {display: none; background: #e9ebef;}
-#lnb ul.depth3:before,
-#lnb ul.depth3:after {content: ""; display: block; height: 16px;}
-#lnb ul.depth3 > li > a {display: block; padding: 6px 20px 6px 30px; background: url(../images/common/objBullet2.png) no-repeat 22px 14px; line-height: 1.2; font-size: 15px; font-weight: 400; color: #454647; }
-#lnb ul.depth3 > li > a:hover,
-#lnb ul.depth3 > li > a:focus,
-#lnb ul.depth3 > li.on > a {color: #3872dc; text-decoration: underline;}
+.title_main		{height: 200px; position:relative;}
+.title_main	p	{position:absolute; top:50%; left:45%; font-size: 3em; font-weight: bold;}
 
 
 /* -----------------------------
 	SECTION > ARTICLE
 ----------------------------- */
 section article	{position: relative; margin:0 auto; width:1280px; height:auto; padding:10px 0 20px; }
-section.login { display:flex; align-items:center; justify-content:center; }
-section.login article {float:none; width:auto;}
 
 
 /* -----------------------------

@@ -138,13 +138,13 @@ input, textarea, select, button {
 input,select,textarea {
 	box-sizing: border-box;
 	width: 200px;
-	height: 28px;
-	padding: 0px 6px;
+	height: 40px;
+	padding: 0px 10px;
 	border: solid 1px #c2c4c9;
-	line-height: 22px;
-	font-size: 13px;
+	border-radius: 5px;
+	font-size: 16px;
 	color: #606473;
-	letter-spacing: inherit; background-color:#fff;
+	background-color:#fff;
 }
 
 select {
@@ -161,12 +161,10 @@ textarea {
 
 textarea::placeholder {
 	color: #C0C0C0;
-	font-style: italic;
 }
 
 input::placeholder {
 	color: #C0C0C0;
-	font-style: italic;
 }
 
 input[type="text"]:disabled {
@@ -227,7 +225,6 @@ input.hangul {
 
 input[type=checkbox] {
 	cursor: pointer;
-	margin-top:0px;
-	width:16px;
-	height:16px;
+	width:20px;
+	height:20px;
 }

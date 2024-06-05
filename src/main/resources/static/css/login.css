@@ -1,55 +1,29 @@
+/* -----------------------------
+	로그인 화면 CSS
+----------------------------- */
 .login_wrap {
-    background: #f8f8f8;
-    border: 1px solid #e0e0e0;
-    padding: 70px 0;
-    margin-bottom: 30px;
+    padding: 200px 0;
 }
 
 .login_wrap .login_inner {
     position: relative;
-    width: 500px;
+    width: 400px;
     margin: auto;
 }
 
-
-
 .login_wrap .login_inner .login_form {
     margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eaeaea;
 }
 
-.login_wrap .login_inner .login_form dl {
+.login_wrap .login_inner .login_form ul {
     overflow: hidden;
 }
 
-.login_wrap .login_inner .login_form dl dt {
-    display: inline-block;
-    float: left;
-    font-size: 14px;
-    font-weight: bold;
-    width: 80px;
-    line-height: 36px;
+.login_wrap .login_inner .login_form ul li input {
+    width: 100%;
 }
 
-.login_wrap .login_inner .login_form dl dd {
-    display: inline-block;
-    float: left;
-}
-
-.login_wrap .login_inner .login_form dl dd input {
-    width: 300px;
-    border: 1px solid #e0e0e0;
-    height: 36px;
-    font-size: 14px;
-    padding: 10px;
-}
-
-.login_wrap .login_inner .login_form dl dd input:placeholder {
-    color: #d3d3d3;
-}
-
-.login_wrap .login_inner .login_form dl:first-child {
+.login_wrap .login_inner .login_form ul li:first-child {
     margin-bottom: 10px;
 }
 
@@ -66,20 +40,21 @@
 }
 
 .login_wrap .login_inner .login_form .login_btn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 18px;
-    width: 108px;
-    height: 82px;
+    font-size: 20px;
+    width: 100%;
+    height: 60px;
     color: #fff;
     display: inline-block;
-    background: url(../images/sub/login_btn.gif);
+    background-image: linear-gradient(90deg, #00F190, #00A1FC);
     border-radius: 6px;
+    border: none;
+    margin-top: 20px;
 }
 
 .login_wrap .login_inner .login_util {
     overflow: hidden;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d8d8d8;
 }
 
 .login_wrap .login_inner .login_util ul {
@@ -92,147 +67,132 @@
     margin-left: 20px;
 }
 
+.login_wrap .login_inner .login_util ul li:not(:first-child) {
+    padding-left: 15px;
+    border-left: 1px solid #e0e0e0;
+}
+
 .login_wrap .login_inner .login_util ul li a {
     font-size: 14px;
     color: #666666;
 }
 
-.login_wrap .login_inner .login_util ul li .btnJoin {
-	display:inline-block; padding:0 25px; height:36px; color:#fff; background:#313647; font-size:14px; border-radius:6px;
+.login_wrap .login_inner .login_util ul li a.btnJoin {
+    font-weight: bold;
 }
 
-.login_notice {
-    border: 1px solid #e0e0e0;
-    padding: 30px 0;
-    margin-bottom: 60px;
-    background: url(../images/sub/ico_login_notice.png) no-repeat 357px 40px;
+.login_wrap .login_social ul {
+	text-align: center;
 }
 
-.login_notice ul {
-    margin-left: 390px;
+.login_wrap .login_social ul li {
+	display:inline-block;
+	margin-right: 20px;
 }
 
-.login_notice ul li {
-    position: relative;
-    padding-left: 15px;
-    font-size: 14px;
-    color: #666666;
+.login_wrap .login_social ul li a {
+	display: block;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: no-repeat 50%;
+	background-size: 100%;
+	font-size: 0;
+	letter-spacing: 0;
+	text-indent: -9999px;
 }
 
-.login_notice ul li:first-child {
-    margin-bottom: 10px;
+.login_wrap .login_social ul li a.btnNaver {
+	background-image: url(../images/icons/icon_sns_naver.svg);
+	background-repeat: no-repeat;
 }
 
-.login_notice ul li:after {
-    position: absolute;
-    left: 7px;
-    top: 8px;
-    display: block;
-    content: '';
-    width: 3px;
-    height: 2px;
-    background: #666666;
-    border-radius: 50%;
+.login_wrap .login_social ul li a.btnKakao {
+	background-image: url(../images/icons/icon_sns_kakao.svg);
+	background-repeat: no-repeat;
 }
 
-.login_notice ul li span {
-    color: #eb6100;
+.login_wrap .login_social ul li a.btnGoogle {
+	background-image: url(../images/icons/icon_sns_google.png);
+	background-repeat: no-repeat;
 }
-
-
+/* -----------------------------
+	회원가입 화면 CSS
+----------------------------- */
 .join_wrap {
-    background: #f8f8f8;
-    border: 1px solid #e0e0e0;
-    padding: 20px 0;
-    margin-bottom: 30px;
+    padding: 50px 0 200px;
 }
 
 .join_wrap .join_inner {
 	position: relative;
-    width: 1000px;
+    width: 400px;
     margin: auto;
 }
-.join_wrap .join_inner .join_form{
+
+.join_wrap .join_inner .join_form {
 	margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eaeaea;
-}
-.join_wrap .join_inner .join_form  .checkCursor{
-    cursor: pointer;
 }
 
-.join_wrap .join_inner .join_form div{
-	margin-top: 10px;
-}
-.join_wrap .join_inner .join_form h3{
-	margin: 10px 0;
-}
-.join_wrap .join_inner .join_form textarea{
-	width: 100%;
+.join_wrap .join_inner .join_form ul {
+	overflow: hidden;
 }
 
-.buttonArea .right button:nth-child(n+2) 			{ margin-right:10px;}
-.buttonArea .left button:nth-child(n+2) 			{ margin-left:10px;}
-
-/* -----------------------------
-	userSe : 유저 구분 선택
------------------------------ */
-.userSe 						{ display:block; width:100%; text-align:center; margin:2em 0; }
-.userSe ul 						{ display:inline-block; }
-.userSe ul li 					{ cursor: pointer; float:left; color:#000; border-radius:15px; border:10px solid #f8f8f8; padding:1.4em; width: 200px; position:relative; margin-right:60px; font-weight: 700; font-size: 21px;}
-.userSe ul li:first-child 		{ margin-left:0px; }
-.userSe ul li:after				{}
-.userSe ul li:last-child		{ margin-right:0; }
-.userSe ul li:last-child:after	{ background:none; width:0; height:0px; }
-.userSe ul li.on 				{ border:10px solid transparent; background:linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #0175d3, #03b166) border-box; color:#000; font-weight:bold; }
-
-
-
-
-.login_wrap .login_inner .password_form {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eaeaea;
+.join_wrap .join_inner .join_form ul li {
+	margin-bottom: 20px;
 }
 
-.login_wrap .login_inner .chk_password_form {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eaeaea;
-    text-align: center;
+.join_wrap .join_inner .join_form ul li:first-child {
+	margin-top: 20px;
 }
 
-.login_wrap .login_inner .password_form dl {
-    overflow: hidden;
+.join_wrap .join_inner .join_form .joinFormAgree label, a {
+	font-size: 18px;
 }
 
-.login_wrap .login_inner .password_form dl dt {
+.join_wrap .join_inner .join_form .joinFormAgree label {
+	cursor: pointer;
+}
+
+.join_wrap .join_inner .join_form .joinFormAgreeeLink {
+	display: inline-block;
+	position: absolute;
+	right: 0;
+}
+
+.join_wrap .join_inner .join_form .joinFormLabelDiv p {
+	font-size: 1.5em;
+}
+
+.join_wrap .join_inner .join_form ul li input[type="text"], input[type="password"] {
+    width: 100%;
+}
+
+.join_wrap .join_inner .join_form ul li input#inpUserId {
+    width: 79%;
+}
+
+.join_wrap .join_inner .join_form ul li .btnCheckId {
+    font-size: 16px;
+    width: 20%;
+    height: 40px;
+    color: #fff;
     display: inline-block;
-    float: left;
-    font-size: 14px;
-    font-weight: bold;
-    width: 130px;
-    line-height: 36px;
+    background-color: #00A1FC;
+    border-radius: 6px;
+    border: none;
 }
 
-.login_wrap .login_inner .password_form dl dd {
+.join_wrap .join_inner .join_form ul li .divRequiredWarn p {
+    color: #FF4848;
+}
+
+.join_wrap .join_inner .join_form .btnJoinSubmit {
+    font-size: 20px;
+    width: 100%;
+    height: 60px;
+    color: #fff;
     display: inline-block;
-    float: left;
+    background-image: linear-gradient(90deg, #00F190, #00A1FC);
+    border-radius: 6px;
+    border: none;
 }
-
-.login_wrap .login_inner .password_form dl dd input {
-    width: 340px;
-    border: 1px solid #e0e0e0;
-    height: 36px;
-    font-size: 14px;
-    padding: 10px;
-}
-
-.login_wrap .login_inner .password_form dl dd input:placeholder {
-    color: #d3d3d3;
-}
-
-.login_wrap .login_inner .password_form dl{
-    margin-bottom: 20px;
-}
-
