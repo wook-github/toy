@@ -34,9 +34,9 @@ public class MemberService {
 			
 			return member.get();
 		} else {
-			String userName = (String) param.get("userName");
-			String userBirth = (String) param.get("userBirth");
-			String userPhone = (String) param.get("userPhone");
+			String userName = param.get("userName").toString();
+			String userBirth = param.get("userBirth").toString().replaceAll("[-]", "");
+			String userPhone = param.get("userPhone").toString().replaceAll("[-]", "");
 			
 			return repository.findByUserNameAndUserBirthAndUserPhone(userName, userBirth, userPhone);			
 		}

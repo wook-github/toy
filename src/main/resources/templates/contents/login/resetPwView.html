@@ -115,9 +115,8 @@
 					
 				});
 				
-				// 회원가입
+				// 비밀번호 재설정
 				$("#btnResetPw").click(function() {
-					debugger;
 					if(validationCheck()) {
 						$("#resetPwForm input[name=userPassword]").val($("#newUserPassword").val());
 						
@@ -174,6 +173,12 @@
 					}
 					
 				});
+				
+				if($("#newUserPassword").val() != $("#newUserPassword2").val()) {
+					swal("비밀번호 확인", "비밀번호 확인이 일치하지 않았습니다. 다시 입력해주세요.", "error");
+					
+					inputCheck = false;
+				}
 				
 				return inputCheck;
 				

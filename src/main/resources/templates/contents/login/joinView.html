@@ -160,10 +160,18 @@
 					
 				});
 				
+				
 				// 회원가입
 				$("#btnJoinSubmit").click(function() {
 					
 					if(validationCheck()) {
+						if($("#idCheckYn").val() != "Y" ) {
+							inputCheck = false;
+							
+							swal("아이디 중복확인", "아이디 중복확인을 하시기 바랍니다.", "error");
+							return false;
+						}
+						
 						$("#joinForm input[name=userId]").val($("#inpUserId").val());
 						$("#joinForm input[name=userPassword]").val($("#inpUserPassword").val());
 						$("#joinForm input[name=userName]").val($("#inpUserName").val());
@@ -211,10 +219,6 @@
 					inputCheck = false;
 					
 					swal("약관동의", "필수 항목에 체크하시기 바랍니다.", "error");
-				} else if($("#idCheckYn").val() != "Y" ) {
-					inputCheck = false;
-					
-					swal("아이디 중복확인", "아이디 중복확인을 하시기 바랍니다.", "error");
 				} else {
 					var inputList = $("#joinInputForm").find(".required");
 					
@@ -232,6 +236,12 @@
 						}
 						
 					});
+					
+					if($("#inpUserPassword").val() != $("#inpUserPassword2").val()) {
+						swal("비밀번호 확인", "비밀번호 확인이 일치하지 않았습니다. 다시 입력해주세요.", "error");
+						
+						inputCheck = false;
+					}
 				}
 				
 				return inputCheck;

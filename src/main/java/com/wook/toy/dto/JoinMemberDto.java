@@ -40,8 +40,8 @@ public class JoinMemberDto {
 		member.setUserId(userId);
 		member.setUserPassword(passwordEncoder.encode(userPassword));
 		member.setUserName(userName);
-		member.setUserBirth(userBirth);
-		member.setUserPhone(userPhone);
+		member.setUserBirth(userBirth.replaceAll("[-]", ""));
+		member.setUserPhone(userPhone.replaceAll("[-]", ""));
 		member.setUserRole("MEMBER");
 		member.setJoinDt(formatDt.format(now));
 		member.setUseYn("Y");
