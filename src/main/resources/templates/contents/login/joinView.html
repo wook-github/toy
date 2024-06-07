@@ -11,13 +11,15 @@
 	<body layout:fragment="content">
 		
 		<div class="join_wrap">
-			<div class="join_inner">
+			<div class="inner">
 				<form id='joinForm'>
 					<input type="hidden" name="userId" 			value="" />
 					<input type="hidden" name="userPassword" 	value="" />
 					<input type="hidden" name="userName" 		value="" />
+					<input type="hidden" name="userBirth" 		value="" />
+					<input type="hidden" name="userPhone" 		value="" />
 				</form>
-				<div class="join_form">
+				<div id="joinInputForm" class="joinInputForm">
 					<ul>
 						<li>
 							<div class="joinFormLabelDiv">
@@ -52,7 +54,7 @@
 							<label for="inpUserId" class="blind">사용자ID</label>
 							<input type="text" id="inpUserId" class="input_text required" placeholder="사용자ID" />
 							<input type="hidden" id="idCheckYn" value="N" />
-							<button id="btnCheckId" class="btnCheckId">중복확인</button>
+							<button id="btnCheckId" class="btn_common_bl">중복확인</button>
 							<div class="divRequiredWarn" style="display:none;">
 								<p>필수 입력 항목입니다.</p>
 							</div>
@@ -90,9 +92,28 @@
 								<p>필수 입력 항목입니다.</p>
 							</div>
 						</li>
-						
+						<li>
+							<div class="joinFormLabelDiv">
+								<p><b>생년월일</b></p>
+							</div>
+							<label for="inpUserBirth" class="blind">생년월일</label>
+							<input type="text" id="inpUserBirth" class="input_text required isYmd" placeholder="생년월일">
+							<div class="divRequiredWarn" style="display:none;">
+								<p>필수 입력 항목입니다.</p>
+							</div>
+						</li>
+						<li>
+							<div class="joinFormLabelDiv">
+								<p><b>전화번호</b></p>
+							</div>
+							<label for="inpUserPhone" class="blind">전화번호</label>
+							<input type="text" id="inpUserPhone" class="input_text required isMblTelno" placeholder="전화번호">
+							<div class="divRequiredWarn" style="display:none;">
+								<p>필수 입력 항목입니다.</p>
+							</div>
+						</li>
 					</ul>
-					<button id="btnJoinSubmit" class="btnJoinSubmit" type="submit">가입신청</button>
+					<button id="btnJoinSubmit" class="btn_common" type="submit">가입신청</button>
 				</div>
 			</div>
 		</div>
@@ -103,6 +124,7 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				
+				wook.app.common.keyEvent();
 				invokeEvent();
 				
 			});
@@ -145,6 +167,8 @@
 						$("#joinForm input[name=userId]").val($("#inpUserId").val());
 						$("#joinForm input[name=userPassword]").val($("#inpUserPassword").val());
 						$("#joinForm input[name=userName]").val($("#inpUserName").val());
+						$("#joinForm input[name=userBirth]").val($("#inpUserBirth").val());
+						$("#joinForm input[name=userPhone]").val($("#inpUserPhone").val());
 						
 						$("#joinForm").ajaxForm({
 							type		: 	"POST",
@@ -192,7 +216,7 @@
 					
 					swal("아이디 중복확인", "아이디 중복확인을 하시기 바랍니다.", "error");
 				} else {
-					var inputList = $(".join_form").find(".required");
+					var inputList = $("#joinInputForm").find(".required");
 					
 					inputList.each(function (idx, item) {
 						if(item.value == null || item.value == '') {

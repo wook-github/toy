@@ -18,12 +18,16 @@ public class JoinMemberDto {
 	private String userId;
 	private String userPassword;
 	private String userName;
+	private String userBirth;
+	private String userPhone;
 	
 	@Builder
-	public JoinMemberDto(String userId, String userPassword, String userName) {
+	public JoinMemberDto(String userId, String userPassword, String userName, String userBirth, String userPhone) {
 		this.userId = userId;
 		this.userPassword = userPassword;
 		this.userName = userName;
+		this.userBirth = userBirth;
+		this.userPhone = userPhone;
 	}
 	
 	public Member toEntity(PasswordEncoder passwordEncoder, HttpServletRequest request) {
@@ -36,6 +40,8 @@ public class JoinMemberDto {
 		member.setUserId(userId);
 		member.setUserPassword(passwordEncoder.encode(userPassword));
 		member.setUserName(userName);
+		member.setUserBirth(userBirth);
+		member.setUserPhone(userPhone);
 		member.setUserRole("MEMBER");
 		member.setJoinDt(formatDt.format(now));
 		member.setUseYn("Y");

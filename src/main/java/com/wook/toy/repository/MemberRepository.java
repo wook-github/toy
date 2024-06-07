@@ -10,4 +10,7 @@ import com.wook.toy.domain.Member;
 public interface MemberRepository extends JpaRepository<Member, BigDecimal> {
 
 	Optional<Member> findByUserId(String userId);
+	
+	Member findByUserNameAndUserBirthAndUserPhone(String userName, String userBirth, String userPhone);
+	
 }

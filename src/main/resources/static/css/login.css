@@ -1,32 +1,51 @@
 /* -----------------------------
 	로그인 화면 CSS
 ----------------------------- */
-.login_wrap {
-    padding: 200px 0;
+.login_wrap,
+.join_wrap,
+.findId_wrap,
+.resetPw_wrap {
+    padding-bottom: 200px;
 }
 
-.login_wrap .login_inner {
+.login_wrap .inner,
+.join_wrap .inner,
+.findId_wrap .inner,
+.resetPw_wrap .inner {
     position: relative;
     width: 400px;
     margin: auto;
 }
 
-.login_wrap .login_inner .login_form {
+.login_wrap .inner .login_form,
+.join_wrap .inner .join_form,
+.findId_wrap .inner .findIdForm,
+.resetPw_wrap .inner .findUserForm,
+.resetPw_wrap .inner .resetPwForm {
     margin-bottom: 20px;
 }
 
-.login_wrap .login_inner .login_form ul {
+.login_wrap .inner .login_form ul,
+.join_wrap .inner .join_form ul,
+.findId_wrap .inner .findIdForm ul,
+.resetPw_wrap .inner .findUserForm ul,
+.resetPw_wrap .inner .resetPwForm ul {
     overflow: hidden;
 }
 
-.login_wrap .login_inner .login_form ul li input {
+.login_wrap .inner .login_form ul li input,
+.findId_wrap .inner .findIdForm ul li input,
+.resetPw_wrap .inner .findUserForm ul li input,
+.resetPw_wrap .inner .resetPwForm ul li input {
     width: 100%;
 }
 
-.login_wrap .login_inner .login_form ul li:first-child {
+.login_wrap .inner .login_form ul li:first-child,
+.join_wrap .inner .join_form ul li:first-child {
     margin-bottom: 10px;
 }
 
+/* 
 .login_wrap .login_inner .login_form .id_check {
     display: inline-block;
     margin-top: 10px;
@@ -38,46 +57,35 @@
 .login_wrap .login_inner .login_form .id_check input {
     margin-right: 10px;
 }
+ */
 
-.login_wrap .login_inner .login_form .login_btn {
-    font-size: 20px;
-    width: 100%;
-    height: 60px;
-    color: #fff;
-    display: inline-block;
-    background-image: linear-gradient(90deg, #00F190, #00A1FC);
-    border-radius: 6px;
-    border: none;
-    margin-top: 20px;
-}
-
-.login_wrap .login_inner .login_util {
+.login_wrap .inner .login_util {
     overflow: hidden;
     padding-bottom: 20px;
     border-bottom: 1px solid #d8d8d8;
 }
 
-.login_wrap .login_inner .login_util ul {
+.login_wrap .inner .login_util ul {
     float: right;
     overflow: hidden;
 }
 
-.login_wrap .login_inner .login_util ul li {
+.login_wrap .inner .login_util ul li {
     float: left;
     margin-left: 20px;
 }
 
-.login_wrap .login_inner .login_util ul li:not(:first-child) {
+.login_wrap .inner .login_util ul li:not(:first-child) {
     padding-left: 15px;
     border-left: 1px solid #e0e0e0;
 }
 
-.login_wrap .login_inner .login_util ul li a {
+.login_wrap .inner .login_util ul li a {
     font-size: 14px;
     color: #666666;
 }
 
-.login_wrap .login_inner .login_util ul li a.btnJoin {
+.login_wrap .inner .login_util ul li .linkJoin {
     font-weight: bold;
 }
 
@@ -116,83 +124,59 @@
 	background-image: url(../images/icons/icon_sns_google.png);
 	background-repeat: no-repeat;
 }
+
 /* -----------------------------
 	회원가입 화면 CSS
 ----------------------------- */
-.join_wrap {
-    padding: 50px 0 200px;
-}
-
-.join_wrap .join_inner {
-	position: relative;
-    width: 400px;
-    margin: auto;
-}
-
-.join_wrap .join_inner .join_form {
+.join_wrap .inner .joinInputForm ul li {
 	margin-bottom: 20px;
 }
 
-.join_wrap .join_inner .join_form ul {
-	overflow: hidden;
-}
-
-.join_wrap .join_inner .join_form ul li {
-	margin-bottom: 20px;
-}
-
-.join_wrap .join_inner .join_form ul li:first-child {
-	margin-top: 20px;
-}
-
-.join_wrap .join_inner .join_form .joinFormAgree label, a {
+.join_wrap .inner .joinInputForm .joinFormAgree label, a {
 	font-size: 18px;
 }
 
-.join_wrap .join_inner .join_form .joinFormAgree label {
+.join_wrap .inner .joinInputForm .joinFormAgree label {
 	cursor: pointer;
 }
 
-.join_wrap .join_inner .join_form .joinFormAgreeeLink {
+.join_wrap .inner .joinInputForm .joinFormAgreeeLink {
 	display: inline-block;
 	position: absolute;
 	right: 0;
 }
 
-.join_wrap .join_inner .join_form .joinFormLabelDiv p {
+.join_wrap .inner .joinInputForm .joinFormLabelDiv p {
 	font-size: 1.5em;
 }
 
-.join_wrap .join_inner .join_form ul li input[type="text"], input[type="password"] {
+.join_wrap .inner .joinInputForm ul li input[type="text"], input[type="password"] {
     width: 100%;
 }
 
-.join_wrap .join_inner .join_form ul li input#inpUserId {
+.join_wrap .inner .joinInputForm ul li input#inpUserId {
     width: 79%;
 }
 
-.join_wrap .join_inner .join_form ul li .btnCheckId {
-    font-size: 16px;
-    width: 20%;
-    height: 40px;
-    color: #fff;
-    display: inline-block;
-    background-color: #00A1FC;
-    border-radius: 6px;
-    border: none;
-}
-
-.join_wrap .join_inner .join_form ul li .divRequiredWarn p {
+.join_wrap .inner .joinInputForm ul li .divRequiredWarn p {
     color: #FF4848;
 }
 
-.join_wrap .join_inner .join_form .btnJoinSubmit {
-    font-size: 20px;
-    width: 100%;
-    height: 60px;
-    color: #fff;
-    display: inline-block;
-    background-image: linear-gradient(90deg, #00F190, #00A1FC);
-    border-radius: 6px;
-    border: none;
+/* -----------------------------
+	아이디 찾기 화면 CSS
+----------------------------- */
+.findId_wrap .inner .findIdForm ul li {
+	margin-bottom: 20px;
+}
+
+/* -----------------------------
+	비밀번호 재설정 화면 CSS
+----------------------------- */
+.resetPw_wrap .inner .findUserForm ul li,
+.resetPw_wrap .inner .resetPwForm ul li {
+	margin-bottom: 20px;
+}
+
+.resetPw_wrap .inner .resetPwForm .divResetPwLabel p {
+	font-size: 1.5em;
 }

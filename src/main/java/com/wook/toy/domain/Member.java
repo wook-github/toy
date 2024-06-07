@@ -35,6 +35,7 @@ public class Member {
 	private String userPassword;
 	private String userName;
 	private String userNickname;
+	private String userBirth;
 	private String userPhone;
 	private String userEmail;
 	private String userRole;

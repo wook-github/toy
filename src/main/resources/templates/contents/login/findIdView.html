@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+      
+	<head>
+		<title>Spring Boot - toy(로그인)</title>
+	</head>
+	
+	<body layout:fragment="content">
+	
+		<div class="findId_wrap">
+			<div class="inner">
+				<form id="findIdForm" class="findIdForm">
+					<ul>
+						<li>
+							<label for="userName" class="blind">사용자명</label>
+							<input type="text" id="userName" name="userName" class="input_text required" placeholder="사용자명을 입력해주세요." validText="사용자명을 입력해주세요.">
+						</li>
+						<li>
+							<label for="userBirth" class="blind">법정생년월일</label>
+							<input type="text" id="userBirth" name="userBirth" class="input_text isYmd required" placeholder="법정생년월일을 입력해주세요." validText="법정생년월일을 입력해주세요.">
+						</li>
+						<li>
+							<label for="userPhone" class="blind">휴대폰번호</label>
+							<input type="text" id="userPhone" name="userPhone" class="input_text isMblTelno required" placeholder="휴대폰번호를 입력해주세요." validText="휴대폰번호를 입력해주세요.">
+						</li>
+					</ul>
+					<button class="btn_common" id="btnFindId">아이디 찾기</button>
+				</form>
+			</div>
+		</div>
+		
+	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 아이디 중복확인
+				$("#btnFindId").click(function() {
+					if(validationCheck()) {
+						$("#findIdForm").ajaxForm({
+							url  : "/login/findId",
+							type : "POST",
+							success: function (data) {
+								if(data.userId != null && data.userId != '') {
+									swal("아이디 찾기 성공", "입력하신 정보로 찾은 아이디는 '" + data.userId + "' 입니다.", "success")
+									.then((value) => {
+										window.location.href = '/login/loginView';
+									});
+								} else {
+									swal("아이디 찾기 실패", "조회된 아이디가 없습니다.", "error");
+								}
+							},
+							error: function (error) {
+								swal("아이디 찾기 실패", "일시적인 오류로 아이디 찾기에 실패하였습니다.", "warning");
+							}
+						}).submit();
+					} else {
+						return false;
+					}
+					
+				});
+		
+			}
+			
+			function validationCheck() {
+				var inputObj = null;
+				var inputList = $("#findIdForm input");
+				
+				inputList.each(function (idx, item) {
+					if(item.value == null || item.value == '') {
+						inputObj = item;
+						return false;
+					}
+				});
+				
+				if(inputObj != null) {
+					swal("아이디 찾기", $(inputObj).attr("validText"), "error")
+					.then((value) => {
+						return false;
+					})
+				} else {
+					return true;
+				}
+				
+			}
+	    </script>
+    </th:block>
+      
+</html>

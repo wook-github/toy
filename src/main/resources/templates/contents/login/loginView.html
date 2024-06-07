@@ -11,7 +11,7 @@
 	<body layout:fragment="content">
 	
 		<div class="login_wrap">
-			<div class="login_inner">
+			<div class="inner">
 				<form class="login_form" method="post" action="/login/loginProcess">
 					<ul>
 						<li>
@@ -23,18 +23,18 @@
 							<input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="사용자비밀번호" required="">
 						</li>
 					</ul>
-					<button class="login_btn" type="submit">로그인</button>
+					<button class="btn_common" type="submit">로그인</button>
 				</form>
 				<div class="login_util">
 					<ul>
 						<li>
-							<a>아이디 찾기</a>
+							<a th:href="@{/login/findIdView}" >아이디 찾기</a>
 						</li>
 						<li>
-							<a>비밀번호 재설정</a>
+							<a th:href="@{/login/resetPwView}" >비밀번호 재설정</a>
 						</li>
 						<li>
-							<a th:href="@{/login/joinView}" class="btnJoin">회원가입</a>
+							<a th:href="@{/login/joinView}" class="linkJoin">회원가입</a>
 						</li>
 					</ul>
 				</div>

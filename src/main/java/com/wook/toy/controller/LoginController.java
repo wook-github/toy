@@ -40,6 +40,64 @@ public class LoginController {
 		return model;
 	}
 	
+	@GetMapping("/findIdView")
+	public ModelAndView findIdView(ModelAndView model) {
+		model.addObject("menu", "아이디 찾기");
+		model.setViewName("contents/login/findIdView");
+		return model;
+	}
+	
+	@PostMapping("/findId")
+	@ResponseBody
+	public ResponseEntity<String> findId(@RequestParam HashMap<String, Object> param, HttpServletRequest request) {
+		try {
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			
+			if(param != null) {
+				Member member = memberService.findByUser(param);
+				
+				if(member != null && !"".equals(member.getUserId())) {
+					rslt.put("userId", member.getUserId());
+				} else {
+					rslt.put("userId", null);
+				}
+			}
+			
+			return new ResponseEntity(rslt, HttpStatus.OK);
+		} catch (Exception e) {
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			rslt.put("userId", null);
+			
+			return new ResponseEntity(rslt, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/resetPwView")
+	public ModelAndView resetPwView(ModelAndView model) {
+		model.addObject("menu", "비밀번호 재설정");
+		model.setViewName("contents/login/resetPwView");
+		return model;
+	}
+	
+	@PostMapping("/resetPw")
+	@ResponseBody
+	public ResponseEntity<String> resetPw(@RequestParam HashMap<String, Object> param, HttpServletRequest request) {
+		try {
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			
+			BigDecimal userNumber = memberService.resetPw(param);
+			
+			rslt.put("userNum", userNumber);
+			
+			return new ResponseEntity(rslt, HttpStatus.OK);
+		} catch (Exception e) {
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			rslt.put("userId", null);
+			
+			return new ResponseEntity(rslt, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@GetMapping("/joinView")
 	public ModelAndView joinPage(ModelAndView model) {
 		model.addObject("menu", "회원가입");
