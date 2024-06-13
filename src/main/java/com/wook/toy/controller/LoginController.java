@@ -130,13 +130,12 @@ public class LoginController {
 			HashMap<String, Object> rslt = new HashMap<String, Object>();
 			
 			if(param != null && !"".equals(param.get("userId"))) {
-				String userId = (String) param.get("userId");
 						
-				Optional<Member> member = memberService.findOne(userId);
-				if(member.isEmpty()) {
-					rslt.put("userId", null);
+				Member member = memberService.findByUser(param);
+				if(member != null && member.getUserNumber().compareTo(BigDecimal.ZERO) != 0) {
+					rslt.put("userId", member.getUserId());
 				} else {
-					rslt.put("userId", member.get().getUserId());
+					rslt.put("userId", null);
 				}
 			}
 			

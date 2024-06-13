@@ -1,4 +1,4 @@
-package com.wook.toy.config;
+package com.wook.toy.security.authorize;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAnyRole('MEMBER')")
-public @interface MemberAuthorize {
+@PreAuthorize("hasAnyRole('ADMIN')")
+public @interface AdminAuthorize {
 
 }

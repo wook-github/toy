@@ -32,9 +32,10 @@ public class RegisterMemberService {
 	}
 	
 	private void validateDuplicateMember(String userId) {
-		repository.findByUserId(userId)
-			.ifPresent(m -> {
-				throw new IllegalStateException("가입 이력이 있는 회원입니다.");
-			});
+		Member member = repository.findByUserId(userId);
+		
+		if(member != null && member.getUserId() != null && !"".equals(member.getUserId())) {
+			throw new IllegalStateException("가입 이력이 있는 회원입니다.");
+		}
 	}
 }

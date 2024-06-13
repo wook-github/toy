@@ -2,9 +2,8 @@ package com.wook.toy.services.member;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Optional;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.wook.toy.domain.Member;
@@ -13,16 +12,12 @@ import com.wook.toy.repository.MemberRepository;
 @Service
 public class MemberService {
 
-	private final PasswordEncoder passwordEncoder;
+	private final BCryptPasswordEncoder passwordEncoder;
 	private final MemberRepository repository;
 	
-	public MemberService(PasswordEncoder passwordEncoder, MemberRepository repository) {
+	public MemberService(BCryptPasswordEncoder passwordEncoder, MemberRepository repository) {
 		this.passwordEncoder = passwordEncoder;
 		this.repository = repository;
-	}
-	
-	public Optional<Member> findOne(String userId) {
-		return repository.findByUserId(userId);
 	}
 	
 	public Member findByUser(HashMap<String, Object> param) {
@@ -30,9 +25,7 @@ public class MemberService {
 		if(param.get("userId") != null && !"".equals(param.get("userId"))) {
 			String userId = (String) param.get("userId");
 			 
-			Optional<Member> member = repository.findByUserId(userId);
-			
-			return member.get();
+			return repository.findByUserId(userId);
 		} else {
 			String userName = param.get("userName").toString();
 			String userBirth = param.get("userBirth").toString().replaceAll("[-]", "");
@@ -44,10 +37,13 @@ public class MemberService {
 	}
 	
 	public BigDecimal resetPw(HashMap<String, Object> param) {
+		String userId = (String) param.get("userId");
+		String userPassword = (String) param.get("userPassword");
+		
 		Member member = this.findByUser(param);
 		
-		member.setUserId((String) param.get("userId"));
-		member.setUserPassword(passwordEncoder.encode(member.getUserPassword()));
+		member.setUserId(userId);
+		member.setUserPassword(passwordEncoder.encode(userPassword));
 		
 		repository.save(member);
 		
