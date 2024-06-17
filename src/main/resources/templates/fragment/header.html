@@ -21,12 +21,15 @@
 								<a th:href="@{/index}">동네장터</a>
 							</li>
 							<li>
-								<a th:href="@{/board}">고객센터</a>
+								<a th:href="@{/board/noticeView}">고객센터</a>
 							</li>
 						</ul>
 	            	</div>
 	            </div>
 	            <nav class="nav-mine">
+	            	<form method="post" action="/login/logout">
+						<button class="" type="submit" th:if="${userId ne null}">로그아웃</button>
+					</form>
 	            	<a th:href="@{/user/mypage}" class="btn-mypage">마이페이지</a>
 	            </nav>
 	    	</div>

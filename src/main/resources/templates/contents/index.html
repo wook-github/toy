@@ -2,34 +2,59 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+      layout:decorate="~{layout/mainLayout}">
 	
 	<head>
 		<title>Spring Boot - toy22</title>
 	</head>
 	
 	<body layout:fragment="content">
-		<div class="content">
-			<h3 class="form-signin-heading text-center mb-5">toy</h3>
-			<h3 class="overview-normalize">사용자 ID</h3>
-			<p>
-				<span th:text="${userId}" ></span>
-			</p>
-			<hr/>
-			<h3 class="overview-normalize">사용자 권한</h3>
-			<p>
-				<span th:text="${userRoles}" ></span>
-			</p>
-			<hr/>
-			<h3 class="overview-normalize">역할에 따른 페이지 이동 권한 확인.</h3>
-			<p>
-				<button onclick="location.href='/admin/main'" class="btn btn-sm btn-success">관리자 설정 페이지(관리자만)</button>
-				<button onclick="location.href='/user/main'" class="btn btn-sm btn-info">유저 설정 페이지(유저만)</button>
-			</p>
-			<hr/>
-			<form method="post" action="/logout">
-				<button class="btn btn-sm btn-danger btn-block" type="submit">로그아웃</button>
-			</form>
+		<div class="wrap">
+			<div id="divAdvertisement" class="mt10 mb20 divBorderBox divAdvertisement">
+				(광고영역)
+			</div>
+			<div class="mt15 pstn_r">
+				<div class="dp_inline divFoodSearch divSmallBox">
+					<p class="mb10"><span class="ml50">맛집 검색</span></p>
+					<div id="" class="divBorderBox">
+						(맛집 검색 영역)
+					</div>
+				</div>
+				<div class="pstn_a dp_inline divFoodList divSmallBox" style="right: 0;">
+					<p class="mb10"><span class="ml50">맛집 순위</span></p>
+					<div id="" class="divBorderBox">
+						(맛집 순위 영역)
+					</div>
+				</div>
+			</div>
+			<div class="mt15">
+				<div class="divPopularPost divSmallBox">
+					<p class="mb10"><span class="ml50">이달의 인기 글</span></p>
+					<div id="" class="divBorderBox">
+						(이달의 인기글 영역)
+					</div>
+				</div>
+			</div>
+			<div class="mt15 pstn_r">
+				<div class="dp_inline divNoticeList divSmallBox">
+					<p class="mb10"><span class="ml50">공지사항</span></p>
+					<div id="" class="divBorderBox">
+						(공지사항 영역)
+					</div>
+				</div>
+				<div class="ml40 dp_inline divFaqList divSmallBox">
+					<p class="mb10"><span class="ml50">FAQ</span></p>
+					<div id="" class="divBorderBox">
+						(FAQ 영역)
+					</div>
+				</div>
+				<div class="pstn_a dp_inline divPhoneBook divSmallBox" style="right: 0;">
+					<p class="mb10"><span class="ml50">관련 연락처</span></p>
+					<div id="" class="divBorderBox">
+						(관련 연락처 영역)
+					</div>
+				</div>
+			</div>
 		</div>
 	</body>
 	
