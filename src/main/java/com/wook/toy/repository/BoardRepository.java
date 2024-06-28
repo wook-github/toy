@@ -12,7 +12,9 @@ import com.wook.toy.domain.Board;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, BigDecimal> {
 
-	Page<Board> findByBoardSectionAndBoardTitleContaining(String boardSection, String searchKeyword, Pageable pageable);
+	Page<Board> findByBoardSectionAndUseYn(String boardSection, String useYn, Pageable pageable);
+	
+	Page<Board> findByBoardSectionAndUseYnAndBoardTitleContaining(String boardSection, String useYn, String searchKeyword, Pageable pageable);
 	
 	Board findByBoardNumber(BigDecimal boardNumber);
 }

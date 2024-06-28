@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/contentsLayout}">
+	
+	<body layout:fragment="content">
+		
+		<div class="sub_wrap">
+			
+			<div class="inner">
+				
+				<div class="sub_section">
+					<form id="noticeForm">
+						<input type="hidden" id="boardNumber" name="boardNumber" th:if="${boardInfo != null}" th:value="${boardInfo.boardNumber}" />
+					
+						<table class="toy-info-tb">
+							<caption>공지사항 관리</caption>
+							<colgroup>
+								<col style="width: 15%;">
+								<col style="width: 85%;">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>제목</th>
+									<td>
+										<label for="boardTitle" class="blind">공지사항 제목</label>
+										<input type="text" id="boardTitle" name="boardTitle" class="input_text required" th:if="${boardInfo != null}" th:value="${boardInfo.boardTitle}" />
+									</td>
+								</tr>
+								<tr>
+									<th>내용</th>
+									<td>
+										<label for="boardContents" class="blind">공지사항 내용</label>
+										<textarea id="boardContents" name="boardContents" class="required" th:if="${boardInfo != null}" th:text="${boardInfo.boardContents}" ></textarea>
+									</td>
+								</tr>
+							</tbody>
+			
+						</table>
+						
+						<div class="common_bottom">
+							<button type="button" id="btnInsert" class="" title="등록" th:if="${info.pageMode != 'U'}">등록</button>
+							<button type="button" id="btnModify" class="" title="수정" th:unless="${info.pageMode != 'U'}">수정</button>
+							
+							<button type="button" id="btnDelete" class="" title="삭제" th:if="${info.pageMode == 'U'}">삭제</button>
+							<button type="button" id="btnBack" class="" title="목록으로">목록으로</button>
+						</div>
+					
+					</form>
+				
+				</div>
+			
+			</div>
+			
+		</div>
+		
+	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 목록으로 돌아가기
+				$("#btnBack").click(function() {
+					window.location.href = '/board/noticeList';
+				});
+				
+				// 공지사항 입력
+				$("#btnInsert").click(function() {
+					if(validationForm()) {
+						$("#noticeForm").ajaxForm({
+							type		: 	"POST",
+							dataType 	: 	"json",
+							url 		: 	"/board/insertBoard",
+							success 	: 	function(data) {
+												if(data.boardNumber != null && data.boardNumber > 0) {
+													swal("공지사항 등록 성공", "공지사항 등록에 성공하였습니다.", "success")
+													.then((value) => {
+														window.location.href = '/board/noticeList';
+													});
+												} else {
+													swal("공지사항 등록 실패", "공지사항 등록에 실패하였습니다.", "error");
+												}
+											},
+							beforeSend	:	function(XMLHttpRequest) {
+												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+											},
+							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+													
+												} else {
+													swal("공지사항 등록 실패", "공지사항 등록에 실패하였습니다.", "error");
+												}
+											}
+						}).submit();
+					} else {
+						return false;
+					}
+				});
+				
+				// 공지사항 수정
+				$("#btnModify").click(function() {
+					if(validationForm()) {
+						$("#noticeForm").ajaxForm({
+							type		: 	"POST",
+							dataType 	: 	"json",
+							url 		: 	"/board/updateBoard",
+							success 	: 	function(data) {
+												if(data.boardNumber != null && data.boardNumber > 0) {
+													swal("공지사항 수정 성공", "공지사항 수정에 성공하였습니다.", "success")
+													.then((value) => {
+														window.location.href = '/board/noticeList';
+													});
+												} else {
+													swal("공지사항 수정 실패", "공지사항 수정에 실패하였습니다.", "error");
+												}
+											},
+							beforeSend	:	function(XMLHttpRequest) {
+												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+											},
+							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+													
+												} else {
+													swal("공지사항 수정 실패", "공지사항 수정에 실패하였습니다.", "error");
+												}
+											}
+						}).submit();
+					} else {
+						return false;
+					}
+				});
+				
+				// 공지사항 삭제
+				$("#btnDelete").click(function() {
+					$.ajax({
+						type		: 	"POST",
+						data		: {
+											boardNumber : $("#boardNumber").val()
+						},
+						dataType 	: 	"json",
+						url 		: 	"/board/deleteBoard",
+						success 	: 	function(data) {
+											if(data.boardNumber != null && data.boardNumber > 0) {
+												swal("공지사항 삭제 성공", "공지사항 삭제에 성공하였습니다.", "success")
+												.then((value) => {
+													window.location.href = '/board/noticeList';
+												});
+											} else {
+												swal("공지사항 삭제 실패", "공지사항 삭제에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("공지사항 삭제 실패", "공지사항 삭제에 실패하였습니다.", "error");
+											}
+										}
+					});
+				});
+			}
+			
+			function validationForm() {
+				
+				var inputCheck = true;
+				
+				var inputList = $("#noticeForm").find(".required");
+				
+				inputList.each(function (idx, item) {
+					if(item.value == null || item.value == '') {
+						swal("공지사항 입력 확인", "항목이 입력되지 않았습니다.", "error");
+						inputCheck = false;
+						return false;
+					}
+					
+				});
+				
+				return inputCheck;
+				
+			}
+	    </script>
+    </th:block>
+</html>

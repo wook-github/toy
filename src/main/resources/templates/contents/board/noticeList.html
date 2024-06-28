@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/contentsLayout}">
+	
+	<body layout:fragment="content">
+		
+		<div class="sub_wrap">
+			
+			<div class="inner">
+				
+				<div class="sub_section">
+				
+					<div class="board_list">
+						<!-- 
+						<div class="box-search">
+						 
+							<div class="box-search-keyword">
+								<label class="blind" for="keyword">검색어 입력</label>
+								<input type="text" id="keyword" name="keyword" class="input_text" placeholder="검색어를 입력하세요."/>
+								<button type="button" id="btnSearch">검색</button>
+							</div>
+						 
+						</div>
+						 -->
+						<ul class="toy-list-ul">
+							<li th:if="${boardList.isEmpty()}">
+								<h1>검색된 정보가 없습니다.</h1>
+							</li>
+							<li th:unless="${boardList.isEmpty()}" th:each="board : ${boardList}">
+								<a th:href="@{/board/noticeInfo(boardNumber=${board.boardNumber})}">
+									<div class="list_item">
+										<span th:text="${board.boardTitle}"></span>
+										<br>
+										<span th:text="${#temporals.createDate(board.writeYmd, 'yyyyMMdd')}"></span>
+									</div>
+								</a>
+							</li>
+						</ul>
+		
+						<div class="list_bottom">
+							<button type="button" id="btnAdd" class="bp_btn" title="등록">등록</button>
+						</div>
+		
+						<div id="divPaginator" class="paging"></div>
+						
+					</div>
+				
+				</div>
+			
+			</div>
+			
+		</div>
+		
+	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 목록으로 돌아가기
+				$("#btnAdd").click(function() {
+					window.location.href = '/board/noticeManage';
+				});
+			}
+	    </script>
+    </th:block>
+</html>

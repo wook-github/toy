@@ -162,6 +162,12 @@
     color: #FF4848;
 }
 
+.join_wrap .inner .btnCheckId {
+	padding: 0;
+	font-size: 16px;
+	height: 40px;
+}
+
 /* -----------------------------
 	아이디 찾기 화면 CSS
 ----------------------------- */

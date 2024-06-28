@@ -3,6 +3,7 @@ package com.wook.toy.domain;
 import java.math.BigDecimal;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.Entity;
@@ -11,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,10 +21,11 @@ import lombok.Setter;
 @Setter
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Table(name="t_board", schema="toy", catalog = "toy")
-@DynamicUpdate
 @SequenceGenerator(name = "Board_Seq_Generator", sequenceName = "toy.t_board_seq", initialValue = 1, allocationSize = 1)
+@DynamicInsert
+@DynamicUpdate
 public class Board {
 
 	@Id
@@ -47,6 +48,7 @@ public class Board {
 	@ColumnDefault("to_char(now(), 'YYYYMMDD')")
 	private String writeYmd;
 	
+	@ColumnDefault("'ADMIN'")
 	private String writerId;
 	private BigDecimal fileNumber;
 	

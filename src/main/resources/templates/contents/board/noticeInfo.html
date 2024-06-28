@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/contentsLayout}">
+	
+	<body layout:fragment="content">
+		
+		<div class="sub_wrap">
+			
+			<div class="inner">
+				
+				<div class="sub_section">
+					<div class="blind">
+						<input type="hidden" id="boardNumber" th:value="${boardInfo.boardNumber}" />
+					</div>
+				
+					<ul class="toy-info-ul">
+						<li>
+							<div class="h3" th:text="${boardInfo.boardTitle}"></div>
+							<p th:text="${#temporals.createDate(boardInfo.writeYmd, 'yyyyMMdd')}"></p>
+						</li>
+						<li>
+							<pre th:text="${boardInfo.boardContents}"></pre>
+						</li>
+						<li>
+							<div class="info_bottom">
+								<button type="button" id="btnModify" class="" title="수정">수정</button>
+								<button type="button" id="btnBack" class="" title="목록으로">목록으로</button>
+							</div>
+						</li>
+		
+					</ul>
+				
+				</div>
+			
+			</div>
+			
+		</div>
+		
+	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 목록으로 돌아가기
+				$("#btnModify").click(function() {
+					var url = '/board/noticeManage';
+					url += '?boardNumber=' + $("#boardNumber").val();
+					
+					window.location.href = url;
+				});
+				
+				// 목록으로 돌아가기
+				$("#btnBack").click(function() {
+					window.location.href = '/board/noticeList';
+				});
+			}
+	    </script>
+    </th:block>
+</html>
