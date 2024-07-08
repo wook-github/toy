@@ -94,7 +94,6 @@ a.attachedFile img											{ display: inline-block; }
 .common_bottom button[id^='btnSave'],
 .common_bottom button[id$='btnModify'],
 .common_bottom button[id^='btnModify'] 						{ background:#54A9FF; }
-.common_bottom button[id^='btn']:hover						{ background:#54A9FF; }
 .common_bottom button:last-child 							{ margin:0; }
 .common_bottom button:disabled 								{ background: #ccc; cursor: default; }
 

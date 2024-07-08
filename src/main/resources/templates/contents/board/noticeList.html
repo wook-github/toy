@@ -24,6 +24,7 @@
 						 
 						</div>
 						 -->
+						
 						<ul class="toy-list-ul">
 							<li th:if="${boardList.isEmpty()}">
 								<h1>검색된 정보가 없습니다.</h1>
@@ -39,10 +40,6 @@
 							</li>
 						</ul>
 		
-						<div class="list_bottom">
-							<button type="button" id="btnAdd" class="bp_btn" title="등록">등록</button>
-						</div>
-		
 						<div id="divPaginator" class="paging"></div>
 						
 					</div>
@@ -55,22 +52,4 @@
 		
 	</body>
 	
-	<th:block layout:fragment="bodyScript">
-		<script type="text/javascript">
-			$(document).ready(function() {
-				wook.app.common.keyEvent();
-				
-				invokeEvent();
-				
-			});
-			
-			function invokeEvent() {
-				
-				// 목록으로 돌아가기
-				$("#btnAdd").click(function() {
-					window.location.href = '/board/noticeManage';
-				});
-			}
-	    </script>
-    </th:block>
 </html>

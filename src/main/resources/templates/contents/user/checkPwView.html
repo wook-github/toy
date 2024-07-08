@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/contentsLayout}">
+      
+	<body layout:fragment="content">
+		
+		<div class="sub_wrap">
+			
+			<div class="inner">
+				
+				<div class="sub_section">
+					
+					<div class="" style="border:1px solid #555; border-radius: 15px; padding: 10px; position:relative;">
+						
+						<h3>비밀번호 확인</h3>
+						<p>고객님의 개인정보 보호를 위한 절차이오니, 로그인 하시는 비밀번호를 입력해주세요.</p>
+						
+						<form id="checkPwForm">
+							<table class="toy-info-tb">
+								<tbody>
+									<tr>
+										<th>아이디</th>
+										<td>
+											<span th:text="${session.user.getUserId()}"></span>
+											<input type="hidden" id="userId" name="userId" th:value="${session.user.getUserId()}" />
+										</td>
+									</tr>
+									<tr>
+										<th>비밀번호</th>
+										<td>
+											<label for="userPassword" class="blind">비밀번호</label>
+											<input type="password" id="userPassword" name="userPassword" class="input_text required" />
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+						
+						<div class="common_button">
+							<button type="button" id="btnSubmit" class="" >확인</button>
+							<button type="button" id="btnBack" class="" >뒤로가기</button>
+						</div>
+						
+					</div>
+					
+				</div>
+			
+			</div>
+			
+		</div>
+		
+	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				$(document).keypress(function(e) { 
+					if (e.keyCode == 13) e.preventDefault(); 
+				});
+				
+				// 리스트 선택
+				$("#btnSubmit").click(function() {
+					if(validationForm()) {
+						$("#checkPwForm").ajaxForm({
+							type		: 	"POST",
+							dataType 	: 	"json",
+							url 		: 	"/user/checkPw",
+							success 	: 	function(data) {
+												if(data.userId != null && data.userId != "") {
+													swal("비밀번호 확인 완료", "비밀번호 확인 완료하였습니다.", "success")
+													.then((value) => {
+														if("[[${info.mode}]]" == "modify") {
+															window.location.href = '/user/modifyUserView';
+														} else {
+															window.location.href = '/user/whdwlUserView';
+														}
+													});
+												} else {
+													swal("비밀번호 확인 실패", "비밀번호 확인에 실패하였습니다.", "error");
+												}
+											},
+							beforeSend	:	function(XMLHttpRequest) {
+												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+											},
+							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+													
+												} else {
+													swal("비밀번호 확인 실패", "비밀번호 확인에 실패하였습니다.", "error");
+												}
+											}
+						}).submit();
+					} else {
+						return false;
+					}
+				});
+				
+				// 등록 버튼
+				$("#btnBack").click(function() {
+					window.location.href = '/user/userMain';
+				});
+			}
+			
+			function validationForm() {
+				
+				var inputCheck = true;
+				
+				var inputList = $("#checkPwForm").find(".required");
+				
+				inputList.each(function (idx, item) {
+					if(item.value == null || item.value == '') {
+						swal("비밀번호 확인", "비밀번호가 입력되지 않았습니다.", "error");
+						inputCheck = false;
+						return false;
+					}
+					
+				});
+				
+				return inputCheck;
+				
+			}
+	    </script>
+    </th:block>
+
+</html>

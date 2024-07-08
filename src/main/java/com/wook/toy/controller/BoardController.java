@@ -3,6 +3,7 @@ package com.wook.toy.controller;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -38,7 +39,19 @@ public class BoardController {
 			, ModelAndView model) {
 		param.put("boardSection", "01");
 		param.put("useYn", "Y");
-		model.addObject("boardList", boardService.getBoardList(param, pageable));
+		
+		Page<Board> list = boardService.getBoardList(param, pageable);
+		
+		int nowPage = list.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+		int totalPage = list.getTotalPages();
+		
+		model.addObject("boardList", list);
+		model.addObject("nowPage", nowPage);
+		model.addObject("startPage", startPage);
+		model.addObject("endPage", endPage);
+		model.addObject("totalPage", totalPage);
 		
 		model.addObject("menu", "공지사항");
 		model.setViewName("contents/board/noticeList");
@@ -62,8 +75,51 @@ public class BoardController {
 		return model;
 	}
 	
-	@GetMapping("/noticeManage")
-	public ModelAndView noticeManage(@RequestParam HashMap<String, Object> param
+	@GetMapping("/boardList")
+	public ModelAndView boardList(@RequestParam HashMap<String, Object> param
+			, @PageableDefault(page = 0, size = 10, sort = "boardNumber", direction = Sort.Direction.DESC) Pageable pageable
+			, ModelAndView model) {
+		param.put("boardSection", "02");
+		param.put("useYn", "Y");
+		
+		Page<Board> list = boardService.getBoardList(param, pageable);
+		
+		int nowPage = list.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+		int totalPage = list.getTotalPages();
+		
+		model.addObject("boardList", list);
+		model.addObject("nowPage", nowPage);
+		model.addObject("startPage", startPage);
+		model.addObject("endPage", endPage);
+		model.addObject("totalPage", totalPage);
+		
+		model.addObject("menu", "동네 소식");
+		model.addObject("param", param);
+		model.setViewName("contents/board/boardList");
+		return model;
+	}
+	
+	@GetMapping("/boardInfo")
+	public ModelAndView boardInfo(@RequestParam HashMap<String, Object> param
+			, ModelAndView model) {
+		
+		if(param != null && param.get("boardNumber") != null && !"".equals(param.get("boardNumber"))) {
+			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber")); 
+			model.addObject("boardInfo", boardService.getBoardInfo(boardNumber));
+		} else {
+			model.addObject("boardInfo", new Board());
+		}
+		
+		model.addObject("info", param);
+		model.addObject("menu", "동네 소식");
+		model.setViewName("contents/board/boardInfo");
+		return model;
+	}
+	
+	@GetMapping("/boardManage")
+	public ModelAndView boardManage(@RequestParam HashMap<String, Object> param
 			, ModelAndView model) {
 		
 		if(param != null && param.get("boardNumber") != null && !"".equals(param.get("boardNumber"))) {
@@ -76,15 +132,15 @@ public class BoardController {
 		}
 		
 		model.addObject("info", param);
-		model.addObject("menu", "공지사항");
-		model.setViewName("contents/board/noticeManage");
+		model.addObject("menu", "동네 소식");
+		model.setViewName("contents/board/boardManage");
 		return model;
 	}
 	
 	@PostMapping("/insertBoard")
 	public ResponseEntity<String> insertBoard(Board board, HttpServletRequest request) {
 		try {
-			board.setBoardSection("01");
+			board.setBoardSection("02");
 			board.setWriterId(SecurityContextHolder.getContext().getAuthentication().getName());
 			
 			BigDecimal boardNumber = boardService.insertToUpdateBoard(board);
@@ -104,7 +160,7 @@ public class BoardController {
 	@PostMapping("/updateBoard")
 	public ResponseEntity<String> updateBoard(Board board, HttpServletRequest request) {
 		try {
-			board.setBoardSection("01");
+			board.setBoardSection("02");
 			board.setWriterId(SecurityContextHolder.getContext().getAuthentication().getName());
 			
 			BigDecimal boardNumber = boardService.insertToUpdateBoard(board);

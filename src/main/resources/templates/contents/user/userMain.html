@@ -4,12 +4,30 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/contentsLayout}">
       
-	<head></head>
-	
 	<body layout:fragment="content">
 		
-		<div class="content container">
-			<h2 class="form-signin-heading text-center mb-5">사용자 전용 페이지 입니다.</h2>
+		<div class="sub_wrap">
+			
+			<div class="inner">
+				
+				<div class="sub_section">
+					
+					<div class="" style="border:1px solid #555; border-radius: 15px; padding: 10px; position:relative;">
+						
+						<div class="" style="position: relative; background-repeat: no-repeat; background-position: 50%; background-size: 100% 100%; overflow: hidden; text-indent: -999px; background-image: url(../images/header/user.png); display: inline-block; width: 100px; height: 100px; margin-left: 16px;"></div>
+						<span style="font-size: 1.5em; position: absolute; top: 50%; transform: translate(0, -90%); left: 150px;">회원명</span>
+						
+					</div>
+					
+					<div>
+						<a th:href="@{/user/checkPwView?mode=modify}">회원정보수정</a>
+						<a th:href="@{/user/checkPwView?mode=whdwl}">회원탈퇴</a>
+					</div>
+					
+				</div>
+			
+			</div>
+			
 		</div>
 		
 	</body>

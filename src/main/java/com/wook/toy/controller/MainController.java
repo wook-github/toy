@@ -7,18 +7,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.wook.toy.security.service.MemberDetails;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 
 @RestController
 public class MainController {
 
 	@GetMapping("/index")
-	public ModelAndView index(@AuthenticationPrincipal MemberDetails memberDetails, ModelAndView model) {
+	public ModelAndView index(@AuthenticationPrincipal MemberDetails memberDetails, HttpServletRequest request, ModelAndView model) {
 		if(memberDetails != null
 			&& memberDetails.getUsername() != null && !"".equals(memberDetails.getUsername())
 			&& memberDetails.getAuthorities() != null && !memberDetails.getAuthorities().isEmpty()) {
 			
-			model.addObject("userId", memberDetails.getUsername());
-			model.addObject("userRoles", memberDetails.getAuthorities());
+			HttpSession session = request.getSession();
+			session.setAttribute("user", memberDetails.getMember());
 		}
 		
 		model.setViewName("contents/index");

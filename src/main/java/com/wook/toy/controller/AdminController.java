@@ -8,8 +8,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+	
+	public AdminController() {
+		
+	}
 
-	@GetMapping("/main")
+	@GetMapping("/adminMain")
 	public ModelAndView adminMainPage(ModelAndView model) {
 		model.setViewName("contents/admin/adminMain");
 		return model;

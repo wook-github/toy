@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/contentsLayout}">
+	
+	<body layout:fragment="content">
+		
+		<div class="sub_wrap">
+			
+			<div class="inner">
+				
+				<div class="sub_section">
+					
+					<div>
+						<p>그동안 '동네 한 바퀴' 서비스를 이용해주셔서 감사합니다.</p>
+					</div>
+					
+					<div class="common_bottom">
+						<button type="button" id="btnWhdwl" class="" title="탈퇴">회원탈퇴</button>
+						<button type="button" id="btnBack" class="" title="마이페이지">마이페이지</button>
+					</div>
+				
+				</div>
+			
+			</div>
+			
+		</div>
+		
+	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 목록으로 돌아가기
+				$("#btnBack").click(function() {
+					window.location.href = '/index';
+				});
+				
+				// 동네 소식 입력
+				$("#btnWhdwl").click(function() {
+					$.ajax({
+						type		: 	"POST",
+						dataType 	: 	"json",
+						data		: {
+											userId : "[[${session.user.getUserId()}]]"
+						},
+						url 		: 	"/user/whdwlUser",
+						success 	: 	function(data) {
+											if(data.whdwlYn != null && data.whdwlYn != "false") {
+												swal("회원 탈퇴 성공", "회원 탈퇴에 성공하였습니다.", "success")
+												.then((value) => {
+													window.location.href = '/login/logout';
+												});
+											} else {
+												swal("회원 탈퇴 실패", "회원 탈퇴에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("회원 탈퇴 실패", "회원 탈퇴에 실패하였습니다.", "error");
+											}
+										}
+					});
+				});
+			}
+	    </script>
+    </th:block>
+</html>

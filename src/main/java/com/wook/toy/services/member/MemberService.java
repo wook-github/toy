@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.wook.toy.domain.Member;
 import com.wook.toy.repository.MemberRepository;
+import com.wook.toy.utility.CalendarUtil;
+import com.wook.toy.utility.StringUtil;
 
 @Service
 public class MemberService {
@@ -24,7 +26,7 @@ public class MemberService {
 		
 		if(param.get("userId") != null && !"".equals(param.get("userId"))) {
 			String userId = (String) param.get("userId");
-			 
+			
 			return repository.findByUserId(userId);
 		} else {
 			String userName = param.get("userName").toString();
@@ -33,7 +35,6 @@ public class MemberService {
 			
 			return repository.findByUserNameAndUserBirthAndUserPhone(userName, userBirth, userPhone);			
 		}
-		
 	}
 	
 	public BigDecimal resetPw(HashMap<String, Object> param) {
@@ -48,6 +49,60 @@ public class MemberService {
 		repository.save(member);
 		
 		return member.getUserNumber();
+	}
+	
+	public Member checkPw(HashMap<String, Object> param) {
+		Member member = this.findByUser(param);
+		
+		if(param.get("userPassword") != null && !"".equals(param.get("userPassword"))) {
+			String inpUserPassword = (String) param.get("userPassword");
+			if(passwordEncoder.matches(inpUserPassword, member.getUserPassword())) {
+				return member;
+			} else {
+				return member.createMember();
+			}
+		} else {
+			return member.createMember();
+		}
+		
+	}
+	
+	public Boolean modifyUser(Member member) {
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("userId", member.getUserId());
+		
+		Member memberInfo = this.findByUser(param);
+		
+		if(member.getUserPassword() != null && !"".equals(member.getUserPassword())) {
+			memberInfo.setUserPassword(passwordEncoder.encode(member.getUserPassword()));
+		}
+		
+		if(member.getUserNickname() != null && !"".equals(member.getUserNickname())) {
+			memberInfo.setUserNickname(member.getUserNickname());
+		}
+		
+		memberInfo.setUserPhone(member.getUserPhone().replaceAll("[-]", ""));
+		memberInfo.setUserBirth(member.getUserBirth().replaceAll("[-]", ""));
+
+		member = repository.save(memberInfo);
+		if(member.getUserNumber() != null && member.getUserNumber().compareTo(BigDecimal.ZERO) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public Boolean whdwlUser(HashMap<String, Object> param) {
+		Member member = this.findByUser(param);
+		
+		member.setUseYn("N");
+		
+		member = repository.save(member);
+		if(member.getUserNumber() != null && member.getUserNumber().compareTo(BigDecimal.ZERO) > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }

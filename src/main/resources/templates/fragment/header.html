@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	
 	<div th:fragment="headerFragment" class="Artc_header" style="min-height: 0px;">
 	
@@ -15,7 +15,7 @@
 								<a th:href="@{/index}">동네맛집</a>
 							</li>
 							<li>
-								<a th:href="@{/index}">동네소식</a>
+								<a th:href="@{/board/boardList}">동네소식</a>
 							</li>
 							<li>
 								<a th:href="@{/index}">동네장터</a>
@@ -27,10 +27,17 @@
 	            	</div>
 	            </div>
 	            <nav class="nav-mine">
-	            	<form method="post" action="/login/logout">
-						<button class="" type="submit" th:if="${userId ne null}">로그아웃</button>
-					</form>
-	            	<a th:href="@{/user/mypage}" class="btn-mypage">마이페이지</a>
+	            	<div style="display:inline-block;" sec:authorize="isAuthenticated()">
+	            		<a th:href="@{/user/userMain}" class="" th:text="|${session.user.getUserName()}님|"></a>
+	            		<div class="divLogout">
+			            	<form method="post" action="/login/logout">
+								<button type="submit">로그아웃</button>
+							</form>
+						</div>
+	            	</div>
+	            	<div style="display:inline-block;" sec:authorize="!isAuthenticated()">
+	            		<a th:href="@{/login/loginView}" class="">로그인</a>
+	            	</div>
 	            </nav>
 	    	</div>
 		</div>

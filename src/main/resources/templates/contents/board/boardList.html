@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/contentsLayout}">
+	
+	<body layout:fragment="content">
+		
+		<div class="sub_wrap">
+			
+			<div class="inner">
+				
+				<div class="sub_section">
+				
+					<div class="board_list">
+						
+						<div class="box-search">
+						 
+							<div class="box-search-keyword">
+								<label class="blind" for="keyword">검색어 입력</label>
+								<input type="text" id="keyword" name="keyword" class="input_text" placeholder="검색어를 입력하세요."/>
+								<button type="button" id="btnSearch">검색</button>
+							</div>
+						 
+						</div>
+						
+						<table id="boardTblList" class="toy-list-tb">
+							<thead>
+								<tr>
+									<th width="10%">번호</th>
+									<th width="70%">제목</th>
+									<th width="20%">작성일자</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="nohover" th:if="${boardList.isEmpty()}">
+									<td colspan="4">검색된 정보가 없습니다.</td>
+								</tr>
+								<tr th:unless="${boardList.isEmpty()}" th:each="board, item : ${boardList}">
+									<td class="blind" th:text="${board.boardNumber}"></td>
+									<td th:text="${(10 * (nowPage - 1)) + item.count}"></td>
+									<td class="tl" th:text="${board.boardTitle}"></td>
+									<td th:text="${#temporals.createDate(board.writeYmd, 'yyyyMMdd')}"></td>
+								</tr>
+							</tbody>
+						</table>
+						
+						<div class="list_bottom">
+							<button type="button" id="btnAdd" class="bp_btn" title="등록">등록</button>
+						</div>
+		
+						<div id="divPaginator" class="paging" style="text-align:center;" th:if="${!boardList.isEmpty()}">
+							<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+					            <a th:if="${page != nowPage}" th:href="@{/board/boardList(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}">
+					            	<span style='cursor:pointer; border:1px solid #e3e3e3; display:inline-block; text-align:center; padding-top:6px; padding-bottom:6px; width:40px; margin-left:-1px;' th:text="${page}"></span>
+					            </a>
+					            <a th:if="${page == nowPage}" th:href="@{#}">
+					            	<span style='cursor:pointer; border:1px solid #e3e3e3; display:inline-block; text-align:center; padding-top:6px; padding-bottom:6px; width:40px; margin-left:-1px; font-weight:bold;' th:text="${page}"></span>
+					            </a>
+					        </th:block>
+						</div>
+						
+					</div>
+				
+				</div>
+			
+			</div>
+			
+		</div>
+		
+	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 리스트 선택
+				$("#boardTblList tbody tr").hover(function() {
+					$(this).css("cursor", "pointer");
+				}).click(function() {
+					var boardNumber = $(this).children().first().text();
+					var url = "/board/boardInfo";
+					url += "?boardNumber=" + boardNumber;
+					
+					window.location.href = url;
+				});
+				
+				// 등록 버튼
+				$("#btnAdd").click(function() {
+					window.location.href = '/board/boardManage';
+				});
+			}
+	    </script>
+    </th:block>
+</html>

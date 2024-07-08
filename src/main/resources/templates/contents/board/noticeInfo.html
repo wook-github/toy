@@ -25,7 +25,6 @@
 						</li>
 						<li>
 							<div class="info_bottom">
-								<button type="button" id="btnModify" class="" title="수정">수정</button>
 								<button type="button" id="btnBack" class="" title="목록으로">목록으로</button>
 							</div>
 						</li>
@@ -50,14 +49,6 @@
 			});
 			
 			function invokeEvent() {
-				
-				// 목록으로 돌아가기
-				$("#btnModify").click(function() {
-					var url = '/board/noticeManage';
-					url += '?boardNumber=' + $("#boardNumber").val();
-					
-					window.location.href = url;
-				});
 				
 				// 목록으로 돌아가기
 				$("#btnBack").click(function() {

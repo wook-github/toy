@@ -60,7 +60,7 @@ public class SecurityConfig {
 			try {
 				authorize
 					.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-					.requestMatchers("/css/**", "/images/**", "/js/**", "/framework/**", "/index", "/login/**").permitAll()
+					.requestMatchers("/css/**", "/images/**", "/js/**", "/framework/**", "/index", "/login/**", "/common/error").permitAll()
 					.requestMatchers("/admin/**")
 					.hasRole("ADMIN")
 					.anyRequest().authenticated()

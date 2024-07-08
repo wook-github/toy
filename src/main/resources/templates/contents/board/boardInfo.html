@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/contentsLayout}">
+	
+	<body layout:fragment="content">
+		
+		<div class="sub_wrap">
+			
+			<div class="inner">
+				
+				<div class="sub_section">
+					<div class="blind">
+						<input type="hidden" id="boardNumber" th:value="${boardInfo.boardNumber}" />
+					</div>
+				
+					<table class="toy-info-tb">
+						<caption>동네 소식 조회</caption>
+						<colgroup>
+							<col style="width: 15%;">
+							<col style="width: 85%;">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th>제목</th>
+								<td>
+									<div class="h3" th:text="${boardInfo.boardTitle}"></div>
+								</td>
+							</tr>
+							<tr>
+								<th>내용</th>
+								<td>
+									<pre th:text="${boardInfo.boardContents}"></pre>
+								</td>
+							</tr>
+							<tr>
+								<th>작성자</th>
+								<td>
+									<p th:text="${boardInfo.writerId}"></p>
+								</td>
+							</tr>
+							<tr>
+								<th>작성일자</th>
+								<td>
+									<p th:text="${#temporals.createDate(boardInfo.writeYmd, 'yyyyMMdd')}"></p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<div class="info_bottom">
+						<button type="button" id="btnModify" class="" title="수정">수정</button>
+						<button type="button" id="btnBack" class="" title="목록으로">목록으로</button>
+					</div>
+				
+				</div>
+			
+			</div>
+			
+		</div>
+		
+	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 목록으로 돌아가기
+				$("#btnModify").click(function() {
+					var url = '/board/boardManage';
+					url += '?boardNumber=' + $("#boardNumber").val();
+					
+					window.location.href = url;
+				});
+				
+				// 목록으로 돌아가기
+				$("#btnBack").click(function() {
+					window.location.href = '/board/boardList';
+				});
+			}
+	    </script>
+    </th:block>
+</html>

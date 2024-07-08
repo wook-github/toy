@@ -265,7 +265,16 @@
 .Artc_header .btn-search { position: relative; padding: 0; border: 0; background-size: 100% 100%; cursor: pointer; width: 32px; height: 32px; margin: 0; background-image: url(../images/header/ico-search.svg); vertical-align: top; }
 
 /* 마이페이지 관련 */
-.Artc_header .btn-mypage { position: relative; background-repeat: no-repeat; background-position: 50%; background-size: 100% 100%; overflow: hidden; text-indent: -999px; background-image: url(../images/header/user.png); display: inline-block; width: 40px; height: 40px; margin-left: 16px; }
+/* .Artc_header .btn-mypage { position: relative; background-repeat: no-repeat; background-position: 50%; background-size: 100% 100%; overflow: hidden; text-indent: -999px; background-image: url(../images/header/user.png); display: inline-block; width: 40px; height: 40px; margin-left: 16px; } */
+.Artc_header .nav-mine a,
+.Artc_header .nav-mine button { color:#000; font-size: 16px; }
+
+.Artc_header .nav-mine a:hover,
+.Artc_header .nav-mine button:hover { color:#666; }
+
+.Artc_header .nav-mine .divLogout { display: inline; margin-left: 10px; padding-left: 10px; border-left: 1px solid #000; }
+.Artc_header .nav-mine .divLogout form { display: inline-flex; }
+.Artc_header .nav-mine .divLogout button { background: none; padding: 0; }
 
 
 

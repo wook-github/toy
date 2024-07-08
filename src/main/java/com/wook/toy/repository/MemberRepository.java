@@ -10,6 +10,8 @@ public interface MemberRepository extends JpaRepository<Member, BigDecimal> {
 
 	Member findByUserId(String userId);
 	
+	Member findByUserIdAndUserPassword(String userId, String userPassword);
+	
 	Member findByUserNameAndUserBirthAndUserPhone(String userName, String userBirth, String userPhone);
 	
 }
