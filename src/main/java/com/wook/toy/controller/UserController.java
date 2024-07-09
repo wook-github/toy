@@ -2,6 +2,7 @@ package com.wook.toy.controller;
 
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.wook.toy.domain.Member;
 import com.wook.toy.security.service.MemberDetails;
-import com.wook.toy.services.board.BoardService;
 import com.wook.toy.services.member.MemberService;
 import com.wook.toy.utility.CalendarUtil;
 import com.wook.toy.utility.StringUtil;
@@ -25,12 +25,9 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/user")
 public class UserController {
 	
-	private final MemberService memberService;
+	@Autowired
+	private MemberService memberService;
 	
-	public UserController(MemberService memberService) {
-		this.memberService = memberService;
-	}
-
 	@GetMapping("/userMain")
 	public ModelAndView userMainPage(@AuthenticationPrincipal MemberDetails memberDetails, ModelAndView model) {
 		if(memberDetails != null

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/contentsLayout}">
       
@@ -20,6 +21,7 @@
 					</div>
 					
 					<div>
+						<a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/adminMain}">관리자 페이지</a>
 						<a th:href="@{/user/checkPwView?mode=modify}">회원정보수정</a>
 						<a th:href="@{/user/checkPwView?mode=whdwl}">회원탈퇴</a>
 					</div>

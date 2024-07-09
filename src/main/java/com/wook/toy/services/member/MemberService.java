@@ -3,24 +3,25 @@ package com.wook.toy.services.member;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.wook.toy.domain.Member;
 import com.wook.toy.repository.MemberRepository;
-import com.wook.toy.utility.CalendarUtil;
-import com.wook.toy.utility.StringUtil;
+
+import jakarta.annotation.Resource;
 
 @Service
 public class MemberService {
 
-	private final BCryptPasswordEncoder passwordEncoder;
-	private final MemberRepository repository;
+	@Resource(name="passwordEncoder")
+	private BCryptPasswordEncoder passwordEncoder;
 	
-	public MemberService(BCryptPasswordEncoder passwordEncoder, MemberRepository repository) {
-		this.passwordEncoder = passwordEncoder;
-		this.repository = repository;
-	}
+	@Autowired
+	private MemberRepository repository;
 	
 	public Member findByUser(HashMap<String, Object> param) {
 		
@@ -69,23 +70,25 @@ public class MemberService {
 	
 	public Boolean modifyUser(Member member) {
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("userId", member.getUserId());
+		if(member != null && member.getUserId() != null && !"".equals(member.getUserId())) {
+			param.put("userId", member.getUserId());
+		}
 		
 		Member memberInfo = this.findByUser(param);
 		
-		if(member.getUserPassword() != null && !"".equals(member.getUserPassword())) {
+		if(member != null && member.getUserPassword() != null && !"".equals(member.getUserPassword())) {
 			memberInfo.setUserPassword(passwordEncoder.encode(member.getUserPassword()));
 		}
 		
-		if(member.getUserNickname() != null && !"".equals(member.getUserNickname())) {
+		if(member != null && member.getUserNickname() != null && !"".equals(member.getUserNickname())) {
 			memberInfo.setUserNickname(member.getUserNickname());
 		}
 		
 		memberInfo.setUserPhone(member.getUserPhone().replaceAll("[-]", ""));
 		memberInfo.setUserBirth(member.getUserBirth().replaceAll("[-]", ""));
-
+		
 		member = repository.save(memberInfo);
-		if(member.getUserNumber() != null && member.getUserNumber().compareTo(BigDecimal.ZERO) > 0) {
+		if(member != null && member.getUserNumber() != null && member.getUserNumber().compareTo(BigDecimal.ZERO) > 0) {
 			return true;
 		} else {
 			return false;
@@ -102,6 +105,15 @@ public class MemberService {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public Page<Member> getMemberList(HashMap<String, Object> param, Pageable pageable) {
+		if(param.get("searchKeyword") != null && !"".equals(param.get("searchKeyword"))) {
+			String searchKeyword = (String) param.get("searchKeyword");
+			return repository.findByUserNameContaining(searchKeyword, pageable);
+		} else {
+			return repository.findAll(pageable);
 		}
 	}
 	

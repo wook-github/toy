@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/adminContentsLayout}">
+	
+	<div layout:fragment="content" class="container-fluid">
+		
+	    <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">사용자 관리</h1>
+        <p class="mb-4">이 서비스(동네 한 바퀴)를 이용하는 사용자관리 화면입니다.</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">사용자 목록</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <tbody>
+                            <tr>
+                            	<th class="text-center w-25">아이디</th>
+                            	<td class="text-center w-25" th:text="${memberInfo.userId}"></td>
+                            	<th class="text-center w-25">사용자명</th>
+                            	<td class="text-center w-25" th:text="${memberInfo.userName}"></td>
+                            </tr>
+                            <tr>
+                            	<th class="text-center w-25">별칭</th>
+                            	<td class="text-center w-25" th:text="${memberInfo.userNickname}"></td>
+                            	<th class="text-center w-25">생년월일</th>
+                            	<td class="text-center w-25" th:text="${#temporals.createDate(memberInfo.userBirth, 'yyyyMMdd')}"></td>
+                            </tr>
+                            <tr>
+                            	<th class="text-center w-25">전화번호</th>
+                            	<td class="text-center w-25" th:text="${memberInfo.userPhone}"></td>
+                            	<th class="text-center w-25">이메일</th>
+                            	<td class="text-center w-25" th:text="${memberInfo.userEmail}"></td>
+                            </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			<div class="card-footer text-center">
+				<a id="btnModify" class="d-sm-inline-block btn btn-primary shadow-sm">수정</a>
+				<a th:href="@{/admin/userManageList}" class="d-sm-inline-block btn btn-light shadow-sm">뒤로가기</a>
+			</div>
+			
+		</div>
+		
+	</div>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				history.replaceState({}, null, location.pathname);
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				$("#btnModify").click(function() {
+					window.location.href="/admin/userManage?userId=[[${memberInfo.userId}]]"
+				})
+				
+			}
+	    </script>
+    </th:block>
+	
+</html>

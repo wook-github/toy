@@ -8,8 +8,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -61,8 +59,7 @@ public class SecurityConfig {
 				authorize
 					.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 					.requestMatchers("/css/**", "/images/**", "/js/**", "/framework/**", "/index", "/login/**", "/common/error").permitAll()
-					.requestMatchers("/admin/**")
-					.hasRole("ADMIN")
+					.requestMatchers("/admin/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 				.and()
 					.formLogin()

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/adminContentsLayout}">
+	
+	<div layout:fragment="content" class="container-fluid">
+		
+	    <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">사용자 관리</h1>
+        <p class="mb-4">이 서비스(동네 한 바퀴)를 이용하는 사용자관리 화면입니다.</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">사용자 목록</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="text-center">번호</th>
+                                <th class="text-center">사용자ID</th>
+                                <th class="text-center">사용자명</th>
+                                <th class="text-center">게시글 좋아요 수</th>
+                                <th class="text-center">댓글 좋아요 수</th>
+                                <th class="text-center">탈퇴여부</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="" style="cursor:none;" th:if="${memberList.isEmpty()}">
+                            	<td colspan="6">검색된 정보가 없습니다.</td>
+                            </tr>
+                            <tr th:unless="${memberList.isEmpty()}" th:each="member, item : ${memberList}">
+                            	<td class="d-none" th:text="${member.userId}"></td>
+                            	<td class="text-center" th:text="${(10 * (nowPage - 1) + item.count)}"></td>
+                            	<td class="text-left" th:text="${member.userId}"></td>
+                            	<td class="text-left" th:text="${member.userName}"></td>
+                            	<td class="text-right" th:text="${#numbers.formatInteger(member.boardLikeCnt, 1)}"></td>
+                            	<td class="text-right" th:text="${#numbers.formatInteger(member.commentLikeCnt, 1)}"></td>
+                            	<td class="text-center" th:if="${member.useYn != 'N'}">사용중</td>
+                            	<td class="text-center" th:unless="${member.useYn != 'N'}">탈퇴</td>
+                            </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- 
+			<div class="card-footer text-right">
+				<a th:href="@{/admin/userManage}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">등록</a>
+			</div>
+			 -->
+		</div>
+		
+	</div>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				history.replaceState({}, null, location.pathname);
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 리스트 선택
+				$("#dataTable tbody tr").hover(function() {
+					$(this).css("cursor", "pointer");
+				}).click(function() {
+					var userId = $(this).children().first().text();
+					var url = "/admin/userInfo";
+					url += "?userId=" + userId;
+					
+					window.location.href = url;
+				});
+			}
+	    </script>
+    </th:block>
+	
+</html>

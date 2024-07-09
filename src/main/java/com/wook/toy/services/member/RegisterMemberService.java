@@ -2,6 +2,7 @@ package com.wook.toy.services.member;
 
 import java.math.BigDecimal;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,11 @@ import jakarta.servlet.http.HttpServletRequest;
 @Service
 public class RegisterMemberService {
 
-	private final PasswordEncoder passwordEncoder;
-	private final MemberRepository repository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
-	public RegisterMemberService(PasswordEncoder passwordEncoder, MemberRepository repository) {
-		this.passwordEncoder = passwordEncoder;
-		this.repository = repository;
-	}
+	@Autowired
+	private MemberRepository repository;
 	
 	public BigDecimal joinUser(JoinMemberDto dto, HttpServletRequest request) {
 		Member member = dto.toEntity(passwordEncoder, request);

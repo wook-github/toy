@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/adminContentsLayout}">
+	
+	<div layout:fragment="content" class="container-fluid">
+		
+	    <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">사용자 관리</h1>
+        <p class="mb-4">이 서비스(동네 한 바퀴)를 이용하는 사용자관리 화면입니다.</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">사용자 목록</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                	<form id="userManageForm">
+                		<input type="hidden" id="userNumber" name="userNumber" th:value="${memberInfo.userNumber}" />
+                		<input type="hidden" name="userId" th:value="${memberInfo.userId}" />
+                		<input type="hidden" name="userName" th:value="${memberInfo.userName}" />
+	                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+	                        <tbody>
+	                            <tr>
+	                            	<th class="text-center w-25">아이디</th>
+	                            	<td class="w-25">
+	                            		<input type="text" id="userId" class="input_text required w-100" th:value="${memberInfo.userId}" disabled />
+	                            	</td>
+	                            	<th class="text-center w-25">사용자명</th>
+	                            	<td class="w-25">
+	                            		<input type="text" id="userName" class="input_text required w-100" th:value="${memberInfo.userName}" disabled />
+	                            	</td>
+	                            </tr>
+	                            <tr>
+	                            	<th class="text-center w-25">별칭</th>
+	                            	<td class="w-25">
+	                            		<input type="text" id="userNickname" name="userNickname" class="input_text w-100" th:value="${memberInfo.userNickname}" />
+	                            	</td>
+	                            	<th class="text-center w-25">생년월일</th>
+	                            	<td class="w-25">
+	                            		<input type="text" id="userBirth" name="userBirth" class="input_text required isYmd w-100" th:value="${memberInfo.userBirth}" />
+	                            	</td>
+	                            </tr>
+	                            <tr>
+	                            	<th class="text-center w-25">전화번호</th>
+	                            	<td class="w-25">
+	                            		<input type="text" id="userPhone" name="userPhone" class="input_text required isMblTelno w-100" th:value="${memberInfo.userPhone}" />
+	                            	</td>
+	                            	<th class="text-center w-25">이메일</th>
+	                            	<td class="w-25">
+	                            		<input type="text" id="userEmail" name="userEmail" class="input_text w-100" th:value="${memberInfo.userEmail}" />
+	                            	</td>
+	                            </tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+			</div>
+			
+			<div class="card-footer text-center">
+				<a id="btnSave" class="d-sm-inline-block btn btn-primary shadow-sm">저장</a>
+				<a id="btnDelete" class="d-sm-inline-block btn btn-danger shadow-sm">삭제</a>
+				<a id="btnBack" th:href="@{/admin/userManageList}" class="d-sm-inline-block btn btn-light shadow-sm">뒤로가기</a>
+			</div>
+			
+		</div>
+		
+	</div>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				history.replaceState({}, null, location.pathname);
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 목록으로 돌아가기
+				$("#btnBack").click(function() {
+					window.location.href = '/admin/userManageList';
+				});
+				
+				// 동네 소식 입력
+				$("#btnSave").click(function() {
+					if(validationForm()) {
+						$("#userManageForm").ajaxForm({
+							type		: 	"POST",
+							dataType 	: 	"json",
+							url 		: 	"/admin/saveUser",
+							success 	: 	function(data) {
+												if(data.result != null && data.result != false) {
+													swal("사용자 정보 저장 성공", "사용자 정보 저장에 성공하였습니다.", "success")
+													.then((value) => {
+														window.location.href = '/admin/userManageList';
+													});
+												} else {
+													swal("사용자 정보 저장 실패", "사용자 정보 저장에 실패하였습니다.", "error");
+												}
+											},
+							beforeSend	:	function(XMLHttpRequest) {
+												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+											},
+							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+													
+												} else {
+													swal("사용자 정보 저장 실패", "사용자 정보 저장에 실패하였습니다.", "error");
+												}
+											}
+						}).submit();
+					} else {
+						return false;
+					}
+				});
+				
+				// 동네 소식 삭제
+				$("#btnDelete").click(function() {
+					$.ajax({
+						type		: 	"POST",
+						data		: {
+											userId : "[[${memberInfo.userId}]]"
+						},
+						dataType 	: 	"json",
+						url 		: 	"/admin/deleteUser",
+						success 	: 	function(data) {
+											if(data.result != null && data.result != false) {
+												swal("사용자 정보 삭제 성공", "사용자 정보 삭제에 성공하였습니다.", "success")
+												.then((value) => {
+													window.location.href = '/admin/userManageList';
+												});
+											} else {
+												swal("사용자 정보 삭제 실패", "사용자 정보 삭제에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("사용자 정보 삭제 실패", "사용자 정보 삭제에 실패하였습니다.", "error");
+											}
+										}
+					});
+				});
+				
+			}
+			
+			function validationForm() {
+				
+				var inputCheck = true;
+				
+				var inputList = $("#userManageForm").find(".required");
+				
+				inputList.each(function (idx, item) {
+					if(item.value == null || item.value == '') {
+						swal("사용자 정보 입력 확인", "항목이 입력되지 않았습니다.", "error");
+						inputCheck = false;
+						return false;
+					}
+					
+				});
+				
+				return inputCheck;
+				
+			}
+	    </script>
+    </th:block>
+	
+</html>

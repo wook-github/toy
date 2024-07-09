@@ -3,6 +3,7 @@ package com.wook.toy.controller;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,11 +28,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/board")
 public class BoardController {
 
-	private final BoardService boardService;
-	
-	public BoardController(BoardService boardService) {
-		this.boardService = boardService;
-	}
+	@Autowired
+	private BoardService boardService;
 	
 	@GetMapping("/noticeList")
 	public ModelAndView noticeList(@RequestParam HashMap<String, Object> param

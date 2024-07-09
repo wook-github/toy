@@ -3,6 +3,7 @@ package com.wook.toy.controller;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,13 +25,11 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/login")
 public class LoginController {
 	
-	private final RegisterMemberService registerMemberService;
-	private final MemberService memberService;
+	@Autowired
+	private RegisterMemberService registerMemberService;
 	
-	public LoginController(RegisterMemberService registerMemberService, MemberService memberService) {
-		this.registerMemberService = registerMemberService;
-		this.memberService = memberService;
-	}
+	@Autowired
+	private MemberService memberService;
 	
 	@GetMapping("/loginView")
 	public ModelAndView loginPage(ModelAndView model) {

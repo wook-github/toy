@@ -3,6 +3,7 @@ package com.wook.toy.services.board;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,11 +16,8 @@ import com.wook.toy.repository.BoardRepository;
 @Service
 public class BoardService {
 
-	private final BoardRepository repository;
-	
-	public BoardService(BoardRepository repository) {
-		this.repository = repository;
-	}
+	@Autowired
+	private BoardRepository repository;
 	
 	public Page<Board> getBoardList(HashMap<String, Object> param, Pageable pageable) {
 		
