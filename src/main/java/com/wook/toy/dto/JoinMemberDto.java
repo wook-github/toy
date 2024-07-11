@@ -42,7 +42,7 @@ public class JoinMemberDto {
 		member.setUserName(userName);
 		member.setUserBirth(userBirth.replaceAll("[-]", ""));
 		member.setUserPhone(userPhone.replaceAll("[-]", ""));
-		member.setUserRole("MEMBER");
+		member.setUserRole("ROLE_MEMBER");
 		member.setJoinDt(formatDt.format(now));
 		member.setUseYn("Y");
 		member.setUpdtYmd(formatYmd.format(now));

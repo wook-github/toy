@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/adminContentsLayout}">
+	
+	<div layout:fragment="content" class="container-fluid">
+		
+	    <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">공지사항 관리</h1>
+        <p class="mb-4">이 서비스(동네 한 바퀴)를 이용하는 사용자 분들에게 제공하는 공지사항 관리 화면입니다.</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">공지사항 목록</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                	<form id="noticeManageForm">
+                		<input type="hidden" id="boardNumber" name="boardNumber" th:value="${noticeInfo.boardNumber}" />
+	                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+	                        <tbody>
+	                        	<tr>
+	                            	<th class="text-center w-25">공지사항 제목</th>
+	                            	<td class="text-center w-75">
+	                            		<input type="text" id="boardTitle" name="boardTitle" class="input_text required w-100" th:value="${noticeInfo.boardTitle}" />
+	                            	</td>
+	                            </tr>
+	                            <tr>
+	                            	<th class="text-center w-25">공지사항 내용</th>
+	                            	<td class="text-center w-75">
+	                            		<textarea id="boardContents" name="boardContents" th:text="${noticeInfo.boardContents}" class="required w-100"></textarea>
+	                            	</td>
+	                            </tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+			</div>
+			
+			<div class="card-footer text-center">
+				<a id="btnSave" class="d-sm-inline-block btn btn-primary shadow-sm">저장</a>
+				<a id="btnDelete" class="d-sm-inline-block btn btn-danger shadow-sm">삭제</a>
+				<a id="btnBack" th:href="@{/admin/noticeManageList}" class="d-sm-inline-block btn btn-light shadow-sm">뒤로가기</a>
+			</div>
+			
+		</div>
+		
+	</div>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				history.replaceState({}, null, location.pathname);
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 동네 소식 입력
+				$("#btnSave").click(function() {
+					if(validationForm()) {
+						$("#noticeManageForm").ajaxForm({
+							type		: 	"POST",
+							dataType 	: 	"json",
+							url 		: 	"/admin/saveNotice",
+							success 	: 	function(data) {
+												if(data.result != null && data.result != false) {
+													swal("공지사항 저장 성공", "공지사항 저장에 성공하였습니다.", "success")
+													.then((value) => {
+														window.location.href = '/admin/noticeManageList';
+													});
+												} else {
+													swal("공지사항 저장 실패", "공지사항 저장에 실패하였습니다.", "error");
+												}
+											},
+							beforeSend	:	function(XMLHttpRequest) {
+												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+											},
+							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+													
+												} else {
+													swal("공지사항 저장 실패", "공지사항 저장에 실패하였습니다.", "error");
+												}
+											}
+						}).submit();
+					} else {
+						return false;
+					}
+				});
+				
+				// 동네 소식 삭제
+				$("#btnDelete").click(function() {
+					$.ajax({
+						type		: 	"POST",
+						data		: {
+											boardNumber : "[[${noticeInfo.boardNumber}]]"
+						},
+						dataType 	: 	"json",
+						url 		: 	"/admin/deleteNotice",
+						success 	: 	function(data) {
+											if(data.result != null && data.result != false) {
+												swal("공지사항 삭제 성공", "공지사항 삭제에 성공하였습니다.", "success")
+												.then((value) => {
+													window.location.href = '/admin/noticeManageList';
+												});
+											} else {
+												swal("공지사항 삭제 실패", "공지사항 삭제에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("공지사항 삭제 실패", "공지사항 삭제에 실패하였습니다.", "error");
+											}
+										}
+					});
+				});
+				
+			}
+			
+			function validationForm() {
+				
+				var inputCheck = true;
+				
+				var inputList = $("#noticeManageForm").find(".required");
+				
+				inputList.each(function (idx, item) {
+					if(item.value == null || item.value == '') {
+						swal("공지사항 정보 입력 확인", "항목이 입력되지 않았습니다.", "error");
+						inputCheck = false;
+						return false;
+					}
+					
+				});
+				
+				return inputCheck;
+				
+			}
+	    </script>
+    </th:block>
+	
+</html>

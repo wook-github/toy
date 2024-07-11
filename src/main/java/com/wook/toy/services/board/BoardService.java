@@ -20,16 +20,20 @@ public class BoardService {
 	private BoardRepository repository;
 	
 	public Page<Board> getBoardList(HashMap<String, Object> param, Pageable pageable) {
-		
 		if(param != null && (param.get("boardSection") != null && !"".equals(param.get("boardSection")))) {
 			String boardSection = (String) param.get("boardSection");
-			String useYn = (String) param.get("useYn");
 			
 			if(param.get("searchKeyword") != null && !"".equals(param.get("searchKeyword"))) {
 				String searchKeyword = (String) param.get("searchKeyword");
-				return repository.findByBoardSectionAndUseYnAndBoardTitleContaining(boardSection, useYn, searchKeyword, pageable);
+				return repository.findByBoardSectionAndUseYnAndBoardTitleContaining(boardSection, "Y", searchKeyword, pageable);
 			} else {
-				return repository.findByBoardSectionAndUseYn(boardSection, useYn, pageable);
+				if(param.get("useYn") != null) {
+					String useYn = (String) param.get("useYn") != "Y" ? "N" : "Y";
+					return repository.findByBoardSectionAndUseYn(boardSection, useYn, pageable);
+				} else {
+					return repository.findByBoardSection(boardSection, pageable);
+				}
+				
 			}
 		} else {
 			System.out.println("검색 조회 실패");

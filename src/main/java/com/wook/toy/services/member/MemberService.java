@@ -84,6 +84,10 @@ public class MemberService {
 			memberInfo.setUserNickname(member.getUserNickname());
 		}
 		
+		if(member != null && member.getUserRole() != null && !"".equals(member.getUserRole())) {
+			memberInfo.setUserRole(member.getUserRole());
+		}
+		
 		memberInfo.setUserPhone(member.getUserPhone().replaceAll("[-]", ""));
 		memberInfo.setUserBirth(member.getUserBirth().replaceAll("[-]", ""));
 		

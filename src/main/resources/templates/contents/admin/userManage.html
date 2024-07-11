@@ -53,6 +53,16 @@
 	                            		<input type="text" id="userEmail" name="userEmail" class="input_text w-100" th:value="${memberInfo.userEmail}" />
 	                            	</td>
 	                            </tr>
+	                            <tr>
+	                            	<th class="text-center w-25">사용자 권한</th>
+	                            	<td class="w-75" colspan="3">
+	                            		<select id="userRole" name="userRole" th:value="${memberInfo.userRole}" class="required w-100">
+	                            			<th:block th:each="role : ${roleList}" >
+	                            				<option th:value="${role}" th:selected="${memberInfo.userRole == role}" th:text="${role}"></option>
+	                            			</th:block>
+	                            		</select>
+	                            	</td>
+	                            </tr>
 							</tbody>
 						</table>
 					</form>

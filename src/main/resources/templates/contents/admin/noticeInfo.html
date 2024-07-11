@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/adminContentsLayout}">
+	
+	<div layout:fragment="content" class="container-fluid">
+		
+	    <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">공지사항 관리</h1>
+        <p class="mb-4">이 서비스(동네 한 바퀴)를 이용하는 사용자 분들에게 제공하는 공지사항 관리 화면입니다.</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">공지사항 목록</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <tbody>
+                            <tr>
+                            	<th class="text-center w-25">공지사항 제목</th>
+                            	<td class="text-center w-75" colspan="3" th:text="${noticeInfo.boardTitle}"></td>
+                            </tr>
+                            <tr>
+                            	<th class="text-center w-25">공지사항 내용</th>
+                            	<td class="text-center w-75" colspan="3" th:text="${noticeInfo.boardContents}"></td>
+                            </tr>
+                            <tr>
+                            	<th class="text-center w-25">작성자</th>
+                            	<td class="text-center w-25" th:text="${noticeInfo.writerId}"></td>
+                            	<th class="text-center w-25">조회 수</th>
+                            	<td class="text-center w-25" th:text="0"></td>
+                            </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			<div class="card-footer text-center">
+				<a id="btnModify" class="d-sm-inline-block btn btn-primary shadow-sm">수정</a>
+				<a th:href="@{/admin/noticeManageList}" class="d-sm-inline-block btn btn-light shadow-sm">뒤로가기</a>
+			</div>
+			
+		</div>
+		
+	</div>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				history.replaceState({}, null, location.pathname);
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				$("#btnModify").click(function() {
+					window.location.href="/admin/noticeManage?boardNumber=[[${noticeInfo.boardNumber}]]"
+				})
+				
+			}
+	    </script>
+    </th:block>
+	
+</html>
