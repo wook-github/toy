@@ -11,19 +11,30 @@
 	<body layout:fragment="content">
 		<div class="wrap">
 			<div id="divAdvertisement" class="mt10 mb20 divBorderBox divAdvertisement">
-				(광고영역)
+				<div id="" class="divAdviseTitle">새롭게 올라온 내 주변 소식을 확인해 보세요.</div>
 			</div>
 			<div class="mt15 pstn_r">
 				<div class="dp_inline divFoodSearch divSmallBox">
 					<p class="mb10"><span class="ml50">맛집 검색</span></p>
-					<div id="" class="divBorderBox">
-						(맛집 검색 영역)
-					</div>
+					<div id="map" class="divBorderBox"></div>
 				</div>
 				<div class="pstn_a dp_inline divFoodList divSmallBox" style="right: 0;">
 					<p class="mb10"><span class="ml50">맛집 순위</span></p>
 					<div id="" class="divBorderBox">
-						(맛집 순위 영역)
+						<ul id="" class="ulFoodRank">
+							<li>
+								<img alt="1위 이미지" th:src="@{../images/icons/icon_1st_prize.png}">
+								<span>★★고기집</span>
+							</li>
+							<li>
+								<img alt="2위 이미지" th:src="@{../images/icons/icon_2nd_place.png}">
+								<span>△△감자탕</span>
+							</li>
+							<li>
+								<img alt="3위 이미지" th:src="@{../images/icons/icon_3rd_place.png}">
+								<span>▣▣돈까스</span>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -31,31 +42,129 @@
 				<div class="divPopularPost divSmallBox">
 					<p class="mb10"><span class="ml50">이달의 인기 글</span></p>
 					<div id="" class="divBorderBox">
-						(이달의 인기글 영역)
+						<ul id="" class="ulFloatList">
+							<li>
+								<div id="" class="">
+									<img alt="이미지 공간" th:src="@{../images/main/img_restaurant.jpg}" style="width: 295px; height: 180px;" />
+									<a th:href="@{/index}">[맛집리뷰] ▣▣돈까스, 신메뉴 출시??...</a>
+									<p>안녕하세요. 맛집리뷰어입니다. 오늘은 ▣▣돈까스의 신메뉴인..</p>
+								</div>
+							</li>
+							<li>
+								<div id="" class="">
+									<img alt="이미지 공간" th:src="@{../images/main/img_restaurant.jpg}" style="width: 295px; height: 180px;" />
+									<a th:href="@{/index}">[맛집리뷰] ▣▣돈까스, 신메뉴 출시??...</a>
+									<p>안녕하세요. 맛집리뷰어입니다. 오늘은 ▣▣돈까스의 신메뉴인..</p>
+								</div>
+							</li>
+							<li>
+								<div id="" class="">
+									<img alt="이미지 공간" th:src="@{../images/main/img_restaurant.jpg}" style="width: 295px; height: 180px;" />
+									<a th:href="@{/index}">[맛집리뷰] ▣▣돈까스, 신메뉴 출시??...</a>
+									<p>안녕하세요. 맛집리뷰어입니다. 오늘은 ▣▣돈까스의 신메뉴인..</p>
+								</div>
+							</li>
+							<li>
+								<div id="" class="">
+									<img alt="이미지 공간" th:src="@{../images/main/img_restaurant.jpg}" style="width: 295px; height: 180px;" />
+									<a th:href="@{/index}">[맛집리뷰] ▣▣돈까스, 신메뉴 출시??...</a>
+									<p>안녕하세요. 맛집리뷰어입니다. 오늘은 ▣▣돈까스의 신메뉴인..</p>
+								</div>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="mt15 pstn_r">
+			<div class="mt15 pstn_r" style="display: flex;">
 				<div class="dp_inline divNoticeList divSmallBox">
 					<p class="mb10"><span class="ml50">공지사항</span></p>
 					<div id="" class="divBorderBox">
-						(공지사항 영역)
+						<ul>
+							<li>
+								<div id="" class="divNoticeListInfo">
+									<a>2024년 7월 정기점검</a>
+									<span>2024.07.02</span>
+								</div>
+							</li>
+							<li>
+								<div id="" class="divNoticeListInfo">
+									<a>2024년 6월 정기점검</a>
+									<span>2024.06.04</span>
+								</div>
+							</li>
+							<li>
+								<div id="" class="divNoticeListInfo">
+									<a>2024년 5월 정기점검</a>
+									<span>2024.05.03</span>
+								</div>
+							</li>
+							<li>
+								<div id="" class="divNoticeListInfo">
+									<a>2024년 4월 정기점검</a>
+									<span>2024.04.10</span>
+								</div>
+							</li>
+						</ul>
 					</div>
 				</div>
 				<div class="ml40 dp_inline divFaqList divSmallBox">
 					<p class="mb10"><span class="ml50">FAQ</span></p>
 					<div id="" class="divBorderBox">
-						(FAQ 영역)
+						<ul>
+							<li>
+								<div id="" class="divFaqListInfo">
+									<a>접속한 위치랑 다른 동네가 떠요...</a>
+									<span>2024.06.14</span>
+								</div>
+							</li>
+							<li>
+								<div id="" class="divFaqListInfo">
+									<a>회원가입 실패가 되었다고 나와요...</a>
+									<span>2024.05.25</span>
+								</div>
+							</li>
+							<li>
+								<div id="" class="divFaqListInfo">
+									<a>회원 탈퇴는 어디서 하나요?</a>
+									<span>2024.04.29</span>
+								</div>
+							</li>
+							<li>
+								<div id="" class="divFaqListInfo">
+									<a>휴면 해제는 어떻게 하나요?</a>
+									<span>2024.04.03</span>
+								</div>
+							</li>
+						</ul>
 					</div>
 				</div>
 				<div class="pstn_a dp_inline divPhoneBook divSmallBox" style="right: 0;">
 					<p class="mb10"><span class="ml50">관련 연락처</span></p>
-					<div id="" class="divBorderBox">
-						(관련 연락처 영역)
+					<div id="" class="divBorderBox" style="background-color: #55AAFF; display: flex; justify-content: center; align-items: center;">
+						<div style="width: 57%;">
+							<img alt="전화기" th:src="@{../images/icons/icon_phone.png}" style="width: 50px; height: 50px;">
+							<h3 style="font-size: 1.5em; color: #FFF;">고객센터 : 070-XXXX-XXXX</h3>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				var map = new naver.maps.Map('map');
+			}
+	    </script>
+    </th:block>
 	
 </html>
