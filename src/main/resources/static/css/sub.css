@@ -103,6 +103,12 @@ button[id$='btnDelete']:hover,
 button[id^='btnDelete']:hover								{ background-color: #F24A4F; }
 
 /* -----------------------------
+     common_button2
+----------------------------- */
+.common_bottom2												{ margin:20px 0; min-height: 30px; justify-content:center; }
+.common_bottom2 button[id^='btn'] 							{ display:inline-block; margin-right:5px; padding:0 30px; height:36px; color:#fff; font-size:14px; background:#54A9FF; }
+
+/* -----------------------------
       Sub Title
 ----------------------------- */
 .is_page 													{ text-align: center; padding: 70px 0 50px; font-weight: 400; font-size: 26px; }
@@ -129,36 +135,28 @@ button[id^='btnDelete']:hover								{ background-color: #F24A4F; }
 /* -----------------------------
       list_search
 ----------------------------- */
-.board_list	.box-search										{ overflow: hidden; background: #f8f8f8; padding: 10px; margin-bottom: 20px; }
-.board_list .box-search 									{ overflow: hidden; background: #f8f8f8; padding: 10px; margin-bottom: 20px; }
-.board_list .box-search select 								{ width: 160px; padding: 0 10px; display: inline-block; border: 1px solid #e0e0e0; height: 36px; line-height: 36px; font-size: 14px; color: #666666; }
-.board_list .box-search input								{ width: 280px; border: 1px solid #e0e0e0; height: 36px; font-size: 14px; padding: 10px; }
+.board_list	.box-search										{ overflow: hidden; background: #f8f8f8; padding: 10px; margin-bottom: 20px; border: solid #ddd; border-width: 1px 0; }
+.board_list	.box-search	label								{ font-size: 18px; color: #000; margin-left: 10px; }
+.board_list .box-search select 								{ width: 160px; padding: 0 10px; display: inline-block; border: 1px solid #e0e0e0; height: 36px; line-height: 36px; font-size: 16px; color: #666666; }
+.board_list .box-search input								{ width: 280px; border: 1px solid #e0e0e0; height: 36px; font-size: 16px; padding: 10px; }
 .board_list .box-search input:placeholder 					{ color: #d3d3d3; }
 .board_list .box-search .box-search-line 					{ float: left; }
 .board_list .box-search .box-search-keyword 				{ float: right; }
-.board_list .box-search .box-search-keyword button			{ display: inline-block; padding: 0 25px; height: 36px; color: #fff; background: #313647; font-size: 14px; border-radius:6px; }
+.board_list .box-search .box-search-keyword button			{ display: inline-block; padding: 0 25px; height: 36px; color: #fff; background: #313647; font-size: 16px; border-radius:6px; }
 
-.board_list	.box-search										{ overflow: hidden; background: #f8f8f8; padding: 10px; margin-bottom: 20px; }
-.board_list .box-search 									{ overflow: hidden; background: #f8f8f8; padding: 10px; margin-bottom: 20px; }
-.board_list .box-search select 								{ width: 160px; padding: 0 10px; display: inline-block; border: 1px solid #e0e0e0; height: 36px; line-height: 36px; font-size: 14px; color: #666666; }
-.board_list .box-search input								{ width: 280px; border: 1px solid #e0e0e0; height: 36px; font-size: 14px; padding: 10px; }
-.board_list .box-search input:placeholder 					{ color: #d3d3d3; }
-.board_list .box-search .box-search-line 					{ float: left; }
-.board_list .box-search .box-search-keyword 				{ float: right; }
-.board_list .box-search .box-search-keyword button			{ display: inline-block; padding: 0 25px; height: 36px; color: #fff; background: #313647; font-size: 14px; border-radius:6px; }
 
 /* -----------------------------
      table_list
 ----------------------------- */
 .toy-list-tb 												{ width: 100%; margin-bottom: 20px; border-collapse: collapse; }
 .toy-list-tb  caption										{ display:none; left:-99999999in; }
-.toy-list-tb  thead th 										{ border: 1px solid #e0e0e0; border-top: 1px solid #333333; background: #eeeeee; padding: 10px 10px; text-align: center; font-size: 14px; }
+.toy-list-tb  thead th 										{ border: solid #333333; border-width: 2px 0; padding: 10px 10px; text-align: center; font-size: 16px; font-weight: bold; }
+.toy-list-tb  tbody tr:not(.nohover):hover					{ background-color: #7b87d818; }
 .toy-list-tb  tbody tr.selected 							{ background: #f1f1f1; }
 .toy-list-tb  tbody tr.selected td 							{ font-weight:bold; }
 .toy-list-tb  tbody tr.addRow								{ background:lightgreen; }
 .toy-list-tb  tbody tr.delRow								{ background: lightpink;; text-decoration: line-through; color: black;}
-.toy-list-tb  tbody th 										{ border: 1px solid #e0e0e0; background: #eeeeee; padding: 10px 10px; text-align: center; font-size: 14px; }
-.toy-list-tb  tbody td 										{ border: 1px solid #e0e0e0; padding: 10px 10px; text-align: center; font-size: 14px; }
+.toy-list-tb  tbody td 										{ border: solid #e0e0e0; border-width: 1px 0; padding: 10px 10px; text-align: center; font-size: 16px; }
 .toy-list-tb  tbody td.tbl_ti 								{ text-align: left; }
 .toy-list-tb  tbody td.tbl_ti a 							{ max-width: 600px; text-overflow: ellipsis; white-space: nowrap; word-wrap: normal; overflow: hidden; display: inline-block;  padding-right: 10px; vertical-align: middle;}
 .toy-list-tb  tbody td div.over_text						{ max-width: 460px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; vertical-align: middle; }
@@ -171,12 +169,15 @@ button[id^='btnDelete']:hover								{ background-color: #F24A4F; }
 /* -----------------------------
      ul_list
 ----------------------------- */
-.toy-list-ul 												{ width: 100%; margin-bottom: 20px; border-collapse: collapse; }
-.toy-list-ul li a											{ display: block; }
-.toy-list-ul li a div.list_item								{ padding: 20px 0; border-bottom: 1px solid #C2C2C2; }
-.toy-list-ul li a div.list_item:hover						{ cursor: pointer; }
-.toy-list-ul li a div.list_item span:first-child			{ font-size: 1.3em; }
-.toy-list-ul li a div.list_item:hover span					{ color:#888; }
+.toy-list-ul 														{ width: 100%; margin-bottom: 20px; border-collapse: collapse; }
+.toy-list-ul .list-item:not(:first-child) .divListItem				{ border-top: 1px solid #ddd; }
+.toy-list-ul .list-item .divListItem								{ position: relative; }
+.toy-list-ul .list-item .divListItem .userName						{ font-size: 1.5em; }
+.toy-list-ul .list-item .divListItem .divCommentManage				{ display: inline-block; position: absolute; right: 0; }
+.toy-list-ul .list-item .divListItem .divCommentManage .aInsert		{ font-size: 16px; color: #0080ff; }
+.toy-list-ul .list-item .divListItem .divCommentManage .aDelete		{ font-size: 16px; color: #ff0000; }
+
+
 
 
 /* -----------------------------
@@ -190,11 +191,13 @@ button[id^='btnDelete']:hover								{ background-color: #F24A4F; }
 /* -----------------------------
       table_info
 ----------------------------- */
-.toy-info-tb 												{ width: 100%; margin-bottom: 20px; border-collapse: collapse; }
+.info-title													{ display: flex; justify-content: center; align-items: center; margin: 20px 0; }
+.info-title	h3												{ font-size: 2.5em; font-weight: bold; }
+
+.toy-info-tb 												{ width: 100%; margin-bottom: 20px; border-collapse: collapse; border: solid #333333; border-width: 1.5px 0 0 0; }
 .toy-info-tb thead th 										{ border: 1px solid #e0e0e0; border-top: 1px solid #333333; background: #eeeeee; padding: 20px 10px; text-align: center; font-size: 14px; }
 .toy-info-tb caption										{ display:none; left:-99999999in; }
-.toy-info-tb tbody th 										{ border: 1px solid #e0e0e0; background: #eeeeee; height:50px; padding: 5px 10px; text-align: center; font-size: 14px; }
-.toy-info-tb tbody tr.selected								{ background: #f1f1f1; }
+.toy-info-tb tbody th 										{ border: 1px solid #e0e0e0; background: #eeeeee; height:50px; padding: 5px 10px; text-align: center; font-size: 16px; font-weight: bold; }
 .toy-info-tb tbody td 										{ border: 1px solid #e0e0e0; padding: 10px 10px; text-align: left; font-size: 14px; word-break:break-all}
 .toy-info-tb tbody td.tbl_ti 								{ text-align: left; }
 .toy-info-tb tbody td.tbl_ti a:not(.paging_number)			{ max-width: 600px; text-overflow: ellipsis; white-space: nowrap; word-wrap: normal; overflow: hidden; display: inline-block;  padding-right: 10px; vertical-align: middle;}
@@ -227,7 +230,6 @@ button[id^='btnDelete']:hover								{ background-color: #F24A4F; }
 .info_bottom button:hover									{ background:#54A9FF; }
 .info_bottom button.white									{ color:#54A9FF; background:#fff; border: 1px solid #888;}
 .info_bottom button:last-child 								{ margin:0; }
-
 
 /* -----------------------------
 	FILE LIST
@@ -290,3 +292,23 @@ div.div-drag-files + div										{ width:100%; display:inline-block; }
 ----------------------------- */
 a.attachedFile													{ padding:2px;  display:inline-block; margin-left: 10px;}
 a.attachedFile img												{ display: inline-block; }
+
+
+
+/* -----------------------------
+	CUSTOMIZE CSS
+----------------------------- */
+.divCheckPw 													{ border:1px solid #555; border-radius: 15px; padding: 10px; position:relative; }
+.divCheckPw .divCheckPwTitle									{ display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 20px auto; }
+.divCheckPw .divCheckPwTitle h3									{ font-size: 2em; font-weight: bold; }
+.divCheckPw .divCheckPwTitle p									{ font-size: 18px; }
+
+.divWhdwlTitle 													{ display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 20px auto; }
+.divWhdwlTitle p 												{ font-size: 18px; font-weight: bold; }
+
+.divComment														{ border: 1px solid #333; border-radius: 10px; padding: 10px; }
+.divComment > p													{ font-size: 18px; font-weight: bold; }
+.divComment .divLine											{ border: 1px solid #ccc; }
+.divComment .divNoComment										{ display: flex; justify-content: center; align-items: center; }
+.divCommentWrite > p											{ font-size: 18px; font-weight: bold; }
+.divCommentWrite form textarea									{ height: 100px; font-size: 16px; }    

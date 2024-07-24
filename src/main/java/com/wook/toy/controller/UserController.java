@@ -20,6 +20,7 @@ import com.wook.toy.utility.CalendarUtil;
 import com.wook.toy.utility.StringUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -29,10 +30,13 @@ public class UserController {
 	private MemberService memberService;
 	
 	@GetMapping("/userMain")
-	public ModelAndView userMainPage(@AuthenticationPrincipal MemberDetails memberDetails, ModelAndView model) {
+	public ModelAndView userMainPage(@AuthenticationPrincipal MemberDetails memberDetails, HttpServletRequest request, ModelAndView model) {
 		if(memberDetails != null
 			&& memberDetails.getUsername() != null && !"".equals(memberDetails.getUsername())
 			&& memberDetails.getAuthorities() != null && !memberDetails.getAuthorities().isEmpty()) {
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("user", memberDetails.getMember());
 			
 			model.addObject("menu", "마이페이지");
 			model.setViewName("contents/user/userMain");
@@ -49,7 +53,7 @@ public class UserController {
 				&& memberDetails.getUsername() != null && !"".equals(memberDetails.getUsername())
 				&& memberDetails.getAuthorities() != null && !memberDetails.getAuthorities().isEmpty()) {
 			
-			model.addObject("menu", "비밓번호 확인");
+			model.addObject("menu", "비밀번호 확인");
 			model.addObject("info", param);
 			model.setViewName("contents/user/checkPwView");
 		} else {

@@ -12,10 +12,14 @@
 				
 				<div class="sub_section">
 					
-					<div class="" style="border:1px solid #555; border-radius: 15px; padding: 10px; position:relative;">
-						
-						<h3>비밀번호 확인</h3>
-						<p>고객님의 개인정보 보호를 위한 절차이오니, 로그인 하시는 비밀번호를 입력해주세요.</p>
+					<div class="divCheckPw">
+					
+						<div class="divCheckPwTitle">
+							
+							<h3>비밀번호 확인</h3>
+							<p>고객님의 개인정보 보호를 위한 절차이오니, 로그인 하시는 비밀번호를 입력해주세요.</p>
+							
+						</div>
 						
 						<form id="checkPwForm">
 							<table class="toy-info-tb">
@@ -38,7 +42,7 @@
 							</table>
 						</form>
 						
-						<div class="common_button">
+						<div class="info_bottom">
 							<button type="button" id="btnSubmit" class="" >확인</button>
 							<button type="button" id="btnBack" class="" >뒤로가기</button>
 						</div>
@@ -68,7 +72,7 @@
 					if (e.keyCode == 13) e.preventDefault(); 
 				});
 				
-				// 리스트 선택
+				// 확인 버튼
 				$("#btnSubmit").click(function() {
 					if(validationForm()) {
 						$("#checkPwForm").ajaxForm({
@@ -105,16 +109,14 @@
 					}
 				});
 				
-				// 등록 버튼
+				// 뒤로가기 버튼
 				$("#btnBack").click(function() {
 					window.location.href = '/user/userMain';
 				});
 			}
 			
 			function validationForm() {
-				
 				var inputCheck = true;
-				
 				var inputList = $("#checkPwForm").find(".required");
 				
 				inputList.each(function (idx, item) {
@@ -127,7 +129,6 @@
 				});
 				
 				return inputCheck;
-				
 			}
 	    </script>
     </th:block>

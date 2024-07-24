@@ -84,48 +84,60 @@
 				
 				// 목록으로 돌아가기
 				$("#btnBack").click(function() {
-					window.location.href = '/index';
+					window.location.href = '/user/userMain';
 				});
 				
 				// 동네 소식 입력
 				$("#btnModify").click(function() {
-					if(validationForm()) {
-						$("#userForm").ajaxForm({
-							type		: 	"POST",
-							dataType 	: 	"json",
-							url 		: 	"/user/modifyUser",
-							success 	: 	function(data) {
-												if(data.modifyYn != null && data.modifyYn != "false") {
-													swal("회원 정보 수정 성공", "회원 정보 수정에 성공하였습니다.", "success")
-													.then((value) => {
-														window.location.href = '/user/userMain';
-													});
-												} else {
-													swal("회원 정보 수정 실패", "회원 정보 수정에 실패하였습니다.", "error");
-												}
-											},
-							beforeSend	:	function(XMLHttpRequest) {
-												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
-											},
-							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
-												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
-													
-												} else {
-													swal("회원 정보 수정 실패", "회원 정보 수정에 실패하였습니다.", "error");
-												}
-											}
-						}).submit();
-					} else {
-						return false;
-					}
+					swal({
+						title : "사용자 정보 수정",
+						text : "사용자 정보를 수정하시겠습니까?",
+						icon : "info",
+						buttons : ["취소", "수정"]
+					})
+					.then((value) => {
+						if(value) {
+							modifyUser();
+						} 
+					});
 				});
+			}
+			
+			function modifyUser() {
+				if(validationForm()) {
+					$("#userForm").ajaxForm({
+						type		: 	"POST",
+						dataType 	: 	"json",
+						url 		: 	"/user/modifyUser",
+						success 	: 	function(data) {
+											if(data.modifyYn != null && data.modifyYn != "false") {
+												swal("회원 정보 수정 성공", "회원 정보 수정에 성공하였습니다.", "success")
+												.then((value) => {
+													window.location.href = '/user/userMain';
+												});
+											} else {
+												swal("회원 정보 수정 실패", "회원 정보 수정에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("회원 정보 수정 실패", "회원 정보 수정에 실패하였습니다.", "error");
+											}
+										}
+					}).submit();
+				} else {
+					return false;
+				}
 			}
 				
 			
 			function validationForm() {
-				
 				var inputCheck = true;
-				
 				var inputList = $("#userForm").find(".required");
 				
 				inputList.each(function (idx, item) {
@@ -138,7 +150,6 @@
 				});
 				
 				return inputCheck;
-				
 			}
 	    </script>
     </th:block>

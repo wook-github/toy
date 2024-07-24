@@ -71,7 +71,7 @@
 			
 			<div class="card-footer text-center">
 				<a id="btnSave" class="d-sm-inline-block btn btn-primary shadow-sm">저장</a>
-				<a id="btnDelete" class="d-sm-inline-block btn btn-danger shadow-sm">삭제</a>
+				<a id="btnDelete" class="d-sm-inline-block btn btn-danger shadow-sm">회원 탈퇴</a>
 				<a id="btnBack" th:href="@{/admin/userManageList}" class="d-sm-inline-block btn btn-light shadow-sm">뒤로가기</a>
 			</div>
 			
@@ -96,56 +96,53 @@
 					window.location.href = '/admin/userManageList';
 				});
 				
-				// 동네 소식 입력
+				// 회원 정보 수정
 				$("#btnSave").click(function() {
-					if(validationForm()) {
-						$("#userManageForm").ajaxForm({
-							type		: 	"POST",
-							dataType 	: 	"json",
-							url 		: 	"/admin/saveUser",
-							success 	: 	function(data) {
-												if(data.result != null && data.result != false) {
-													swal("사용자 정보 저장 성공", "사용자 정보 저장에 성공하였습니다.", "success")
-													.then((value) => {
-														window.location.href = '/admin/userManageList';
-													});
-												} else {
-													swal("사용자 정보 저장 실패", "사용자 정보 저장에 실패하였습니다.", "error");
-												}
-											},
-							beforeSend	:	function(XMLHttpRequest) {
-												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
-											},
-							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
-												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
-													
-												} else {
-													swal("사용자 정보 저장 실패", "사용자 정보 저장에 실패하였습니다.", "error");
-												}
-											}
-						}).submit();
-					} else {
-						return false;
-					}
+					swal({
+						title : "사용자 정보 수정",
+						text : "사용자 정보를 수정하시겠습니까?",
+						icon : "info",
+						buttons : ["취소", "수정"]
+					})
+					.then((value) => {
+						if(value) {
+							modifyUser();
+						} 
+					});
 				});
 				
-				// 동네 소식 삭제
+				// 회원 정보 탈퇴
 				$("#btnDelete").click(function() {
-					$.ajax({
+					swal({
+						title : "사용자 정보 탈퇴",
+						text : "회원 탈퇴를 하시겠습니까?",
+						icon : "warning",
+						buttons : ["취소", "탈퇴"],
+						dangerMode : true
+					})
+					.then((value) => {
+						if(value) {
+							whdwlUser();
+						}
+					});
+				});
+				
+			}
+			
+			function modifyUser() {
+				if(validationForm()) {
+					$("#userManageForm").ajaxForm({
 						type		: 	"POST",
-						data		: {
-											userId : "[[${memberInfo.userId}]]"
-						},
 						dataType 	: 	"json",
-						url 		: 	"/admin/deleteUser",
+						url 		: 	"/admin/saveUser",
 						success 	: 	function(data) {
 											if(data.result != null && data.result != false) {
-												swal("사용자 정보 삭제 성공", "사용자 정보 삭제에 성공하였습니다.", "success")
+												swal("사용자 정보 저장 성공", "사용자 정보 저장에 성공하였습니다.", "success")
 												.then((value) => {
 													window.location.href = '/admin/userManageList';
 												});
 											} else {
-												swal("사용자 정보 삭제 실패", "사용자 정보 삭제에 실패하였습니다.", "error");
+												swal("사용자 정보 저장 실패", "사용자 정보 저장에 실패하였습니다.", "error");
 											}
 										},
 						beforeSend	:	function(XMLHttpRequest) {
@@ -155,18 +152,48 @@
 											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
 												
 											} else {
-												swal("사용자 정보 삭제 실패", "사용자 정보 삭제에 실패하였습니다.", "error");
+												swal("사용자 정보 저장 실패", "사용자 정보 저장에 실패하였습니다.", "error");
 											}
 										}
-					});
+					}).submit();
+				} else {
+					return false;
+				}
+			}
+			
+			function whdwlUser() {
+				$.ajax({
+					type		: 	"POST",
+					data		: {
+										userId : "[[${memberInfo.userId}]]"
+					},
+					dataType 	: 	"json",
+					url 		: 	"/admin/deleteUser",
+					success 	: 	function(data) {
+										if(data.result != null && data.result != false) {
+											swal("사용자 정보 삭제 성공", "사용자 정보 삭제에 성공하였습니다.", "success")
+											.then((value) => {
+												window.location.href = '/admin/userManageList';
+											});
+										} else {
+											swal("사용자 정보 삭제 실패", "사용자 정보 삭제에 실패하였습니다.", "error");
+										}
+									},
+					beforeSend	:	function(XMLHttpRequest) {
+										XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+									},
+					error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+										if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+											
+										} else {
+											swal("사용자 정보 삭제 실패", "사용자 정보 삭제에 실패하였습니다.", "error");
+										}
+									}
 				});
-				
 			}
 			
 			function validationForm() {
-				
 				var inputCheck = true;
-				
 				var inputList = $("#userManageForm").find(".required");
 				
 				inputList.each(function (idx, item) {
@@ -179,7 +206,6 @@
 				});
 				
 				return inputCheck;
-				
 			}
 	    </script>
     </th:block>

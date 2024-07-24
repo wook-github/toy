@@ -3,6 +3,7 @@ package com.wook.toy.domain;
 import java.math.BigDecimal;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.Entity;
@@ -11,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,30 +21,25 @@ import lombok.Setter;
 @Setter
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="t_user", schema="toy", catalog = "toy")
+@NoArgsConstructor
+@Table(name="t_comment", schema="toy", catalog = "toy")
+@SequenceGenerator(name = "Comment_Seq_Generator", sequenceName = "toy.t_comment_seq", initialValue = 1, allocationSize = 1)
+@DynamicInsert
 @DynamicUpdate
-@SequenceGenerator(name = "Member_Seq_Generator", sequenceName = "toy.t_user_seq", initialValue = 1, allocationSize = 1)
-public class Member {
+public class Comment {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Member_Seq_Generator")
-	private BigDecimal userNumber;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Comment_Seq_Generator")
+	private BigDecimal commentNumber;
 	
-	private String userId;
-	private String userPassword;
-	private String userName;
-	private String userNickname;
-	private String userBirth;
-	private String userPhone;
-	private String userEmail;
-	private String userRole;
+	@ColumnDefault("'ADMIN'")
+	private String writerId;
 	
-	@ColumnDefault("to_char(now(), 'YYYYMMDD24HHMISS')")
-	private String joinDt;
+	private BigDecimal boardNumber;
+	private String commentContent;
 	
-	@ColumnDefault("to_char(now(), 'YYYYMMDD24HHMISS')")
-	private String lastLoginDt;
+	@ColumnDefault("to_char(now(), 'YYYYMMDD')")
+	private String writeYmd;
 	
 	@ColumnDefault("'Y'")
 	private String useYn;
@@ -58,9 +53,4 @@ public class Member {
 	@ColumnDefault("'127.0.0.1'")
 	private String updusrIp;
 	private String rmks;
-	
-	public static Member createMember() {
-		return new Member();
-	}
-
 }

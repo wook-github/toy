@@ -11,7 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.wook.toy.security.handler.MemberAuthFailureHander;
+import com.wook.toy.security.handler.MemberAuthFailureHandler;
+import com.wook.toy.security.handler.MemberAuthSuccessHandler;
 import com.wook.toy.security.provider.MemberAuthenticatorProvider;
 import com.wook.toy.security.service.MemberDetailsService;
 
@@ -26,6 +27,12 @@ public class SecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Autowired
+	MemberAuthFailureHandler memberAuthFailureHandler;
+	
+	@Autowired
+	MemberAuthSuccessHandler memberAuthSuccessHandler;
 	
 	// 커스텀한 MemberAuthenticatorProvider를 주입
 	// 해당 클래스로 MemberDetailsService 내부 로직 수행 및 인증 처리
@@ -68,7 +75,8 @@ public class SecurityConfig {
 					.usernameParameter("userId")
 					.passwordParameter("userPassword")
 					.defaultSuccessUrl("/index", true)
-					.failureHandler(new MemberAuthFailureHander())
+					.failureHandler(memberAuthFailureHandler)
+					.successHandler(memberAuthSuccessHandler)
 					.permitAll()
 				.and()
 					.logout()

@@ -45,6 +45,15 @@
     margin-bottom: 10px;
 }
 
+div.divLoginError {
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	border: 1.5px solid #fb2a2a59;
+	border-radius: 10px;
+	background: #fb2a2a59; 
+}
+
 /* 
 .login_wrap .login_inner .login_form .id_check {
     display: inline-block;

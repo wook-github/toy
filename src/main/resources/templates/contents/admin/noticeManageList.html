@@ -29,8 +29,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="" style="cursor:none;" th:if="${noticeList.isEmpty()}">
-                            	<td colspan="6">검색된 정보가 없습니다.</td>
+                            <tr th:if="${noticeList.isEmpty()}" class="nohover">
+                            	<td colspan="6" class="text-center">검색된 정보가 없습니다.</td>
                             </tr>
                             <tr th:unless="${noticeList.isEmpty()}" th:each="notice, item : ${noticeList}">
                             	<td class="d-none" th:text="${notice.boardNumber}"></td>
@@ -46,11 +46,11 @@
 					</table>
 				</div>
 			</div>
-			<!-- 
+			 
 			<div class="card-footer text-right">
-				<a th:href="@{/admin/userManage}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">등록</a>
+				<a th:href="@{/admin/noticeManage}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">등록</a>
 			</div>
-			 -->
+			
 		</div>
 		
 	</div>
@@ -68,7 +68,7 @@
 			function invokeEvent() {
 				
 				// 리스트 선택
-				$("#dataTable tbody tr").hover(function() {
+				$("#dataTable tbody tr").not(".nohover").hover(function() {
 					$(this).css("cursor", "pointer");
 				}).click(function() {
 					var boardNumber = $(this).children().first().text();

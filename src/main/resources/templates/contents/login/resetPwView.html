@@ -117,40 +117,52 @@
 				
 				// 비밀번호 재설정
 				$("#btnResetPw").click(function() {
-					if(validationCheck()) {
-						$("#resetPwForm input[name=userPassword]").val($("#newUserPassword").val());
-						
-						$("#resetPwForm").ajaxForm({
-							type		: 	"POST",
-							dataType 	: 	"json",
-							url 		: 	"/login/resetPw",
-							success 	: 	function(data) {
-												if(data.userNum != null && data.userNum > 0) {
-													swal("비밀번호 재설정 성공", "비밀번호 재설정에 성공하였습니다. 로그인하여 사용하시기 바랍니다.", "success")
-													.then((value) => {
-														window.location.href = '/login/loginView';
-													});
-												} else {
-													swal("비밀번호 재설정 실패", "비밀번호 재설정에 실패하였습니다.", "error");
-												}
-											},
-							beforeSend	:	function(XMLHttpRequest) {
-												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
-											},
-							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
-												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
-													
-												} else {
-													swal("비밀번호 재설정 실패", "비밀번호 재설정에 실패하였습니다.", "error");
-												}
-											}
-						}).submit();
-					} else {
-						return false;
-					}
+					swal({
+						title : "비밀번호 재설정",
+						text : "비밀번호를 재설정 하시겠습니까?",
+						icon : "info",
+						buttons : ["취소", "확인"]
+					})
+					.then((value) => {
+						if(value) {
+							resetPw();
+						}
+					});
 				});
-				
-		
+			}
+			
+			function resetPw() {
+				if(validationCheck()) {
+					$("#resetPwForm input[name=userPassword]").val($("#newUserPassword").val());
+					
+					$("#resetPwForm").ajaxForm({
+						type		: 	"POST",
+						dataType 	: 	"json",
+						url 		: 	"/login/resetPw",
+						success 	: 	function(data) {
+											if(data.userNum != null && data.userNum > 0) {
+												swal("비밀번호 재설정 성공", "비밀번호 재설정에 성공하였습니다. 로그인하여 사용하시기 바랍니다.", "success")
+												.then((value) => {
+													window.location.href = '/login/loginView';
+												});
+											} else {
+												swal("비밀번호 재설정 실패", "비밀번호 재설정에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("비밀번호 재설정 실패", "비밀번호 재설정에 실패하였습니다.", "error");
+											}
+										}
+					}).submit();
+				} else {
+					return false;
+				}
 			}
 			
 			function validationCheck() {

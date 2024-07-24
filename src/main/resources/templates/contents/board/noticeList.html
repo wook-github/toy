@@ -25,22 +25,39 @@
 						</div>
 						 -->
 						
-						<ul class="toy-list-ul">
-							<li th:if="${boardList.isEmpty()}">
-								<h1>검색된 정보가 없습니다.</h1>
-							</li>
-							<li th:unless="${boardList.isEmpty()}" th:each="board : ${boardList}">
-								<a th:href="@{/board/noticeInfo(boardNumber=${board.boardNumber})}">
-									<div class="list_item">
-										<span th:text="${board.boardTitle}"></span>
-										<br>
-										<span th:text="${#temporals.createDate(board.writeYmd, 'yyyyMMdd')}"></span>
-									</div>
-								</a>
-							</li>
-						</ul>
+						<table id="noticeTblList" class="toy-list-tb">
+							<thead>
+								<tr>
+									<th width="10%">번호</th>
+									<th width="60%">제목</th>
+									<th width="10%">작성자</th>
+									<th width="20%">작성일자</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="nohover" th:if="${boardList.isEmpty()}">
+									<td colspan="4">검색된 정보가 없습니다.</td>
+								</tr>
+								<tr th:unless="${boardList.isEmpty()}" th:each="board, item : ${boardList}">
+									<td class="blind" th:text="${board.boardNumber}"></td>
+									<td th:text="${(10 * (nowPage - 1)) + item.count}"></td>
+									<td class="tl" th:text="${board.boardTitle}"></td>
+									<td class="tc" th:text="${board.writerId}"></td>
+									<td th:text="${#temporals.createDate(board.writeYmd, 'yyyyMMdd')}"></td>
+								</tr>
+							</tbody>
+						</table>
 		
-						<div id="divPaginator" class="paging"></div>
+						<div id="divPaginator" class="paging" style="text-align:center;" th:if="${!boardList.isEmpty()}">
+							<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+					            <a th:if="${page != nowPage}" th:href="@{/board/noticeList(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}">
+					            	<span style='cursor:pointer; border:1px solid #e3e3e3; display:inline-block; text-align:center; padding-top:6px; padding-bottom:6px; width:40px; margin-left:-1px;' th:text="${page}"></span>
+					            </a>
+					            <a th:if="${page == nowPage}" th:href="@{#}">
+					            	<span style='cursor:pointer; border:1px solid #e3e3e3; display:inline-block; text-align:center; padding-top:6px; padding-bottom:6px; width:40px; margin-left:-1px; font-weight:bold;' th:text="${page}"></span>
+					            </a>
+					        </th:block>
+						</div>
 						
 					</div>
 				
@@ -51,5 +68,30 @@
 		</div>
 		
 	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 리스트 선택
+				$("#noticeTblList tbody tr").not("tr.nohover").hover(function() {
+					$(this).css("cursor", "pointer");
+				}).click(function() {
+					var boardNumber = $(this).children().first().text();
+					var url = "/board/noticeInfo";
+					url += "?boardNumber=" + boardNumber;
+					
+					window.location.href = url;
+				});
+			}
+	    </script>
+    </th:block>
 	
 </html>

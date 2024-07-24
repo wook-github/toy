@@ -1534,7 +1534,7 @@ pre code {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.table-hover tbody tr:hover {
+.table-hover tbody tr:not(.nohover):hover {
   color: #858796;
   background-color: rgba(0, 0, 0, 0.075);
 }

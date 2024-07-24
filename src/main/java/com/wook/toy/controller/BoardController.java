@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wook.toy.domain.Board;
+import com.wook.toy.domain.Comment;
 import com.wook.toy.services.board.BoardService;
+import com.wook.toy.services.comment.CommentService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 
 @Controller
@@ -30,6 +33,9 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private CommentService commentService;
 	
 	@GetMapping("/noticeList")
 	public ModelAndView noticeList(@RequestParam HashMap<String, Object> param
@@ -58,11 +64,13 @@ public class BoardController {
 	
 	@GetMapping("/noticeInfo")
 	public ModelAndView noticeInfo(@RequestParam HashMap<String, Object> param
+			, HttpServletRequest request
+			, HttpServletResponse response
 			, ModelAndView model) {
 		
 		if(param != null && param.get("boardNumber") != null && !"".equals(param.get("boardNumber"))) {
 			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber")); 
-			model.addObject("boardInfo", boardService.getBoardInfo(boardNumber));
+			model.addObject("boardInfo", boardService.getBoardInfo(boardNumber, request, response));
 		} else {
 			model.addObject("boardInfo", new Board());
 		}
@@ -101,11 +109,17 @@ public class BoardController {
 	
 	@GetMapping("/boardInfo")
 	public ModelAndView boardInfo(@RequestParam HashMap<String, Object> param
+			, @PageableDefault(page = 0, size = 10, sort = "commentNumber", direction = Sort.Direction.DESC) Pageable pageable
+			, HttpServletRequest request
+			, HttpServletResponse response
 			, ModelAndView model) {
 		
 		if(param != null && param.get("boardNumber") != null && !"".equals(param.get("boardNumber"))) {
 			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber")); 
-			model.addObject("boardInfo", boardService.getBoardInfo(boardNumber));
+			model.addObject("boardInfo", boardService.getBoardInfo(boardNumber, request, response));
+			
+			param.put("useYn", "Y");
+			model.addObject("commentList", commentService.getCommentList(param, pageable));
 		} else {
 			model.addObject("boardInfo", new Board());
 		}
@@ -118,6 +132,8 @@ public class BoardController {
 	
 	@GetMapping("/boardManage")
 	public ModelAndView boardManage(@RequestParam HashMap<String, Object> param
+			, HttpServletRequest request
+			, HttpServletResponse response
 			, ModelAndView model) {
 		
 		if(param != null && param.get("boardNumber") != null && !"".equals(param.get("boardNumber"))) {
@@ -201,4 +217,63 @@ public class BoardController {
 		}
 	}
 	
+	@PostMapping("/insertComment")
+	public ResponseEntity<String> insertComment(Comment comment, HttpServletRequest request) {
+		try {
+			BigDecimal commentNumber = commentService.insertToUpdateComment(comment);
+			
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			rslt.put("commentNumber", commentNumber);
+			
+			return new ResponseEntity(rslt, HttpStatus.OK);
+		} catch (Exception e) {
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			rslt.put("commentNumber", 0);
+			
+			return new ResponseEntity(rslt, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/updateComment")
+	public ResponseEntity<String> updateComment(Comment comment, HttpServletRequest request) {
+		try {
+			BigDecimal commentNumber = commentService.insertToUpdateComment(comment);
+			
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			rslt.put("commentNumber", commentNumber);
+			
+			return new ResponseEntity(rslt, HttpStatus.OK);
+		} catch (Exception e) {
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			rslt.put("commentNumber", 0);
+			
+			return new ResponseEntity(rslt, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PostMapping("/deleteComment")
+	public ResponseEntity<String> deleteComment(@RequestParam HashMap<String, Object> param, HttpServletRequest request) {
+		try {
+			if(param != null && !"".equals(param.get("commentNumber"))) {
+				BigDecimal commentNumber = new BigDecimal((String) param.get("commentNumber"));
+				
+				BigDecimal result = commentService.deleteComment(commentNumber);
+				
+				HashMap<String, Object> rslt = new HashMap<String, Object>();
+				rslt.put("commentNumber", result);
+				
+				return new ResponseEntity(rslt, HttpStatus.OK);
+			} else {
+				HashMap<String, Object> rslt = new HashMap<String, Object>();
+				rslt.put("commentNumber", 0);
+				
+				return new ResponseEntity(rslt, HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			rslt.put("boardNumber", 0);
+			
+			return new ResponseEntity(rslt, HttpStatus.BAD_REQUEST);
+		}
+	}
 }

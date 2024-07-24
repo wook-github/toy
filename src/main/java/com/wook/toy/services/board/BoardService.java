@@ -13,6 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.wook.toy.domain.Board;
 import com.wook.toy.repository.BoardRepository;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @Service
 public class BoardService {
 
@@ -45,6 +49,42 @@ public class BoardService {
 	public Board getBoardInfo(BigDecimal boardNumber) {
 		Board boardInfo = repository.findByBoardNumber(boardNumber);
 		if(boardInfo != null && boardInfo.getBoardNumber() != BigDecimal.ZERO) {
+			return boardInfo;
+		} else {
+			return new Board();
+		}
+	}
+	
+	public Board getBoardInfo(BigDecimal boardNumber, HttpServletRequest request, HttpServletResponse response) {
+		Board boardInfo = repository.findByBoardNumber(boardNumber);
+		if(boardInfo != null && boardInfo.getBoardNumber() != BigDecimal.ZERO) {
+			
+			Cookie[] cookies = request.getCookies();
+			
+			if(cookies != null) {
+				for(Cookie cookie : cookies) {
+					
+					if(cookie.getName() != null && !"".equals(cookie.getName()) && "view_cookie".equals(cookie.getName())) {
+						if(!cookie.getValue().contains(boardNumber.toString())) {
+							cookie.setValue(cookie.getValue() + "_[" + boardNumber.toString() + "]");
+							cookie.setMaxAge(60 * 60 * 2);  /* 쿠키 시간 */
+							response.addCookie(cookie);
+							
+							boardInfo.setBoardViewCnt(boardInfo.getBoardViewCnt().add(BigDecimal.ONE));
+							boardInfo = repository.save(boardInfo);
+						}
+						break;
+					} else {
+						Cookie newCookie = new Cookie("view_cookie", "[" + boardNumber.toString() + "]");
+						newCookie.setMaxAge(60 * 60 * 2);
+						response.addCookie(newCookie);
+						
+						boardInfo.setBoardViewCnt(boardInfo.getBoardViewCnt().add(BigDecimal.ONE));
+						boardInfo = repository.save(boardInfo);
+					}
+				}
+			}
+			
 			return boardInfo;
 		} else {
 			return new Board();

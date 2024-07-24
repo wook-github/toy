@@ -37,13 +37,7 @@ public class Board {
 	private String boardContents;
 	
 	@ColumnDefault("0")
-	private BigDecimal boardLikeCnt;
-	
-	@ColumnDefault("0")
-	private BigDecimal commentCnt;
-	
-	@ColumnDefault("'N'")
-	private String fixYn;
+	private BigDecimal boardViewCnt;
 	
 	@ColumnDefault("to_char(now(), 'YYYYMMDD')")
 	private String writeYmd;

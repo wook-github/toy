@@ -74,87 +74,64 @@
 				
 				// 동네 소식 입력
 				$("#btnInsert").click(function() {
-					if(validationForm()) {
-						$("#boardForm").ajaxForm({
-							type		: 	"POST",
-							dataType 	: 	"json",
-							url 		: 	"/board/insertBoard",
-							success 	: 	function(data) {
-												if(data.boardNumber != null && data.boardNumber > 0) {
-													swal("동네 소식 등록 성공", "동네 소식 등록에 성공하였습니다.", "success")
-													.then((value) => {
-														window.location.href = '/board/boardList';
-													});
-												} else {
-													swal("동네 소식 등록 실패", "동네 소식 등록에 실패하였습니다.", "error");
-												}
-											},
-							beforeSend	:	function(XMLHttpRequest) {
-												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
-											},
-							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
-												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
-													
-												} else {
-													swal("동네 소식 등록 실패", "동네 소식 등록에 실패하였습니다.", "error");
-												}
-											}
-						}).submit();
-					} else {
-						return false;
-					}
+					swal({
+						title : "동네 소식 등록",
+						text : "동네 소식을 등록하시겠습니까?",
+						icon : "info",
+						buttons : ["취소", "등록"]
+					})
+					.then((value) => {
+						if(value) {
+							insertBoard();
+						}
+					});
 				});
 				
 				// 동네 소식 수정
 				$("#btnModify").click(function() {
-					if(validationForm()) {
-						$("#boardForm").ajaxForm({
-							type		: 	"POST",
-							dataType 	: 	"json",
-							url 		: 	"/board/updateBoard",
-							success 	: 	function(data) {
-												if(data.boardNumber != null && data.boardNumber > 0) {
-													swal("동네 소식 수정 성공", "동네 소식 수정에 성공하였습니다.", "success")
-													.then((value) => {
-														window.location.href = '/board/boardList';
-													});
-												} else {
-													swal("동네 소식 수정 실패", "동네 소식 수정에 실패하였습니다.", "error");
-												}
-											},
-							beforeSend	:	function(XMLHttpRequest) {
-												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
-											},
-							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
-												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
-													
-												} else {
-													swal("동네 소식 수정 실패", "동네 소식 수정에 실패하였습니다.", "error");
-												}
-											}
-						}).submit();
-					} else {
-						return false;
-					}
+					swal({
+						title : "동네 소식 수정",
+						text : "동네 소식을 수정하시겠습니까?",
+						icon : "info",
+						buttons : ["취소", "수정"]
+					})
+					.then((value) => {
+						if(value) {
+							modifyBoard();
+						} 
+					});
 				});
 				
 				// 동네 소식 삭제
 				$("#btnDelete").click(function() {
-					$.ajax({
+					swal({
+						title : "동네 소식 삭제",
+						text : "동네 소식을 삭제하시겠습니까?",
+						icon : "warning",
+						buttons : ["취소", "삭제"]
+					})
+					.then((value) => {
+						if(value) {
+							deleteBoard();
+						}
+					});
+				});
+			}
+			
+			function insertBoard() {
+				if(validationForm()) {
+					$("#boardForm").ajaxForm({
 						type		: 	"POST",
-						data		: {
-											boardNumber : $("#boardNumber").val()
-						},
 						dataType 	: 	"json",
-						url 		: 	"/board/deleteBoard",
+						url 		: 	"/board/insertBoard",
 						success 	: 	function(data) {
 											if(data.boardNumber != null && data.boardNumber > 0) {
-												swal("동네 소식 삭제 성공", "동네 소식 삭제에 성공하였습니다.", "success")
+												swal("동네 소식 등록 성공", "동네 소식 등록에 성공하였습니다.", "success")
 												.then((value) => {
 													window.location.href = '/board/boardList';
 												});
 											} else {
-												swal("동네 소식 삭제 실패", "동네 소식 삭제에 실패하였습니다.", "error");
+												swal("동네 소식 등록 실패", "동네 소식 등록에 실패하였습니다.", "error");
 											}
 										},
 						beforeSend	:	function(XMLHttpRequest) {
@@ -164,17 +141,80 @@
 											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
 												
 											} else {
-												swal("동네 소식 삭제 실패", "동네 소식 삭제에 실패하였습니다.", "error");
+												swal("동네 소식 등록 실패", "동네 소식 등록에 실패하였습니다.", "error");
 											}
 										}
-					});
+					}).submit();
+				} else {
+					return false;
+				}
+			}
+			
+			function modifyBoard() {
+				if(validationForm()) {
+					$("#boardForm").ajaxForm({
+						type		: 	"POST",
+						dataType 	: 	"json",
+						url 		: 	"/board/updateBoard",
+						success 	: 	function(data) {
+											if(data.boardNumber != null && data.boardNumber > 0) {
+												swal("동네 소식 수정 성공", "동네 소식 수정에 성공하였습니다.", "success")
+												.then((value) => {
+													window.location.href = '/board/boardList';
+												});
+											} else {
+												swal("동네 소식 수정 실패", "동네 소식 수정에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("동네 소식 수정 실패", "동네 소식 수정에 실패하였습니다.", "error");
+											}
+										}
+					}).submit();
+				} else {
+					return false;
+				}
+			}
+			
+			function deleteBoard() {
+				$.ajax({
+					type		: 	"POST",
+					data		: {
+										boardNumber : $("#boardNumber").val()
+					},
+					dataType 	: 	"json",
+					url 		: 	"/board/deleteBoard",
+					success 	: 	function(data) {
+										if(data.boardNumber != null && data.boardNumber > 0) {
+											swal("동네 소식 삭제 성공", "동네 소식 삭제에 성공하였습니다.", "success")
+											.then((value) => {
+												window.location.href = '/board/boardList';
+											});
+										} else {
+											swal("동네 소식 삭제 실패", "동네 소식 삭제에 실패하였습니다.", "error");
+										}
+									},
+					beforeSend	:	function(XMLHttpRequest) {
+										XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+									},
+					error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+										if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+											
+										} else {
+											swal("동네 소식 삭제 실패", "동네 소식 삭제에 실패하였습니다.", "error");
+										}
+									}
 				});
 			}
 			
 			function validationForm() {
-				
 				var inputCheck = true;
-				
 				var inputList = $("#boardForm").find(".required");
 				
 				inputList.each(function (idx, item) {
@@ -187,7 +227,6 @@
 				});
 				
 				return inputCheck;
-				
 			}
 	    </script>
     </th:block>

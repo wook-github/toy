@@ -12,7 +12,7 @@
 				
 				<div class="sub_section">
 					
-					<div>
+					<div class="divWhdwlTitle">
 						<p>그동안 '동네 한 바퀴' 서비스를 이용해주셔서 감사합니다.</p>
 					</div>
 					
@@ -42,39 +42,53 @@
 				
 				// 목록으로 돌아가기
 				$("#btnBack").click(function() {
-					window.location.href = '/index';
+					window.location.href = '/user/userMain';
 				});
 				
-				// 동네 소식 입력
+				// 회원 탈퇴
 				$("#btnWhdwl").click(function() {
-					$.ajax({
-						type		: 	"POST",
-						dataType 	: 	"json",
-						data		: {
-											userId : "[[${session.user.getUserId()}]]"
-						},
-						url 		: 	"/user/whdwlUser",
-						success 	: 	function(data) {
-											if(data.whdwlYn != null && data.whdwlYn != "false") {
-												swal("회원 탈퇴 성공", "회원 탈퇴에 성공하였습니다.", "success")
-												.then((value) => {
-													window.location.href = '/login/logout';
-												});
-											} else {
-												swal("회원 탈퇴 실패", "회원 탈퇴에 실패하였습니다.", "error");
-											}
-										},
-						beforeSend	:	function(XMLHttpRequest) {
-											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
-										},
-						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
-											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
-												
-											} else {
-												swal("회원 탈퇴 실패", "회원 탈퇴에 실패하였습니다.", "error");
-											}
-										}
+					swal({
+						title : "회원 탈퇴",
+						text : "회원 탈퇴를 하시겠습니까?",
+						icon : "warning",
+						buttons : ["취소", "탈퇴"]
+					})
+					.then((value) => {
+						if(value) {
+							whdwlUser();
+						}
 					});
+				});
+			}
+			
+			function whdwlUser() {
+				$.ajax({
+					type		: 	"POST",
+					dataType 	: 	"json",
+					data		: {
+										userId : "[[${session.user.getUserId()}]]"
+					},
+					url 		: 	"/user/whdwlUser",
+					success 	: 	function(data) {
+										if(data.whdwlYn != null && data.whdwlYn != "false") {
+											swal("회원 탈퇴 성공", "회원 탈퇴에 성공하였습니다.", "success")
+											.then((value) => {
+												window.location.href = '/login/logout';
+											});
+										} else {
+											swal("회원 탈퇴 실패", "회원 탈퇴에 실패하였습니다.", "error");
+										}
+									},
+					beforeSend	:	function(XMLHttpRequest) {
+										XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+									},
+					error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+										if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+											
+										} else {
+											swal("회원 탈퇴 실패", "회원 탈퇴에 실패하였습니다.", "error");
+										}
+									}
 				});
 			}
 	    </script>

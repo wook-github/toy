@@ -16,14 +16,17 @@
 					<div class="" style="border:1px solid #555; border-radius: 15px; padding: 10px; position:relative;">
 						
 						<div class="" style="position: relative; background-repeat: no-repeat; background-position: 50%; background-size: 100% 100%; overflow: hidden; text-indent: -999px; background-image: url(../images/header/user.png); display: inline-block; width: 100px; height: 100px; margin-left: 16px;"></div>
-						<span style="font-size: 1.5em; position: absolute; top: 50%; transform: translate(0, -90%); left: 150px;">회원명</span>
+						<span style="font-size: 1.5em; position: absolute; top: 50%; transform: translate(0, -90%); left: 150px;" th:text="|${session.user.getUserName()}님|"></span>
+						<br>
+						<span th:if="${session.user.getUserRole() eq 'ROLE_ADMIN'}">고객님은 시스템 관리자입니다.</span>
+						<span th:unless="${session.user.getUserRole() eq 'ROLE_ADMIN'}">고객님은 일반 사용자입니다.</span>
 						
 					</div>
 					
-					<div>
-						<a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/adminMain}">관리자 페이지</a>
-						<a th:href="@{/user/checkPwView?mode=modify}">회원정보수정</a>
-						<a th:href="@{/user/checkPwView?mode=whdwl}">회원탈퇴</a>
+					<div class="info_bottom">
+						<button sec:authorize="hasRole('ADMIN')" id="btnAdmin">관리자 페이지</button>
+						<button id="btnUserModify">회원정보수정</button>
+						<button id="btnUserWhdwl">회원탈퇴</button>
 					</div>
 					
 				</div>
@@ -33,5 +36,34 @@
 		</div>
 		
 	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 관리자 페이지 이동
+				$("#btnAdmin").click(function() {
+					window.location.href = "/admin/adminMain";
+				});
+				
+				// 회원정보 수정페이지 이동
+				$("#btnUserModify").click(function() {
+					window.location.href = '/user/checkPwView?mode=modify';
+				});
+				
+				// 회원정보 탈퇴페이지 이동
+				$("#btnUserWhdwl").click(function() {
+					window.location.href = '/user/checkPwView?mode=whdwl';
+				});
+			}
+	    </script>
+    </th:block>
 
 </html>

@@ -23,6 +23,9 @@
 							<input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="사용자비밀번호" required="">
 						</li>
 					</ul>
+					<div th:if="${session.loginErrorMsg ne null}" class="divLoginError mt10 mb10">
+						<span th:text="${session.loginErrorMsg}"></span>
+					</div>
 					<button class="w100p mt10 mb10" type="submit">로그인</button>
 				</form>
 				<div class="login_util">

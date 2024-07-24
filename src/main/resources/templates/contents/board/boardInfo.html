@@ -14,43 +14,95 @@
 					<div class="blind">
 						<input type="hidden" id="boardNumber" th:value="${boardInfo.boardNumber}" />
 					</div>
-				
+					
+					<div id="" class="info-title">
+						<h3 th:text="${boardInfo.boardTitle}"></h3>
+					</div>
+					
 					<table class="toy-info-tb">
 						<caption>동네 소식 조회</caption>
 						<colgroup>
-							<col style="width: 15%;">
-							<col style="width: 85%;">
+							<col style="width: 13.3%;">
+							<col style="width: 20%;">
+							<col style="width: 13.3%;">
+							<col style="width: 20%;">
+							<col style="width: 13.3%;">
+							<col style="width: 20%;">
 						</colgroup>
 						<tbody>
 							<tr>
-								<th>제목</th>
-								<td>
-									<div class="h3" th:text="${boardInfo.boardTitle}"></div>
-								</td>
-							</tr>
-							<tr>
-								<th>내용</th>
-								<td>
-									<pre th:text="${boardInfo.boardContents}"></pre>
-								</td>
-							</tr>
-							<tr>
 								<th>작성자</th>
-								<td>
+								<td class="tc">
 									<p th:text="${boardInfo.writerId}"></p>
 								</td>
+								<th>작성일자</th>
+								<td class="tc">
+									<p th:text="${#temporals.createDate(boardInfo.writeYmd, 'yyyyMMdd')}"></p>
+								</td>
+								<th>조회수</th>
+								<td class="tc">
+									<p th:text="${boardInfo.boardViewCnt}"></p>
+								</td>
 							</tr>
 							<tr>
-								<th>작성일자</th>
-								<td>
-									<p th:text="${#temporals.createDate(boardInfo.writeYmd, 'yyyyMMdd')}"></p>
+								<td colspan="6">
+									<pre th:text="${boardInfo.boardContents}"></pre>
 								</td>
 							</tr>
 						</tbody>
 					</table>
 					
+					<div class="mt10 mb10 divComment">
+						<p>댓글</p>
+						<div class="mt10 mb10 divLine"></div>
+						<div class="divNoComment" th:if="${commentList.isEmpty()}">
+							<span>작성된 댓글이 없습니다.</span>
+						</div>
+						<ul class="toy-list-ul" th:unless="${commentList.isEmpty()}">
+							<li class="list-item" th:each="comment, item : ${commentList}">
+								<div class="divListItem">
+									<span th:text="${comment.writerId}" class="userName"></span>
+									<span th:text="${#temporals.createDate(comment.writeYmd, 'yyyyMMdd')}"></span>
+									
+									<div class="divCommentManage" th:if="${session.user.getUserId() eq comment.writerId} OR ${session.user.getUserRole() eq 'ROLE_ADMIN'}">
+										<a id="btnCommentModifyView" class="aInsert" th:classappend="|comment-${comment.commentNumber}|">수정</a>
+										<a id="btnCommentDelete" class="aDelete" th:classappend="|comment-${comment.commentNumber}|">삭제</a>
+									</div>
+									
+									<pre th:id="|commentContentView${comment.commentNumber}|" th:text="${comment.commentContent}"></pre>
+									
+									<div th:classappend="|comment-box-${comment.commentNumber}|" style="display:none;">
+										<form th:id="|formCommentManage${comment.commentNumber}|">
+											<input type="hidden" name="commentNumber" th:value="${comment.commentNumber}" />
+											<textarea id="commentContent" name="commentContent" placeholder="댓글을 입력해주세요." th:text="${comment.commentContent}"></textarea>
+										</form>
+										
+										<div class="common_bottom2">
+											<button type="button" id="btnCommentModify">댓글 수정</button>
+											<button type="button" id="btnCommentCancel">취소</button>
+										</div>
+									</div>
+								</div>
+								
+							</li>
+						</ul>
+						<div class="mt10 mb10 divLine"></div>
+						<div class="divCommentWrite">
+							<p class="mb10">댓글 작성</p>
+							<form id="formCommentInfo">
+								<input type="hidden" name="boardNumber" th:value="${boardInfo.boardNumber}">
+								<input type="hidden" name="writerId" 	th:value="${session.user.getUserId()}">
+								<textarea id="inpCommentContent" name="commentContent" placeholder="댓글을 입력해주세요."></textarea>
+							</form>
+							
+							<div class="common_bottom2">
+								<button type="button" id="btnCommentInsert" class="btnCommentInsert">댓글 등록</button>
+							</div>
+						</div>
+					</div>
+					
 					<div class="info_bottom">
-						<button type="button" id="btnModify" class="" title="수정">수정</button>
+						<button type="button" id="btnModify" class="" title="수정" th:if="${session.user.getUserId() == boardInfo.writerId} OR ${session.user.getUserRole() eq 'ROLE_ADMIN'}">수정</button>
 						<button type="button" id="btnBack" class="" title="목록으로">목록으로</button>
 					</div>
 				
@@ -73,7 +125,69 @@
 			
 			function invokeEvent() {
 				
-				// 목록으로 돌아가기
+				// 댓글 수정화면 호출
+				$("#btnCommentModifyView").click(function() {
+					var commentNumber = $(this).attr("class").split(" ")[1].substr(-1);
+					$("pre[id$='"+ commentNumber +"']").hide();
+					$("div[class$='box-"+ commentNumber +"']").show();
+				});
+				
+				// 댓글 수정화면 닫기
+				$("#btnCommentCancel").click(function() {
+					var commentBox = $(this).closest("div[class^='comment-box']");
+					var commentNumber = commentBox.attr("class").substr(-1);
+					commentBox.hide();
+					$("pre[id='commentContentView"+ commentNumber +"']").show();
+				});
+				
+				// 댓글 등록
+				$("#btnCommentInsert").click(function() {
+					swal({
+						title : "동네 소식 댓글 등록",
+						text : "동네 소식 댓글을 등록하시겠습니까?",
+						icon : "info",
+						buttons : ["취소", "등록"]
+					})
+					.then((value) => {
+						if(value) {
+							insertComment();
+						}
+					});
+				});
+				
+				// 댓글 수정
+				$("#btnCommentModify").click(function() {
+					swal({
+						title : "동네 소식 댓글 수정",
+						text : "동네 소식 댓글을 수정하시겠습니까?",
+						icon : "info",
+						buttons : ["취소", "수정"]
+					})
+					.then((value) => {
+						if(value) {
+							var commentForm = $(this).closest("div[class^='comment-box']").find("form");
+							updateComment(commentForm);
+						}
+					});
+				});
+				
+				// 댓글 삭제
+				$("#btnCommentDelete").click(function() {
+					swal({
+						title : "동네 소식 댓글 삭제",
+						text : "동네 소식 댓글을 삭제하시겠습니까?",
+						icon : "warning",
+						buttons : ["취소", "삭제"]
+					})
+					.then((value) => {
+						if(value) {
+							var commentNumber = $(this).attr("class").split(" ")[1].substr(-1);
+							deleteComment(commentNumber);
+						}
+					});
+				});
+				
+				// 동네 소식 수정 화면으로 이동
 				$("#btnModify").click(function() {
 					var url = '/board/boardManage';
 					url += '?boardNumber=' + $("#boardNumber").val();
@@ -84,6 +198,105 @@
 				// 목록으로 돌아가기
 				$("#btnBack").click(function() {
 					window.location.href = '/board/boardList';
+				});
+			}
+			
+			function insertComment() {
+				if($("#inpCommentContent").val() != null && $("#inpCommentContent").val() != "") {
+					$("#formCommentInfo").ajaxForm({
+						type		: 	"POST",
+						dataType 	: 	"json",
+						url 		: 	"/board/insertComment",
+						success 	: 	function(data) {
+											if(data.commentNumber != null && data.commentNumber > 0) {
+												swal("동네 소식 댓글 등록 성공", "동네 소식 댓글 등록에 성공하였습니다.", "success")
+												.then((value) => {
+													window.location.reload();
+												});
+											} else {
+												swal("동네 소식 댓글 등록 실패", "동네 소식 댓글 등록에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("동네 소식 댓글 등록 실패", "동네 소식 댓글 등록에 실패하였습니다.", "error");
+											}
+										}
+					}).submit();
+				} else {
+					swal("댓글 입력 확인", "입력된 댓글이 없습니다.", "error");
+					return false;
+				}
+			}
+			
+			function updateComment(commentForm) {
+				var commentContent = commentForm.find("textarea").val();
+				
+				if(commentContent != null && commentContent != "") {
+					$(commentForm).ajaxForm({
+						type		: 	"POST",
+						dataType 	: 	"json",
+						url 		: 	"/board/updateComment",
+						success 	: 	function(data) {
+											if(data.commentNumber != null && data.commentNumber > 0) {
+												swal("동네 소식 댓글 수정 성공", "동네 소식 댓글 수정에 성공하였습니다.", "success")
+												.then((value) => {
+													window.location.reload();
+												});
+											} else {
+												swal("동네 소식 댓글 수정 실패", "동네 소식 댓글 수정에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("동네 소식 댓글 수정 실패", "동네 소식 댓글 수정에 실패하였습니다.", "error");
+											}
+										}
+					}).submit();
+				} else {
+					swal("댓글 입력 확인", "입력된 댓글이 없습니다.", "error");
+					return false;
+				}
+			}
+			
+			function deleteComment(commentNumber) {
+				$.ajax({
+					type		: 	"POST",
+					dataType 	: 	"json",
+					data		:	{
+										commentNumber : commentNumber
+					},
+					url 		: 	"/board/deleteComment",
+					success 	: 	function(data) {
+										if(data.commentNumber != null && data.commentNumber > 0) {
+											swal("동네 소식 댓글 삭제 성공", "동네 소식 댓글 삭제에 성공하였습니다.", "success")
+											.then((value) => {
+												window.location.reload();
+											});
+										} else {
+											swal("동네 소식 댓글 삭제 실패", "동네 소식 댓글 삭제에 실패하였습니다.", "error");
+										}
+									},
+					beforeSend	:	function(XMLHttpRequest) {
+										XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+									},
+					error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+										if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+											
+										} else {
+											swal("동네 소식 댓글 삭제 실패", "동네 소식 댓글 삭제에 실패하였습니다.", "error");
+										}
+									}
 				});
 			}
 	    </script>

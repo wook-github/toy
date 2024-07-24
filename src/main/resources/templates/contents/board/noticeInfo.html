@@ -14,22 +14,47 @@
 					<div class="blind">
 						<input type="hidden" id="boardNumber" th:value="${boardInfo.boardNumber}" />
 					</div>
-				
-					<ul class="toy-info-ul">
-						<li>
-							<div class="h3" th:text="${boardInfo.boardTitle}"></div>
-							<p th:text="${#temporals.createDate(boardInfo.writeYmd, 'yyyyMMdd')}"></p>
-						</li>
-						<li>
-							<pre th:text="${boardInfo.boardContents}"></pre>
-						</li>
-						<li>
-							<div class="info_bottom">
-								<button type="button" id="btnBack" class="" title="목록으로">목록으로</button>
-							</div>
-						</li>
-		
-					</ul>
+					
+					<div id="" class="info-title">
+						<h3 th:text="${boardInfo.boardTitle}"></h3>
+					</div>
+					
+					<table class="toy-info-tb">
+						<caption>공지사항 조회</caption>
+						<colgroup>
+							<col style="width: 13.3%;">
+							<col style="width: 20%;">
+							<col style="width: 13.3%;">
+							<col style="width: 20%;">
+							<col style="width: 13.3%;">
+							<col style="width: 20%;">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th>작성자</th>
+								<td class="tc">
+									<p th:text="${boardInfo.writerId}"></p>
+								</td>
+								<th>작성일자</th>
+								<td class="tc">
+									<p th:text="${#temporals.createDate(boardInfo.writeYmd, 'yyyyMMdd')}"></p>
+								</td>
+								<th>조회수</th>
+								<td class="tc">
+									<p th:text="${boardInfo.boardLikeCnt}"></p>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="6">
+									<pre th:text="${boardInfo.boardContents}"></pre>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<div class="info_bottom">
+						<button type="button" id="btnBack" class="" title="목록으로">목록으로</button>
+					</div>
 				
 				</div>
 			

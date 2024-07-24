@@ -2,6 +2,7 @@ package com.wook.toy.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,9 +13,10 @@ import jakarta.servlet.http.HttpSession;
 
 
 @RestController
+@RequestMapping("/")
 public class MainController {
 
-	@GetMapping("/index")
+	@GetMapping("index")
 	public ModelAndView index(@AuthenticationPrincipal MemberDetails memberDetails, HttpServletRequest request, ModelAndView model) {
 		if(memberDetails != null
 			&& memberDetails.getUsername() != null && !"".equals(memberDetails.getUsername())

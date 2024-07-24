@@ -16,8 +16,10 @@
 					<input type="hidden" name="userId" 			value="" />
 					<input type="hidden" name="userPassword" 	value="" />
 					<input type="hidden" name="userName" 		value="" />
+					<input type="hidden" name="userNickname" 	value="" />
 					<input type="hidden" name="userBirth" 		value="" />
 					<input type="hidden" name="userPhone" 		value="" />
+					<input type="hidden" name="userEmail" 		value="" />
 				</form>
 				<div id="joinInputForm" class="joinInputForm">
 					<ul>
@@ -94,6 +96,16 @@
 						</li>
 						<li>
 							<div class="joinFormLabelDiv">
+								<p><b>닉네임</b></p>
+							</div>
+							<label for="inpUserNickname" class="blind">닉네임</label>
+							<input type="text" id="inpUserNickname" class="input_text required" placeholder="닉네임">
+							<div class="divRequiredWarn" style="display:none;">
+								<p>필수 입력 항목입니다.</p>
+							</div>
+						</li>
+						<li>
+							<div class="joinFormLabelDiv">
 								<p><b>생년월일</b></p>
 							</div>
 							<label for="inpUserBirth" class="blind">생년월일</label>
@@ -108,6 +120,23 @@
 							</div>
 							<label for="inpUserPhone" class="blind">전화번호</label>
 							<input type="text" id="inpUserPhone" class="input_text required isMblTelno" placeholder="전화번호">
+							<div class="divRequiredWarn" style="display:none;">
+								<p>필수 입력 항목입니다.</p>
+							</div>
+						</li>
+						<li>
+							<div class="joinFormLabelDiv">
+								<p><b>이메일</b></p>
+							</div>
+							<label for="inpUserEmail" class="blind">이메일</label>
+							<input type="text" id="inpUserEmail" class="input_text required isEngOrNum w50p" placeholder="이메일">
+							<span>@</span>
+							<select id="inpUserEmail2" name="inpUserEmail2" class="required w45p">
+								<option value="naver.com">naver.com</option>
+								<option value="daum.net">daum.net</option>
+								<option value="gmail.com">gmail.com</option>
+								<option value="kakao.com">kakao.com</option>
+							</select>
 							<div class="divRequiredWarn" style="display:none;">
 								<p>필수 입력 항목입니다.</p>
 							</div>
@@ -163,61 +192,72 @@
 				
 				// 회원가입
 				$("#btnJoinSubmit").click(function() {
-					
-					if(validationCheck()) {
-						if($("#idCheckYn").val() != "Y" ) {
-							inputCheck = false;
-							
-							swal("아이디 중복확인", "아이디 중복확인을 하시기 바랍니다.", "error");
-							return false;
+					swal({
+						title : "회원가입",
+						text : "회원가입 하시겠습니까?",
+						icon : "info",
+						buttons : ["취소", "확인"]
+					})
+					.then((value) => {
+						if(value) {
+							joinUser();
 						}
+					});
+				});
+			}
+			
+			function joinUser() {
+				if(validationCheck()) {
+					if($("#idCheckYn").val() != "Y" ) {
+						inputCheck = false;
 						
-						$("#joinForm input[name=userId]").val($("#inpUserId").val());
-						$("#joinForm input[name=userPassword]").val($("#inpUserPassword").val());
-						$("#joinForm input[name=userName]").val($("#inpUserName").val());
-						$("#joinForm input[name=userBirth]").val($("#inpUserBirth").val());
-						$("#joinForm input[name=userPhone]").val($("#inpUserPhone").val());
-						
-						$("#joinForm").ajaxForm({
-							type		: 	"POST",
-							dataType 	: 	"json",
-							url 		: 	"/login/joinUser",
-							success 	: 	function(data) {
-												if(data.userNum != null && data.userNum > 0) {
-													swal("회원가입 완료", "회원가입에 성공하였습니다. 로그인하여 사용하시기 바랍니다.", "success")
-													.then((value) => {
-														window.location.href = '/login/loginView';
-													});
-												} else {
-													swal("회원가입 실패", "회원가입에 실패하였습니다.", "error");
-												}
-											},
-							beforeSend	:	function(XMLHttpRequest) {
-												XMLHttpRequest.setRequestHeader("AJAX", "Yes");
-											},
-							error		: 	function(XMLHttpRequest, textStatus, errorThrown){
-												if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
-													
-												} else {
-													swal("회원가입 실패", "회원가입에 실패하였습니다.", "error");
-												}
-											}
-						}).submit();
-					} else {
+						swal("아이디 중복확인", "아이디 중복확인을 하시기 바랍니다.", "error");
 						return false;
 					}
-				});
-				
-		
+					
+					$("#joinForm input[name=userId]").val($("#inpUserId").val());
+					$("#joinForm input[name=userPassword]").val($("#inpUserPassword").val());
+					$("#joinForm input[name=userName]").val($("#inpUserName").val());
+					$("#joinForm input[name=userNickname]").val($("#inpUserNickname").val());
+					$("#joinForm input[name=userBirth]").val($("#inpUserBirth").val());
+					$("#joinForm input[name=userPhone]").val($("#inpUserPhone").val());
+					$("#joinForm input[name=userEmail]").val($("#inpUserEmail").val() + "@" + $("#inpUserEmail2").val());
+					
+					$("#joinForm").ajaxForm({
+						type		: 	"POST",
+						dataType 	: 	"json",
+						url 		: 	"/login/joinUser",
+						success 	: 	function(data) {
+											if(data.userNum != null && data.userNum > 0) {
+												swal("회원가입 완료", "회원가입에 성공하였습니다. 로그인하여 사용하시기 바랍니다.", "success")
+												.then((value) => {
+													window.location.href = '/login/loginView';
+												});
+											} else {
+												swal("회원가입 실패", "회원가입에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("회원가입 실패", "회원가입에 실패하였습니다.", "error");
+											}
+										}
+					}).submit();
+				} else {
+					return false;
+				}
 			}
 			
 			function validationCheck() {
-				
 				var inputCheck = false;
 				
 				if($(".joinFormAgree input[type=checkbox]").not(":checked").length > 0) {
 					inputCheck = false;
-					
 					swal("약관동의", "필수 항목에 체크하시기 바랍니다.", "error");
 				} else {
 					var inputList = $("#joinInputForm").find(".required");
@@ -245,7 +285,6 @@
 				}
 				
 				return inputCheck;
-				
 			}
 	    </script>
     </th:block>

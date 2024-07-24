@@ -17,8 +17,9 @@
 						<div class="box-search">
 						 
 							<div class="box-search-keyword">
-								<label class="blind" for="keyword">검색어 입력</label>
-								<input type="text" id="keyword" name="keyword" class="input_text" placeholder="검색어를 입력하세요."/>
+								<label for="keyword">검색조건 : </label>
+								<input type="text" id="keyword" name="keyword" class="input_text" placeholder="검색어(제목)를 입력하세요."
+									th:value="${param.searchKeyword ne null} and ${param.searchKeyword ne ''} ? ${param.searchKeyword} : null"/>
 								<button type="button" id="btnSearch">검색</button>
 							</div>
 						 
@@ -28,7 +29,8 @@
 							<thead>
 								<tr>
 									<th width="10%">번호</th>
-									<th width="70%">제목</th>
+									<th width="60%">제목</th>
+									<th width="10%">작성자</th>
 									<th width="20%">작성일자</th>
 								</tr>
 							</thead>
@@ -40,6 +42,7 @@
 									<td class="blind" th:text="${board.boardNumber}"></td>
 									<td th:text="${(10 * (nowPage - 1)) + item.count}"></td>
 									<td class="tl" th:text="${board.boardTitle}"></td>
+									<td class="tc" th:text="${board.writerId}"></td>
 									<td th:text="${#temporals.createDate(board.writeYmd, 'yyyyMMdd')}"></td>
 								</tr>
 							</tbody>
@@ -81,8 +84,15 @@
 			
 			function invokeEvent() {
 				
+				// 등록 버튼
+				$("#btnSearch").click(function() {
+					var uri = '/board/boardList';
+						uri += "?searchKeyword=" + $("#keyword").val();
+					window.location.href = uri;
+				});
+				
 				// 리스트 선택
-				$("#boardTblList tbody tr").hover(function() {
+				$("#boardTblList tbody tr").not("tr.nohover").hover(function() {
 					$(this).css("cursor", "pointer");
 				}).click(function() {
 					var boardNumber = $(this).children().first().text();
