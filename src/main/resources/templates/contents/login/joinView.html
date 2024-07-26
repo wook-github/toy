@@ -120,6 +120,8 @@
 							</div>
 							<label for="inpUserPhone" class="blind">전화번호</label>
 							<input type="text" id="inpUserPhone" class="input_text required isMblTelno" placeholder="전화번호">
+							<input type="hidden" id="phoneCheckYn" value="N" />
+							<button id="btnCheckPhone" class="btnCheckPhone w25p">휴대폰 인증</button>
 							<div class="divRequiredWarn" style="display:none;">
 								<p>필수 입력 항목입니다.</p>
 							</div>
@@ -189,6 +191,35 @@
 					
 				});
 				
+				// 휴대폰 인증
+				$("#btnCheckPhone").click(function() {
+					if($("#inpUserPhone").val() != null && $("#inpUserPhone").val() != '') {
+						$.ajax({
+							url  : "/login/checkPhone",
+							data : {
+										userPhone : $("#inpUserPhone").val()
+									},
+							type : "POST",
+							success: function (data) {
+								if(data.userId == null || data.userId == '') {
+									$("#phoneCheckYn").val("Y");
+									swal("휴대폰 인증", "회원가입 가능합니다.", "success");
+								} else {
+									$("#phoneCheckYn").val("N");
+									swal("휴대폰 인증", "가입 이력이 있는 휴대폰입니다.", "error");
+								}
+							},
+							error: function (error) {
+								swal("휴대폰 인증 실패", "일시적인 오류로 휴대폰 인증에 실패하였습니다.", "warning");
+							}
+						});
+					} else {
+						swal("휴대폰 번호 미입력", "휴대폰 번호를 입력하시기 바랍니다.", "error");
+						return false;
+					}
+					
+				});
+				
 				
 				// 회원가입
 				$("#btnJoinSubmit").click(function() {
@@ -212,6 +243,11 @@
 						inputCheck = false;
 						
 						swal("아이디 중복확인", "아이디 중복확인을 하시기 바랍니다.", "error");
+						return false;
+					} else if($("#phoneCheckYn").val() != "Y" ) {
+						inputCheck = false;
+						
+						swal("휴대폰 인증", "휴대폰 인증을 하시기 바랍니다.", "error");
 						return false;
 					}
 					

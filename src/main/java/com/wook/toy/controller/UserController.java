@@ -120,6 +120,38 @@ public class UserController {
 		}
 	}
 	
+	@GetMapping("/passwordResetView")
+	public ModelAndView passwordResetView(@AuthenticationPrincipal MemberDetails memberDetails, ModelAndView model) {
+		if(memberDetails != null
+				&& memberDetails.getUsername() != null && !"".equals(memberDetails.getUsername())
+				&& memberDetails.getAuthorities() != null && !memberDetails.getAuthorities().isEmpty()) {
+			
+			model.addObject("menu", "비밀번호 변경");
+			model.setViewName("contents/user/passwordResetView");
+		} else {
+			model.setViewName("redirect:/login/loginView");
+		}
+		
+		return model;
+	}
+	
+	@PostMapping("/passwordReset")
+	public ResponseEntity<String> passwordReset(Member member, HttpServletRequest request) {
+		try {
+			Boolean resetYn = memberService.modifyUser(member);
+			
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			rslt.put("resetYn", resetYn);
+			
+			return new ResponseEntity(rslt, HttpStatus.OK);
+		} catch (Exception e) {
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			rslt.put("boardNumber", 0);
+			
+			return new ResponseEntity(rslt, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@GetMapping("/whdwlUserView")
 	public ModelAndView whdwlUserView(@AuthenticationPrincipal MemberDetails memberDetails, ModelAndView model) {
 		if(memberDetails != null

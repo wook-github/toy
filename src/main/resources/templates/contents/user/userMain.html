@@ -26,6 +26,7 @@
 					<div class="info_bottom">
 						<button sec:authorize="hasRole('ADMIN')" id="btnAdmin">관리자 페이지</button>
 						<button id="btnUserModify">회원정보수정</button>
+						<button id="btnPasswordModify">비밀번호변경</button>
 						<button id="btnUserWhdwl">회원탈퇴</button>
 					</div>
 					
@@ -56,6 +57,11 @@
 				// 회원정보 수정페이지 이동
 				$("#btnUserModify").click(function() {
 					window.location.href = '/user/checkPwView?mode=modify';
+				});
+				
+				// 비밀번호 변경페이지 이동
+				$("#btnPasswordModify").click(function() {
+					window.location.href = '/user/checkPwView?mode=reset';
 				});
 				
 				// 회원정보 탈퇴페이지 이동

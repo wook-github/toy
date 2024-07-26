@@ -29,6 +29,11 @@ public class MemberService {
 			String userId = (String) param.get("userId");
 			
 			return repository.findByUserId(userId);
+		} else if(param.get("userPhone") != null && !"".equals(param.get("userPhone"))) {
+			String userPhone = (String) param.get("userPhone").toString().replaceAll("[-]", "");
+			String useYn = "Y";
+			
+			return repository.findByUserPhoneAndUseYn(userPhone, useYn);
 		} else {
 			String userName = param.get("userName").toString();
 			String userBirth = param.get("userBirth").toString().replaceAll("[-]", "");
@@ -88,8 +93,13 @@ public class MemberService {
 			memberInfo.setUserRole(member.getUserRole());
 		}
 		
-		memberInfo.setUserPhone(member.getUserPhone().replaceAll("[-]", ""));
-		memberInfo.setUserBirth(member.getUserBirth().replaceAll("[-]", ""));
+		if(member != null && member.getUserPhone() != null && !"".equals(member.getUserPhone())) {
+			memberInfo.setUserPhone(member.getUserPhone().replaceAll("[-]", ""));
+		}
+		
+		if(member != null && member.getUserBirth() != null && !"".equals(member.getUserBirth())) {
+			memberInfo.setUserBirth(member.getUserBirth().replaceAll("[-]", ""));
+		}
 		
 		member = repository.save(memberInfo);
 		if(member != null && member.getUserNumber() != null && member.getUserNumber().compareTo(BigDecimal.ZERO) > 0) {

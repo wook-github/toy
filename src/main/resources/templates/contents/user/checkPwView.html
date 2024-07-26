@@ -85,6 +85,8 @@
 													.then((value) => {
 														if("[[${info.mode}]]" == "modify") {
 															window.location.href = '/user/modifyUserView';
+														} else if("[[${info.mode}]]" == "reset") {
+															window.location.href = '/user/passwordResetView';
 														} else {
 															window.location.href = '/user/whdwlUserView';
 														}

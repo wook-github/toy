@@ -145,4 +145,29 @@ public class LoginController {
 			return new ResponseEntity(rslt, HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PostMapping("/checkPhone")
+	@ResponseBody
+	public ResponseEntity<String> checkPhone(@RequestParam HashMap<String, Object> param, HttpServletRequest request) {
+		try {
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			
+			if(param != null && !"".equals(param.get("userPhone"))) {
+				
+				Member member = memberService.findByUser(param);
+				if(member != null && member.getUserNumber().compareTo(BigDecimal.ZERO) != 0) {
+					rslt.put("userId", member.getUserId());
+				} else {
+					rslt.put("userId", null);
+				}
+			}
+			
+			return new ResponseEntity(rslt, HttpStatus.OK);
+		} catch (Exception e) {
+			HashMap<String, Object> rslt = new HashMap<String, Object>();
+			rslt.put("userId", null);
+			
+			return new ResponseEntity(rslt, HttpStatus.BAD_REQUEST);
+		}
+	}
 }

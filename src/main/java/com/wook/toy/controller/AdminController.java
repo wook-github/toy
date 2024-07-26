@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -210,11 +211,10 @@ public class AdminController {
 	@PostMapping("/saveNotice")
 	public ResponseEntity<String> saveNotice(Board board, HttpServletRequest request) {
 		try {
-			BigDecimal boardNumber = new BigDecimal(0);
+			board.setBoardSection("01");
+			board.setWriterId(SecurityContextHolder.getContext().getAuthentication().getName());
 			
-			if(board != null && board.getBoardNumber() != null && board.getBoardNumber().compareTo(BigDecimal.ZERO) > 0) {
-				boardNumber = boardService.insertToUpdateBoard(board);
-			}
+			BigDecimal 	boardNumber = boardService.insertToUpdateBoard(board);
 			
 			HashMap<String, Object> rslt = new HashMap<String, Object>();
 			rslt.put("result", boardNumber);

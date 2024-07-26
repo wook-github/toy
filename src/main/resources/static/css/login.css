@@ -167,11 +167,16 @@ div.divLoginError {
     width: 79%;
 }
 
+.join_wrap .inner .joinInputForm ul li input#inpUserPhone {
+    width: 74%;
+}
+
 .join_wrap .inner .joinInputForm ul li .divRequiredWarn p {
     color: #FF4848;
 }
 
-.join_wrap .inner .btnCheckId {
+.join_wrap .inner .btnCheckId,
+.join_wrap .inner .btnCheckPhone {
 	padding: 0;
 	font-size: 16px;
 	height: 40px;

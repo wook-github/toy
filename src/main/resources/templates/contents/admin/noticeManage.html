@@ -13,7 +13,7 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">공지사항 목록</h6>
+                <h6 class="m-0 font-weight-bold text-primary">공지사항 상세정보</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -41,7 +41,7 @@
 			
 			<div class="card-footer text-center">
 				<a id="btnSave" class="d-sm-inline-block btn btn-primary shadow-sm">저장</a>
-				<a id="btnDelete" class="d-sm-inline-block btn btn-danger shadow-sm">삭제</a>
+				<a id="btnDelete" class="d-sm-inline-block btn btn-danger shadow-sm" th:if="${noticeInfo.boardNumber ne null}">삭제</a>
 				<a id="btnBack" th:href="@{/admin/noticeManageList}" class="d-sm-inline-block btn btn-light shadow-sm">뒤로가기</a>
 			</div>
 			
