@@ -1,7 +1,6 @@
 package com.wook.toy.controller;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +23,8 @@ public class CustomErrorController implements ErrorController {
 		int statusCode = Integer.parseInt(status.toString());
 		response.setStatus(statusCode);
 		
-		model.addObject("code", status.toString());
-		model.addObject("msg", HttpStatus.valueOf(Integer.valueOf(status.toString())));
+		//model.addObject("code", status.toString());
+		//model.addObject("msg", HttpStatus.valueOf(Integer.valueOf(status.toString())));
 		model.setViewName("contents/common/error");
 		
 		return model;

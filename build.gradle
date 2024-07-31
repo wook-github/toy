@@ -16,27 +16,28 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-devtools'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'			// Spring MVC를 사용하여 RESTful을 포함한 웹 애플리케이션을 빌드하기 위한 스타터
+	implementation 'org.springframework.boot:spring-boot-devtools'				// Spring Boot 개발자 도구(프로젝트 변경 시 자동 컴파일 및 재시작 기능)
+	implementation 'org.springframework.boot:spring-boot-starter-security'		// Spring Security 사용을 위한 스타터
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'		// Hibernate와 함께 Spring Data JPA를 사용하기 위한 스타터
+	implementation 'org.springframework.boot:spring-boot-starter-aop'			// Spring AOP 및 AspectJ를 사용한 관점 지향 프로그래밍을 위한 스타터
 	
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'		// Thymeleaf 뷰를 사용하여 MVC 웹 애플리케이션을 구축하기 위한 스타터
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'			// Thymeleaf 뷰를 사용함에 있어서 레이아웃 템플릿 제공
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'		// Thymeleaf 뷰 내의 스프링 시큐리티 적용
 	
 
-	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'	
-	implementation 'org.postgresql:postgresql:42.7.3'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'				// Tomcat 서버 구현
+	implementation 'org.postgresql:postgresql:42.7.3'							// PostgreSQL 관련 구현
 	
-	implementation 'org.apache.commons:commons-lang3:3.12.0'
-	implementation 'org.apache.velocity:velocity:1.7'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'					// java.lang의 계층 구조에 있는 클래스 구현
+	implementation 'org.apache.velocity:velocity:1.7'							// 범용 템플릿 엔진
 	
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'										// 소스 컴파일 시 Lombok 형태로 구현
+	annotationProcessor 'org.projectlombok:lombok'								// Lombok 어노테이션 형태로 제공
 		
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'		// 웹 서버 테스트 진행 시 필요
+	testImplementation 'org.springframework.security:spring-security-test'		// 스프링 시큐리티 진행 시 필요
 }
 
 tasks.named('test') {

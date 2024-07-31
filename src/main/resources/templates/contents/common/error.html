@@ -1,14 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>ERROR</title>
-</head>
-<body>
-	<div>
-		<h1>Error Page</h1>
-		error code : <span th:text="${code}"></span>
-		<br>error msg : <span th:text="${msg}"></span>
-	</div>
-</body>
+<html lang="ko"
+	xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+    	<meta charset="UTF-8">
+    	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=yes">
+	    <!--[if lt IE 7]><meta http-equiv="imagetoolbar" content="no"><![endif]-->
+	    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	    
+    	<title>Spring Boot - toy</title>
+    	<th:block th:replace="~{fragment/config::configFragment}"></th:block>
+    </head>
+    
+    <body>
+    	<header id="header" class="Sec_header">
+    		<div th:replace="~{fragment/header::headerFragment}"></div>
+    	</header>
+    	
+    	<section>
+    		<article>
+    			<div class="title_main">
+					<p>에러 발생</p>
+				</div>
+    			<div style="display: flex; justify-content: center;">
+					<p>잠시 서비스 오류가 발생하여, 서비스 이용에 불편을 드려 죄송합니다.<br>지속적인 오류 발생 시, 저희 고객센터로 문의 주시면 감사드리겠습니다.</p>
+    			</div>
+    			<div class="common_bottom">
+					<button id="btnMain" th:onclick="|location.href='@{/index}'|">메인 페이지 이동</button>
+				</div>
+    		</article>
+    	</section>
+    	
+    	<footer th:replace="~{fragment/footer::footerFragment}" id="footer" class="footer"></footer>
+    </body>
+    
 </html>
