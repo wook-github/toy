@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/adminContentsLayout}">
+	
+	<div layout:fragment="content" class="container-fluid">
+		
+	    <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Q&A 관리</h1>
+        <p class="mb-4">이 서비스(동네 한 바퀴)를 이용하는 사용자 분들에게서 발생한 문의사항을 답변하는 Q&A관리 화면입니다.</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">질문 상세정보</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <tbody>
+                            <tr>
+                            	<th class="text-center w-25">질문 제목</th>
+                            	<td colspan="3" class="text-center w-75" th:text="${boardInfo.boardTitle}"></td>
+                            </tr>
+                            <tr>
+                            	<th class="text-center w-25">질문 내용</th>
+                            	<td colspan="3" class="text-center w-75" th:text="${boardInfo.boardContents}"></td>
+                            </tr>
+                            <tr>
+                            	<th class="text-center w-25">작성일자</th>
+                            	<td class="text-center w-25" th:text="${#temporals.createDate(boardInfo.writeYmd, 'yyyyMMdd')}"></td>
+                            	<th class="text-center w-25">작성자ID</th>
+                            	<td class="text-center w-25" th:text="${boardInfo.writerId}"></td>
+                            </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+			<div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">답변 관리</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                	<form id="answerManageForm">
+                		<input type="hidden" id="boardNumber" name="boardNumber" th:value="${boardInfo.boardNumber}" />
+                		<input type="hidden" id="answerNumber" name="answerNumber" th:if="${answerInfo != null}" th:value="${answerInfo.answerNumber}" />
+	                   
+	                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+	                        <tbody>
+	                            <tr>
+	                            	<th class="text-center w-25">답변 내용</th>
+	                            	<td class="text-center w-75">
+	                            		<textarea id="answerContent" name="answerContent" th:text="${answerInfo != null} ? ${answerInfo.answerContent} : '' " class="required w-100"></textarea>
+	                            	</td>
+	                            </tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+			</div>
+			
+			<div class="card-footer text-center">
+				<a id="btnSave" class="d-sm-inline-block btn btn-primary shadow-sm">저장</a>
+				<a id="btnDelete" class="d-sm-inline-block btn btn-danger shadow-sm" th:if="${answerInfo != null}" >삭제</a>
+				<a id="btnBack" th:href="@{/admin/questionManageList}" class="d-sm-inline-block btn btn-light shadow-sm">뒤로가기</a>
+			</div>
+			
+		</div>
+		
+	</div>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				history.replaceState({}, null, location.pathname);
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 동네 소식 입력
+				$("#btnSave").click(function() {
+					swal({
+						title : "답변 저장",
+						text : "답변을 저장하시겠습니까?",
+						icon : "info",
+						buttons : ["취소", "저장"]
+					})
+					.then((value) => {
+						if(value) {
+							saveAnswer();
+						}
+					});
+				});
+				
+				// 동네 소식 삭제
+				$("#btnDelete").click(function() {
+					swal({
+						title : "답변 삭제",
+						text : "답변을 삭제하시겠습니까?",
+						icon : "warning",
+						buttons : ["취소", "삭제"],
+						dangerMode : true
+					})
+					.then((value) => {
+						if(value) {
+							deleteAnswer();
+						}
+					});
+				});
+				
+			}
+			
+			function saveAnswer() {
+				if(validationForm()) {
+					$("#answerManageForm").ajaxForm({
+						type		: 	"POST",
+						dataType 	: 	"json",
+						url 		: 	"/admin/saveAnswer",
+						success 	: 	function(data) {
+											if(data.result != null && data.result != false) {
+												swal("답변 저장 성공", "답변 저장에 성공하였습니다.", "success")
+												.then((value) => {
+													window.location.href = '/admin/questionManageList';
+												});
+											} else {
+												swal("답변 저장 실패", "답변 저장에 실패하였습니다.", "error");
+											}
+										},
+						beforeSend	:	function(XMLHttpRequest) {
+											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+										},
+						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+												
+											} else {
+												swal("답변 저장 실패", "답변 저장에 실패하였습니다.", "error");
+											}
+										}
+					}).submit();
+				} else {
+					return false;
+				}
+			}
+			
+			function deleteAnswer() {
+				$.ajax({
+					type		: 	"POST",
+					data		: {
+										answerNumber : $("#answerNumber").val()
+					},
+					dataType 	: 	"json",
+					url 		: 	"/admin/deleteAnswer",
+					success 	: 	function(data) {
+										if(data.result != null && data.result != false) {
+											swal("답변 삭제 성공", "답변 삭제에 성공하였습니다.", "success")
+											.then((value) => {
+												window.location.href = '/admin/questionManageList';
+											});
+										} else {
+											swal("답변 삭제 실패", "답변 삭제에 실패하였습니다.", "error");
+										}
+									},
+					beforeSend	:	function(XMLHttpRequest) {
+										XMLHttpRequest.setRequestHeader("AJAX", "Yes");
+									},
+					error		: 	function(XMLHttpRequest, textStatus, errorThrown){
+										if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
+											
+										} else {
+											swal("답변 삭제 실패", "답변 삭제에 실패하였습니다.", "error");
+										}
+									}
+				});
+			}
+			
+			function validationForm() {
+				var inputCheck = true;
+				var inputList = $("#answerManageForm").find(".required");
+				
+				inputList.each(function (idx, item) {
+					if(item.value == null || item.value == '') {
+						swal("답변 정보 입력 확인", "항목이 입력되지 않았습니다.", "error");
+						inputCheck = false;
+						return false;
+					}
+					
+				});
+				
+				return inputCheck;
+			}
+	    </script>
+    </th:block>
+	
+</html>

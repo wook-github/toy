@@ -25,12 +25,12 @@
 						 
 						</div>
 						
-						<table id="boardTblList" class="toy-list-tb">
+						<table id="qnaTblList" class="toy-list-tb">
 							<thead>
 								<tr>
 									<th width="10%">번호</th>
 									<th width="60%">제목</th>
-									<th width="10%">작성자</th>
+									<th width="10%">조회수</th>
 									<th width="20%">작성일자</th>
 								</tr>
 							</thead>
@@ -42,7 +42,7 @@
 									<td class="blind" th:text="${board.boardNumber}"></td>
 									<td th:text="${(10 * (nowPage - 1)) + item.count}"></td>
 									<td class="tl" th:text="${board.boardTitle}"></td>
-									<td class="tc" th:text="${board.writerId}"></td>
+									<td class="tc" th:text="${board.boardViewCnt}"></td>
 									<td th:text="${#temporals.createDate(board.writeYmd, 'yyyyMMdd')}"></td>
 								</tr>
 							</tbody>
@@ -54,7 +54,7 @@
 		
 						<div id="divPaginator" class="paging" style="text-align:center;" th:if="${!boardList.isEmpty()}">
 							<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-					            <a th:if="${page != nowPage}" th:href="@{/board/boardList(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}">
+					            <a th:if="${page != nowPage}" th:href="@{/board/qnaList(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}">
 					            	<span style='cursor:pointer; border:1px solid #e3e3e3; display:inline-block; text-align:center; padding-top:6px; padding-bottom:6px; width:40px; margin-left:-1px;' th:text="${page}"></span>
 					            </a>
 					            <a th:if="${page == nowPage}" th:href="@{#}">
@@ -86,17 +86,17 @@
 				
 				// 검색 버튼
 				$("#btnSearch").click(function() {
-					var uri = '/board/boardList';
+					var uri = '/board/qnaList';
 						uri += "?searchKeyword=" + $("#keyword").val();
 					window.location.href = uri;
 				});
 				
 				// 리스트 선택
-				$("#boardTblList tbody tr").not("tr.nohover").hover(function() {
+				$("#qnaTblList tbody tr").not("tr.nohover").hover(function() {
 					$(this).css("cursor", "pointer");
 				}).click(function() {
 					var boardNumber = $(this).children().first().text();
-					var url = "/board/boardInfo";
+					var url = "/board/questionInfo";
 					url += "?boardNumber=" + boardNumber;
 					
 					window.location.href = url;
@@ -104,9 +104,10 @@
 				
 				// 등록 버튼
 				$("#btnAdd").click(function() {
-					window.location.href = '/board/boardManage';
+					window.location.href = '/board/questionManage';
 				});
 			}
 	    </script>
     </th:block>
+	
 </html>

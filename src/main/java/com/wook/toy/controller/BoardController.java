@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wook.toy.domain.Answer;
 import com.wook.toy.domain.Board;
 import com.wook.toy.domain.Comment;
+import com.wook.toy.services.answer.AnswerService;
 import com.wook.toy.services.board.BoardService;
 import com.wook.toy.services.comment.CommentService;
 
@@ -36,6 +38,9 @@ public class BoardController {
 	
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	private AnswerService answerService;
 	
 	@GetMapping("/noticeList")
 	public ModelAndView noticeList(@RequestParam HashMap<String, Object> param
@@ -154,7 +159,6 @@ public class BoardController {
 	@PostMapping("/insertBoard")
 	public ResponseEntity<String> insertBoard(Board board, HttpServletRequest request) {
 		try {
-			board.setBoardSection("02");
 			board.setWriterId(SecurityContextHolder.getContext().getAuthentication().getName());
 			
 			BigDecimal boardNumber = boardService.insertToUpdateBoard(board);
@@ -174,7 +178,6 @@ public class BoardController {
 	@PostMapping("/updateBoard")
 	public ResponseEntity<String> updateBoard(Board board, HttpServletRequest request) {
 		try {
-			board.setBoardSection("02");
 			board.setWriterId(SecurityContextHolder.getContext().getAuthentication().getName());
 			
 			BigDecimal boardNumber = boardService.insertToUpdateBoard(board);
@@ -276,4 +279,74 @@ public class BoardController {
 			return new ResponseEntity(rslt, HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@GetMapping("/qnaList")
+	public ModelAndView qnaList(@RequestParam HashMap<String, Object> param
+			, @PageableDefault(page = 0, size = 10, sort = "boardNumber", direction = Sort.Direction.DESC) Pageable pageable
+			, ModelAndView model) {
+		param.put("boardSection", "03");
+		param.put("useYn", "Y");
+		
+		Page<Board> list = boardService.getBoardList(param, pageable);
+		
+		int nowPage = list.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+		int totalPage = list.getTotalPages();
+		
+		model.addObject("boardList", list);
+		model.addObject("nowPage", nowPage);
+		model.addObject("startPage", startPage);
+		model.addObject("endPage", endPage);
+		model.addObject("totalPage", totalPage);
+		
+		model.addObject("menu", "1:1문의(Q&A)");
+		model.addObject("info", param);
+		model.setViewName("contents/board/qnaList");
+		return model;
+	}
+	
+	@GetMapping("/questionInfo")
+	public ModelAndView questionInfo(@RequestParam HashMap<String, Object> param
+			, HttpServletRequest request
+			, HttpServletResponse response
+			, ModelAndView model) {
+		
+		if(param != null && param.get("boardNumber") != null && !"".equals(param.get("boardNumber"))) {
+			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber")); 
+			model.addObject("boardInfo", boardService.getBoardInfo(boardNumber, request, response));
+			
+			Answer answer = new Answer();
+			answer.setBoardNumber(boardNumber);
+			answer.setUseYn("Y");
+			model.addObject("answerInfo", answerService.getAnswerInfo(answer));
+		}
+		
+		model.addObject("info", param);
+		model.addObject("menu", "1:1문의(Q&A)");
+		model.setViewName("contents/board/questionInfo");
+		return model;
+	}
+	
+	@GetMapping("/questionManage")
+	public ModelAndView questionManage(@RequestParam HashMap<String, Object> param
+			, HttpServletRequest request
+			, HttpServletResponse response
+			, ModelAndView model) {
+		
+		if(param != null && param.get("boardNumber") != null && !"".equals(param.get("boardNumber"))) {
+			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber")); 
+			model.addObject("boardInfo", boardService.getBoardInfo(boardNumber));
+			param.put("pageMode", "U");
+		} else {
+			model.addObject("boardInfo", new Board());
+			param.put("pageMode", "C");
+		}
+		
+		model.addObject("info", param);
+		model.addObject("menu", "1:1문의(Q&A)");
+		model.setViewName("contents/board/questionManage");
+		return model;
+	}
+	
 }

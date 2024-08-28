@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/contentsLayout}">
+	
+	<body layout:fragment="content">
+		
+		<div class="sub_wrap">
+			
+			<div class="inner">
+				
+				<div class="sub_section">
+					<div class="blind">
+						<input type="hidden" id="boardNumber" th:value="${boardInfo.boardNumber}" />
+					</div>
+					
+					<div id="" class="info-title">
+						<h3 th:text="${boardInfo.boardTitle}"></h3>
+					</div>
+					
+					<table class="toy-info-tb">
+						<caption>질문 조회</caption>
+						<colgroup>
+							<col style="width: 13.3%;">
+							<col style="width: 20%;">
+							<col style="width: 13.3%;">
+							<col style="width: 20%;">
+							<col style="width: 13.3%;">
+							<col style="width: 20%;">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th>작성자</th>
+								<td class="tc">
+									<p th:text="${boardInfo.writerId}"></p>
+								</td>
+								<th>작성일자</th>
+								<td class="tc">
+									<p th:text="${#temporals.createDate(boardInfo.writeYmd, 'yyyyMMdd')}"></p>
+								</td>
+								<th>조회수</th>
+								<td class="tc">
+									<p th:text="${boardInfo.boardViewCnt}"></p>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="6">
+									<pre th:text="${boardInfo.boardContents}"></pre>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<div class="mt10 mb10 divAnswer" th:if="${answerInfo != null}">
+						<table class="toy-info-tb">
+							<caption>Q&A 답변 조회</caption>
+							<colgroup>
+								<col style="width: 13.3%;">
+								<col style="width: 86.6%;">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>작성일자</th>
+									<td colspan="5" class="tc">
+										<p th:text="${#temporals.createDate(answerInfo.writeYmd, 'yyyyMMdd')}"></p>
+									</td>
+								</tr>
+								<tr>
+									<th>답변</th>
+									<td colspan="5">
+										<pre th:text="${answerInfo.answerContent}"></pre>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="info_bottom">
+						<button type="button" id="btnModify" class="" title="수정" th:if="(${session.user.getUserId() == boardInfo.writerId} OR ${session.user.getUserRole() eq 'ROLE_ADMIN'}) AND ${answerInfo == null}">수정</button>
+						<button type="button" id="btnBack" class="" title="목록으로">목록으로</button>
+					</div>
+				
+				</div>
+			
+			</div>
+			
+		</div>
+		
+	</body>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 질문 수정 화면으로 이동
+				$("#btnModify").click(function() {
+					var url = '/board/questionManage';
+					url += '?boardNumber=' + $("#boardNumber").val();
+					
+					window.location.href = url;
+				});
+				
+				// 목록으로 돌아가기
+				$("#btnBack").click(function() {
+					window.location.href = '/board/qnaList';
+				});
+			}
+	    </script>
+    </th:block>
+</html>

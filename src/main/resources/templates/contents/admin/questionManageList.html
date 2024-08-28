@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/adminContentsLayout}">
+	
+	<div layout:fragment="content" class="container-fluid">
+		
+	    <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Q&A 관리</h1>
+        <p class="mb-4">이 서비스(동네 한 바퀴)를 이용하는 사용자 분들에게서 발생한 문의사항을 답변하는 Q&A관리 화면입니다.</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">질문 목록</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="text-center">번호</th>
+                                <th class="text-center">질문 제목</th>
+                                <th class="text-center">작성자</th>
+                                <th class="text-center">조회 수</th>
+                                <th class="text-center">비고</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${boardList.isEmpty()}" class="nohover">
+                            	<td colspan="6" class="text-center">검색된 정보가 없습니다.</td>
+                            </tr>
+                            <tr th:unless="${boardList.isEmpty()}" th:each="board, item : ${boardList}">
+                            	<td class="d-none" th:text="${board.boardNumber}"></td>
+                            	<td class="text-center" th:text="${(10 * (nowPage - 1) + item.count)}"></td>
+                            	<td class="text-left" th:text="${board.boardTitle}"></td>
+                            	<td class="text-left" th:text="${board.writerId}"></td>
+                            	<td class="text-right" th:text="${board.boardViewCnt}"></td>
+                            	<td class="text-left"></td>
+                            </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			 
+		</div>
+		
+	</div>
+	
+	<th:block layout:fragment="bodyScript">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				history.replaceState({}, null, location.pathname);
+				wook.app.common.keyEvent();
+				
+				invokeEvent();
+				
+			});
+			
+			function invokeEvent() {
+				
+				// 리스트 선택
+				$("#dataTable tbody tr").not(".nohover").hover(function() {
+					$(this).css("cursor", "pointer");
+				}).click(function() {
+					var boardNumber = $(this).children().first().text();
+					var url = "/admin/answerManage";
+					url += "?boardNumber=" + boardNumber;
+					
+					window.location.href = url;
+				});
+			}
+	    </script>
+    </th:block>
+	
+</html>

@@ -13,24 +13,24 @@
 				<div class="sub_section">
 					<form id="boardForm">
 						<input type="hidden" id="boardNumber" name="boardNumber" th:if="${boardInfo != null}" th:value="${boardInfo.boardNumber}" />
-						<input type="hidden" id="boardSection" name="boardSection" th:value="${#numbers.formatInteger(2,2)}" />
+						<input type="hidden" id="boardSection" name="boardSection" th:value="${#numbers.formatInteger(3,2)}" />
 					
 						<table class="toy-info-tb">
-							<caption>동네 소식 관리</caption>
+							<caption>질문 관리</caption>
 							<colgroup>
 								<col style="width: 15%;">
 								<col style="width: 85%;">
 							</colgroup>
 							<tbody>
 								<tr>
-									<th>제목</th>
+									<th>질문 제목</th>
 									<td>
 										<label for="boardTitle" class="blind">제목</label>
 										<input type="text" id="boardTitle" name="boardTitle" class="input_text required" th:if="${boardInfo != null}" th:value="${boardInfo.boardTitle}" />
 									</td>
 								</tr>
 								<tr>
-									<th>내용</th>
+									<th>질문 내용</th>
 									<td>
 										<label for="boardContents" class="blind">내용</label>
 										<textarea id="boardContents" name="boardContents" class="required" th:if="${boardInfo != null}" th:text="${boardInfo.boardContents}" ></textarea>
@@ -70,14 +70,14 @@
 				
 				// 목록으로 돌아가기
 				$("#btnBack").click(function() {
-					window.location.href = '/board/boardList';
+					window.location.href = '/board/qnaList';
 				});
 				
-				// 동네 소식 입력
+				// 질문 입력
 				$("#btnInsert").click(function() {
 					swal({
-						title : "동네 소식 등록",
-						text : "동네 소식을 등록하시겠습니까?",
+						title : "질문 등록",
+						text : "질문을 등록하시겠습니까?",
 						icon : "info",
 						buttons : ["취소", "등록"]
 					})
@@ -88,11 +88,11 @@
 					});
 				});
 				
-				// 동네 소식 수정
+				// 질문 수정
 				$("#btnModify").click(function() {
 					swal({
-						title : "동네 소식 수정",
-						text : "동네 소식을 수정하시겠습니까?",
+						title : "질문 수정",
+						text : "질문을 수정하시겠습니까?",
 						icon : "info",
 						buttons : ["취소", "수정"]
 					})
@@ -103,11 +103,11 @@
 					});
 				});
 				
-				// 동네 소식 삭제
+				// 질문 삭제
 				$("#btnDelete").click(function() {
 					swal({
-						title : "동네 소식 삭제",
-						text : "동네 소식을 삭제하시겠습니까?",
+						title : "질문 삭제",
+						text : "질문을 삭제하시겠습니까?",
 						icon : "warning",
 						buttons : ["취소", "삭제"]
 					})
@@ -127,12 +127,12 @@
 						url 		: 	"/board/insertBoard",
 						success 	: 	function(data) {
 											if(data.boardNumber != null && data.boardNumber > 0) {
-												swal("동네 소식 등록 성공", "동네 소식 등록에 성공하였습니다.", "success")
+												swal("질문 등록 성공", "질문 등록에 성공하였습니다.", "success")
 												.then((value) => {
-													window.location.href = '/board/boardList';
+													window.location.href = '/board/qnaList';
 												});
 											} else {
-												swal("동네 소식 등록 실패", "동네 소식 등록에 실패하였습니다.", "error");
+												swal("질문 등록 실패", "질문 등록에 실패하였습니다.", "error");
 											}
 										},
 						beforeSend	:	function(XMLHttpRequest) {
@@ -142,7 +142,7 @@
 											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
 												
 											} else {
-												swal("동네 소식 등록 실패", "동네 소식 등록에 실패하였습니다.", "error");
+												swal("질문 등록 실패", "질문 등록에 실패하였습니다.", "error");
 											}
 										}
 					}).submit();
@@ -159,12 +159,12 @@
 						url 		: 	"/board/updateBoard",
 						success 	: 	function(data) {
 											if(data.boardNumber != null && data.boardNumber > 0) {
-												swal("동네 소식 수정 성공", "동네 소식 수정에 성공하였습니다.", "success")
+												swal("질문 수정 성공", "질문 수정에 성공하였습니다.", "success")
 												.then((value) => {
-													window.location.href = '/board/boardList';
+													window.location.href = '/board/qnaList';
 												});
 											} else {
-												swal("동네 소식 수정 실패", "동네 소식 수정에 실패하였습니다.", "error");
+												swal("질문 수정 실패", "질문 수정에 실패하였습니다.", "error");
 											}
 										},
 						beforeSend	:	function(XMLHttpRequest) {
@@ -174,7 +174,7 @@
 											if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
 												
 											} else {
-												swal("동네 소식 수정 실패", "동네 소식 수정에 실패하였습니다.", "error");
+												swal("질문 수정 실패", "질문 수정에 실패하였습니다.", "error");
 											}
 										}
 					}).submit();
@@ -193,12 +193,12 @@
 					url 		: 	"/board/deleteBoard",
 					success 	: 	function(data) {
 										if(data.boardNumber != null && data.boardNumber > 0) {
-											swal("동네 소식 삭제 성공", "동네 소식 삭제에 성공하였습니다.", "success")
+											swal("질문 삭제 성공", "질문 삭제에 성공하였습니다.", "success")
 											.then((value) => {
-												window.location.href = '/board/boardList';
+												window.location.href = '/board/qnaList';
 											});
 										} else {
-											swal("동네 소식 삭제 실패", "동네 소식 삭제에 실패하였습니다.", "error");
+											swal("질문 삭제 실패", "질문 삭제에 실패하였습니다.", "error");
 										}
 									},
 					beforeSend	:	function(XMLHttpRequest) {
@@ -208,7 +208,7 @@
 										if (XMLHttpRequest.status == 403 || XMLHttpRequest.status == 207) {
 											
 										} else {
-											swal("동네 소식 삭제 실패", "동네 소식 삭제에 실패하였습니다.", "error");
+											swal("질문 삭제 실패", "질문 삭제에 실패하였습니다.", "error");
 										}
 									}
 				});
@@ -220,7 +220,7 @@
 				
 				inputList.each(function (idx, item) {
 					if(item.value == null || item.value == '') {
-						swal("동네 소식 입력 확인", "항목이 입력되지 않았습니다.", "error");
+						swal("질문 입력 확인", "항목이 입력되지 않았습니다.", "error");
 						inputCheck = false;
 						return false;
 					}
