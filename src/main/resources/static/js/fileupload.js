@@ -5,9 +5,7 @@ var fileUpload = function(targetObj, objectId, formId, insertUrl, callback, acce
 	this.insertUrl	=	insertUrl;
 	this.callback	=	callback;
 
-	// 장구분을 설정하면 장 별로 업로드 됨
 	// 파일 갯수 최대를 설정하면 최대 갯수만큼만 업로드 가능 (기본 5개까지만 허용)
-	this.chptNo		=	null;				// 기본계획 장구분
 	this.maxCnt		=	5;					// 최대 업로드 갯수는 기본 5개
 
 	this.btnVisible =	"N";				// 전송버튼 Visiblilty
@@ -31,10 +29,6 @@ fileUpload.prototype = {
 				this.maxCnt	= $("#" + this.targetObj).data("maxcnt");		// maxCount를 따로 설정하면 변경
 			}
 
-			if ($("#" + this.targetObj).data("chptno") != null) {
-				this.chptNo	= $("#" + this.targetObj).data("chptno");
-			}
-
 			if ($("#" + this.targetObj).data("btnvisible") != null) {
 				this.btnVisible	= $("#" + this.targetObj).data("btnvisible");
 			}
@@ -44,7 +38,7 @@ fileUpload.prototype = {
 
 
 			htmlStr += "<div>";
-			htmlStr += "<a href='javascript:;' onclick='"+this.objectId+".toggleFileUpload(this);' title='파일첨부 열기' class = 'attachedFile fl_right'><img src='/app/resources/images/icons/icon_arrow_down.png' width='26' height='26' alt=' 파일첨부 열기 아이콘' /></a>";
+			htmlStr += "<a href='javascript:;' onclick='"+this.objectId+".toggleFileUpload(this);' title='파일첨부 열기' class = 'attachedFile fl_right'><img src='/images/icons/icon_arrow_down.png' width='26' height='26' alt=' 파일첨부 열기 아이콘' /></a>";
 			//htmlStr += "	<button type='button' class='btn_basic fl_right' onClick='"+this.objectId+".toggleFileUpload(this);'>파일업로드 <i class='fas fa-chevron-down'></i><i class='fas fa-chevron-up' style='display:none;'></i></button>";
 			htmlStr += "		<div>";
 			htmlStr += "			<label for='attachFileList' class='label_file fl_right'>파일선택</label>";
@@ -94,12 +88,12 @@ fileUpload.prototype = {
 			if($(object).hasClass('active')){
 				$(object).removeClass('active');
 				$(object).siblings('.div-file-body').hide();
-				$(object).children('img').attr('src', wook.app.common.contextPath+'/resources/images/icons/icon_arrow_down.png');
+				$(object).children('img').attr('src', '/images/icons/icon_arrow_down.png');
 			}
 			else {
 				$(object).addClass('active');
 				$(object).siblings('.div-file-body').show();
-				$(object).children('img').attr('src', wook.app.common.contextPath+'/resources/images/icons/icon_arrow_up.png');
+				$(object).children('img').attr('src', '/images/icons/icon_arrow_up.png');
 			}
 		},
 
@@ -109,7 +103,7 @@ fileUpload.prototype = {
 			if(!$(object).hasClass('active')){
 				$(object).addClass('active');
 				$(object).siblings('.div-file-body').show();
-				$(object).children('img').attr('src', wook.app.common.contextPath+'/resources/images/icons/icon_arrow_up.png');
+				$(object).children('img').attr('src', '/images/icons/icon_arrow_up.png');
 			}
 		},
 
@@ -237,7 +231,7 @@ fileUpload.prototype = {
 				html += "<li>";
 				html += files[i].name
 				html += " <a href='javascript:;' title='첨부파일 삭제' class = 'delete' >"
-				html += "		<img alt='첨부파일 삭제 아이콘' width='18' height='18' src='"+wook.app.common.contextPath+"/resources/images/icons/icon_x_mark.png'>";
+				html += "		<img alt='첨부파일 삭제 아이콘' width='18' height='18' src='/images/icons/icon_x_mark.png'>";
 				html += " </a>"
 				html += "</li>";
 

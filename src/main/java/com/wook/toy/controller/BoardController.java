@@ -2,6 +2,7 @@ package com.wook.toy.controller;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wook.toy.domain.Answer;
@@ -24,6 +26,7 @@ import com.wook.toy.domain.Comment;
 import com.wook.toy.services.answer.AnswerService;
 import com.wook.toy.services.board.BoardService;
 import com.wook.toy.services.comment.CommentService;
+import com.wook.toy.services.file.FileService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,7 +35,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-
+	
 	@Autowired
 	private BoardService boardService;
 	
@@ -41,6 +44,9 @@ public class BoardController {
 	
 	@Autowired
 	private AnswerService answerService;
+	
+	@Autowired
+	private FileService fileService;
 	
 	@GetMapping("/noticeList")
 	public ModelAndView noticeList(@RequestParam HashMap<String, Object> param
@@ -120,7 +126,7 @@ public class BoardController {
 			, ModelAndView model) {
 		
 		if(param != null && param.get("boardNumber") != null && !"".equals(param.get("boardNumber"))) {
-			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber")); 
+			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber"));
 			model.addObject("boardInfo", boardService.getBoardInfo(boardNumber, request, response));
 			
 			param.put("useYn", "Y");
@@ -157,9 +163,15 @@ public class BoardController {
 	}
 	
 	@PostMapping("/insertBoard")
-	public ResponseEntity<String> insertBoard(Board board, HttpServletRequest request) {
+	public ResponseEntity<String> insertBoard(@RequestParam("attachFileList") List<MultipartFile> mpFileList
+			, Board board
+			, HttpServletRequest request) {
 		try {
 			board.setWriterId(SecurityContextHolder.getContext().getAuthentication().getName());
+			
+			if(mpFileList != null && !mpFileList.isEmpty()) {
+				board.setFileNumber(fileService.saveFile(mpFileList, request));
+			}
 			
 			BigDecimal boardNumber = boardService.insertToUpdateBoard(board);
 			
@@ -176,9 +188,20 @@ public class BoardController {
 	}
 	
 	@PostMapping("/updateBoard")
-	public ResponseEntity<String> updateBoard(Board board, HttpServletRequest request) {
+	public ResponseEntity<String> updateBoard(@RequestParam("attachFileList") List<MultipartFile> mpFileList
+			, @RequestParam(required=false, value="deleteFileList") List<String> deleteFileList
+			, Board board
+			, HttpServletRequest request) {
 		try {
 			board.setWriterId(SecurityContextHolder.getContext().getAuthentication().getName());
+			
+			if(deleteFileList != null && !deleteFileList.isEmpty()) {
+				fileService.deleteFile(deleteFileList);
+			}
+			
+			if(mpFileList != null && !mpFileList.isEmpty()) {
+				board.setFileNumber(fileService.saveFile(mpFileList, request));
+			}
 			
 			BigDecimal boardNumber = boardService.insertToUpdateBoard(board);
 			
@@ -313,8 +336,14 @@ public class BoardController {
 			, ModelAndView model) {
 		
 		if(param != null && param.get("boardNumber") != null && !"".equals(param.get("boardNumber"))) {
-			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber")); 
-			model.addObject("boardInfo", boardService.getBoardInfo(boardNumber, request, response));
+			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber"));
+			Board boardInfo = boardService.getBoardInfo(boardNumber, request, response);
+			
+			model.addObject("boardInfo", boardInfo);
+			
+			if(boardInfo.getFileNumber() != null && boardInfo.getFileNumber().compareTo(BigDecimal.ZERO) != 0) {
+				model.addObject("boardFileInfo", fileService.getFileInfo(boardInfo.getFileNumber()));
+			}
 			
 			Answer answer = new Answer();
 			answer.setBoardNumber(boardNumber);
@@ -335,8 +364,14 @@ public class BoardController {
 			, ModelAndView model) {
 		
 		if(param != null && param.get("boardNumber") != null && !"".equals(param.get("boardNumber"))) {
-			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber")); 
-			model.addObject("boardInfo", boardService.getBoardInfo(boardNumber));
+			BigDecimal boardNumber = new BigDecimal((String) param.get("boardNumber"));
+			Board boardInfo = boardService.getBoardInfo(boardNumber, request, response);
+			
+			model.addObject("boardInfo", boardInfo);
+			
+			if(boardInfo.getFileNumber() != null && boardInfo.getFileNumber().compareTo(BigDecimal.ZERO) != 0) {
+				model.addObject("boardFileInfo", fileService.getFileInfo(boardInfo.getFileNumber()));
+			}
 			param.put("pageMode", "U");
 		} else {
 			model.addObject("boardInfo", new Board());

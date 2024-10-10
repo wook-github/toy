@@ -11,7 +11,7 @@
 			<div class="inner">
 				
 				<div class="sub_section">
-					<form id="boardForm">
+					<form id="boardForm" enctype="multipart/form-data">
 						<input type="hidden" id="boardNumber" name="boardNumber" th:if="${boardInfo != null}" th:value="${boardInfo.boardNumber}" />
 						<input type="hidden" id="boardSection" name="boardSection" th:value="${#numbers.formatInteger(3,2)}" />
 					
@@ -34,6 +34,32 @@
 									<td>
 										<label for="boardContents" class="blind">내용</label>
 										<textarea id="boardContents" name="boardContents" class="required" th:if="${boardInfo != null}" th:text="${boardInfo.boardContents}" ></textarea>
+									</td>
+								</tr>
+								<tr>
+									<th>관련 첨부파일</th>
+									<td>
+										<div id="divBoardFileList" class="div-file-list">
+											<ul th:if="${boardFileInfo != null}">
+												<li th:attr="data-fileNumber=${boardFileInfo.fileNumber}">
+													<span>
+														<a th:href="@{#none}" th:onclick="|location.href='@{/common/downloadFile(fileNumber=${boardFileInfo.fileNumber})}'|">
+															<img alt="첨부파일" th:src="@{/images/sub/blt_file.gif}">
+															<span th:text="${boardFileInfo.fileOrgnName}"></span>
+														</a>
+														<a th:href="@{#none}" th:onclick="btnDeleteFileEvent.call(this)" title="첨부파일 삭제" class="delete">
+															<img alt="첨부파일 삭제" th:src="@{/images/icons/icon_x_mark.png}">
+														</a>
+													</span>
+												</li>
+											</ul>
+											<ul th:unless="${boardFileInfo != null}">
+												<li>등록된 파일이 없습니다.</li>
+											</ul>
+										</div>
+										<div id="divFileList" data-maxcnt="5"></div>
+              							<!-- <label class="label_file" for="customFile">파일을 선택해 주세요.</label> -->
+              							<!-- <input name="file" type="file" class="" id="customFile" /> -->
 									</td>
 								</tr>
 							</tbody>
@@ -59,11 +85,12 @@
 	
 	<th:block layout:fragment="bodyScript">
 		<script type="text/javascript">
+			var _boardFile = new fileUpload("divFileList", "_boardFile", "boardForm", null, null, "pdf,hwp,hwpx,xls,xlsx");
+		
 			$(document).ready(function() {
 				wook.app.common.keyEvent();
 				
 				invokeEvent();
-				
 			});
 			
 			function invokeEvent() {
@@ -124,6 +151,7 @@
 					$("#boardForm").ajaxForm({
 						type		: 	"POST",
 						dataType 	: 	"json",
+						contentType : 	false,
 						url 		: 	"/board/insertBoard",
 						success 	: 	function(data) {
 											if(data.boardNumber != null && data.boardNumber > 0) {
@@ -135,7 +163,8 @@
 												swal("질문 등록 실패", "질문 등록에 실패하였습니다.", "error");
 											}
 										},
-						beforeSend	:	function(XMLHttpRequest) {
+						beforeSend	:	function(XMLHttpRequest, obj) {
+											_boardFile.beforeSend(obj);
 											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
 										},
 						error		: 	function(XMLHttpRequest, textStatus, errorThrown){
@@ -156,6 +185,7 @@
 					$("#boardForm").ajaxForm({
 						type		: 	"POST",
 						dataType 	: 	"json",
+						contentType : 	false,
 						url 		: 	"/board/updateBoard",
 						success 	: 	function(data) {
 											if(data.boardNumber != null && data.boardNumber > 0) {
@@ -167,7 +197,8 @@
 												swal("질문 수정 실패", "질문 수정에 실패하였습니다.", "error");
 											}
 										},
-						beforeSend	:	function(XMLHttpRequest) {
+						beforeSend	:	function(XMLHttpRequest, obj) {
+											_boardFile.beforeSend(obj);
 											XMLHttpRequest.setRequestHeader("AJAX", "Yes");
 										},
 						error		: 	function(XMLHttpRequest, textStatus, errorThrown){

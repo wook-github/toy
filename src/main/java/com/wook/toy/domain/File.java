@@ -19,30 +19,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="t_comment", schema="toy", catalog = "toy")
-@SequenceGenerator(name = "Comment_Seq_Generator", sequenceName = "toy.t_comment_seq", initialValue = 1, allocationSize = 1)
+@Table(name="t_file", schema="toy", catalog = "toy")
+@SequenceGenerator(name = "File_Seq_Generator", sequenceName = "toy.t_file_seq", initialValue = 1, allocationSize = 1)
 @DynamicInsert
 @DynamicUpdate
-public class Comment {
+public class File {
 
 	@Id
-	@Column(name = "comment_number", columnDefinition = "NUMERIC(15,0)")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Comment_Seq_Generator")
-	private BigDecimal commentNumber;
+	@Column(name = "file_number", columnDefinition = "NUMERIC(15,0)")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "File_Seq_Generator")
+	private BigDecimal fileNumber;
 	
-	@Column(name = "writer_id", columnDefinition = "VARCHAR(256)")
-	@ColumnDefault("'ADMIN'")
-	private String writerId;
+	@Column(name = "file_path", columnDefinition = "VARCHAR(32)")
+	private String filePath;
 	
-	@Column(name = "board_number", columnDefinition = "NUMERIC(15,0)")
-	private BigDecimal boardNumber;
+	@Column(name = "file_ext", columnDefinition = "VARCHAR(32)")
+	private String fileExt;
 	
-	@Column(name = "comment_content", columnDefinition = "TEXT")
-	private String commentContent;
+	@Column(name = "file_name", columnDefinition = "VARCHAR(128)")
+	private String fileName;
 	
-	@Column(name = "write_ymd", columnDefinition = "BPCHAR(8)")
-	@ColumnDefault("to_char(now(), 'YYYYMMDD')")
-	private String writeYmd;
+	@Column(name = "file_orgn_name", columnDefinition = "VARCHAR(512)")
+	private String fileOrgnName;
 	
 	@Column(name = "use_yn", columnDefinition = "BPCHAR(1)")
 	@ColumnDefault("'Y'")

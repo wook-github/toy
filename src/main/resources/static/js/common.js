@@ -1834,8 +1834,6 @@ function getFileList(divFileId, url, data, checkBoxYn, delbtnYn){
                                 }
                                 htmlStr += "</li>";
                             });
-                            var fileDowonloadAll = "<label for='fileDownloadall' class='label_file fl_left'>전체 다운로드</label>";
-                            fileDowonloadAll +="<input type='button' id='fileDownloadall' name='' class='disPlayNone' onclick='wook.app.common.downloadAll(\""+divFileId+"\");' >";
                         } else {
                             htmlStr = "<li class = 'nohover'>파일이 없습니다.</li>";
                         }
@@ -1861,14 +1859,14 @@ function btnDeleteFileEvent(){
 	var mode  = ($(this).hasClass('delete')) ? "delete" : "deleteCancle";
 
 	var parent = $(this).parent().parent();
-	var filesn = parent.data("filesn");
+	var filenumber = parent.data("filenumber");
 	if(mode == 'delete'){
 		parent.addClass("deleteFile").addClass("nohover");
-		$(parent).append('<input type="hidden" name="deleteFileList" value="'+filesn+'" />');
-		var filesn = parent.data("filesn");
+		$(parent).append('<input type="hidden" name="deleteFileList" value="'+filenumber+'" />');
+		var filenumber = parent.data("filenumber");
 		$(this).removeClass('delete');
 		$(this).addClass('deleteCancle');
-		$(this).children('img').attr('src', wook.app.common.contextPath+'/resources/images/icons/icon_recycling.png');
+		$(this).children('img').attr('src', '/images/icons/icon_recycling.png');
 	}
 	else {
 		var maxCnt = 5;
@@ -1880,15 +1878,15 @@ function btnDeleteFileEvent(){
 		var curCnt = $(this).closest('div').find("li").not("li.nohover").length+1;
 
 		if((addCnt+curCnt) > maxCnt){
-			g3way.sidms.common.messageBox(null, nameTitle, "최대 첨부파일 수("+maxCnt+")를 초과하여 취소 할 수 없습니다.", null);
+			wook.app.common.messageBox(null, nameTitle, "최대 첨부파일 수("+maxCnt+")를 초과하여 취소 할 수 없습니다.", null);
 			return;
 		}
 		parent.removeClass("deleteFile").removeClass("nohover");
-		$(parent).find("input[type=hidden][name=deleteFileList][value="+filesn+"]").remove();
+		$(parent).find("input[type=hidden][name=deleteFileList][value="+filenumber+"]").remove();
 
 		$(this).addClass('delete');
 		$(this).removeClass('deleteCancle');
-		$(this).children('img').attr('src', g3way.sidms.common.contextPath+'/resources/images/icons/icon_x_mark.png');
+		$(this).children('img').attr('src', '/images/icons/icon_x_mark.png');
 
 	}
 

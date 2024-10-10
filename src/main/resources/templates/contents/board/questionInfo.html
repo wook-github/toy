@@ -49,6 +49,20 @@
 									<pre th:text="${boardInfo.boardContents}"></pre>
 								</td>
 							</tr>
+							<tr th:if="${boardFileInfo != null}">
+								<td colspan="6">
+									<div id="divBoardFileList" class="div-file-list">
+										<ul>
+											<li>
+												<a th:href="@{#none}" th:onclick="|location.href='@{/common/downloadFile(fileNumber=${boardFileInfo.fileNumber})}'|">
+													<img alt="첨부파일" th:src="@{/images/sub/blt_file.gif}">
+													<span th:text="${boardFileInfo.fileOrgnName}"></span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 					

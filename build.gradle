@@ -31,6 +31,7 @@ dependencies {
 	implementation 'org.postgresql:postgresql:42.7.3'							// PostgreSQL 관련 구현
 	
 	implementation 'org.apache.commons:commons-lang3:3.12.0'					// java.lang의 계층 구조에 있는 클래스 구현
+	implementation 'commons-io:commons-io:2.11.0'								// Commons IO 라이브러리에는 유틸리티 클래스, 스트림 구현, 파일 필터, 파일 비교기, 엔디안 변환 클래스 등이 포함
 	implementation 'org.apache.velocity:velocity:1.7'							// 범용 템플릿 엔진
 	
 	compileOnly 'org.projectlombok:lombok'										// 소스 컴파일 시 Lombok 형태로 구현

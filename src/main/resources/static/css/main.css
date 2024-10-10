@@ -395,14 +395,6 @@ footer	{
 }
 
 /* -----------------------------
-      modal
------------------------------ */
-.modal-title h4 	{ font-size: 18px; background: url(../images/sub/blit.gif) no-repeat 0 0; padding-left: 30px; color: #222; font-weight: 700; margin-bottom: 20px; clear:both; }
-.modal-content		{ padding:2em 0; }
-.modal-btn			{ float:right; }
-.modal-btn button	{ height: 36px; padding:0 25px; background: #0175d3; font-size: 14px; color: #fff; border-radius:6px; }
-
-/* -----------------------------
 	Pagination
 ----------------------------- */
 .pagination {clear:both; position:relative; margin:30px auto 40px 0; padding:0; text-align:center;}
@@ -412,7 +404,7 @@ footer	{
 .pagination .control {overflow:hidden; display:inline-block; position:relative; min-width:32px; height:32px; margin:0 2px; padding:0 2px; line-height:31px; border:1px solid #fff; text-decoration:none; color:#666; font-weight:400; vertical-align:middle; border-radius:0;}
 .pagination .active {color:#2775c4; border-color:#3671c8;}
 .pagination a:hover {border-color:#2775c4;}
-.pagination .control {overflow:hidden; width:32px; height:32px; min-width:0; padding:0; border:1px solid #ccc; font-size:0; line-height:0; text-indent:-9999px; background:url(../images/page/btn-pagination.png) no-repeat 0 0; }
+.pagination .control {overflow:hidden; width:32px; height:32px; min-width:0; padding:0; border:1px solid #ccc; font-size:0; line-height:0; text-indent:-9999px; background:url(/images/page/btn-pagination.png) no-repeat 0 0; }
 .pagination .control.disabled {cursor:default;}
 .pagination .control.first {margin:0; background-position:0 0;}
 .pagination .control.prev {margin:0 6px 0 0; background-position:-30px 0;}
@@ -425,7 +417,7 @@ footer	{
 
 ************************************************************************************************/
 .wrap .divBorderBox 										{ border: 1px solid #d2d2d2; border-radius: 15px; height: 300px; }
-.wrap .divAdvertisement 									{ border: none; position:relative; height: 350px; background: url(../images/main/img_main_advise.jpg); background-size: cover; display: flex; justify-content: center; align-items: center; }
+.wrap .divAdvertisement 									{ border: none; position:relative; height: 350px; background: url(/images/main/img_main_advise.jpg); background-size: cover; display: flex; justify-content: center; align-items: center; }
 .wrap .divAdvertisement::before 							{ content: ""; position: absolute; top: 0; left:0; width: 100%; height: 100%; border-radius: 15px; background-color: #000; opacity: 0.3; }
 .wrap .divAdvertisement .divAdviseTitle 					{ position:relative; font-weight: bold; color: #FFF; font-size: 2em; }
 .wrap .divSmallBox											{ padding: 20px 0; }
@@ -434,12 +426,12 @@ footer	{
 .wrap .divSmallBox.divFoodList .ulFoodRank 					{ height: 100%; }
 .wrap .divSmallBox.divFoodList ul.ulFoodRank li 			{ height: 33.3%; padding: 10px 20px; display: flex; align-items: center; }
 .wrap .divSmallBox.divFoodList ul.ulFoodRank li span		{ font-size: 1.2em; margin-left: 10px; }
-.wrap .divSmallBox.divPopularPost > p						{ background: url(../images/icons/icon_popular_list.svg) no-repeat 0 0; background-size: 100px 38px; clear:both; background-position-x: -30px; }
+.wrap .divSmallBox.divPopularPost > p						{ background: url(/images/icons/icon_popular_list.svg) no-repeat 0 0; background-size: 100px 38px; clear:both; background-position-x: -30px; }
 .wrap .divSmallBox.divPopularPost ul.ulFloatList li 		{ display: inline-block; }
 .wrap .divSmallBox.divPopularPost ul.ulFloatList li div		{ width: 315px; padding: 10px; }
-.wrap .divSmallBox.divNoticeList > p						{ background: url(../images/icons/icon_notice.svg) no-repeat 0 0; background-size: 100px 38px; clear:both; background-position-x: -30px; }
-.wrap .divSmallBox.divFaqList > p							{ background: url(../images/icons/icon_faq.svg) no-repeat 0 0; background-size: 100px 38px; clear:both; background-position-x: -30px; }
-.wrap .divSmallBox.divPhoneBook  > p						{ background: url(../images/icons/icon_phone_book.svg) no-repeat 0 0; background-size: 100px 38px; clear:both; background-position-x: -30px; }
+.wrap .divSmallBox.divNoticeList > p						{ background: url(/images/icons/icon_notice.svg) no-repeat 0 0; background-size: 100px 38px; clear:both; background-position-x: -30px; }
+.wrap .divSmallBox.divFaqList > p							{ background: url(/images/icons/icon_faq.svg) no-repeat 0 0; background-size: 100px 38px; clear:both; background-position-x: -30px; }
+.wrap .divSmallBox.divPhoneBook  > p						{ background: url(/images/icons/icon_phone_book.svg) no-repeat 0 0; background-size: 100px 38px; clear:both; background-position-x: -30px; }
 .wrap .divSmallBox p span									{ color: #000; font-size: 2em; font-weight: bold; }
 .wrap .divFoodSearch 										{ width: 840px; }
 .wrap .divFoodList 											{ width: 400px; }
