@@ -100,9 +100,6 @@ public class BoardService {
 				Board oldBoard = repository.findByBoardNumber(board.getBoardNumber());
 				oldBoard.setBoardTitle(board.getBoardTitle());
 				oldBoard.setBoardContents(board.getBoardContents());
-				if(board.getFileNumber() != null && board.getFileNumber().compareTo(BigDecimal.ZERO) > 0) {
-					oldBoard.setFileNumber(board.getFileNumber());
-				}
 				
 				newBoard = repository.save(oldBoard);
 			} else {

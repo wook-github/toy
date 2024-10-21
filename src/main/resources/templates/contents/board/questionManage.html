@@ -40,8 +40,9 @@
 									<th>관련 첨부파일</th>
 									<td>
 										<div id="divBoardFileList" class="div-file-list">
-											<ul th:if="${boardFileInfo != null}">
-												<li th:attr="data-fileNumber=${boardFileInfo.fileNumber}">
+											<ul>
+												<li th:if="${boardFileList.isEmpty()}">등록된 파일이 없습니다.</li>
+												<li th:unless="${boardFileList.isEmpty()}" th:each="boardFileInfo, item : ${boardFileList}" th:attr="data-fileNumber=${boardFileInfo.fileNumber}">
 													<span>
 														<a th:href="@{#none}" th:onclick="|location.href='@{/common/downloadFile(fileNumber=${boardFileInfo.fileNumber})}'|">
 															<img alt="첨부파일" th:src="@{/images/sub/blt_file.gif}">
@@ -52,9 +53,6 @@
 														</a>
 													</span>
 												</li>
-											</ul>
-											<ul th:unless="${boardFileInfo != null}">
-												<li>등록된 파일이 없습니다.</li>
 											</ul>
 										</div>
 										<div id="divFileList" data-maxcnt="5"></div>

@@ -51,9 +51,6 @@ public class Board {
 	@ColumnDefault("'ADMIN'")
 	private String writerId;
 	
-	@Column(name = "file_number", columnDefinition = "NUMERIC(15,0)")
-	private BigDecimal fileNumber;
-	
 	@Column(name = "use_yn", columnDefinition = "BPCHAR(1)")
 	@ColumnDefault("'Y'")
 	private String useYn;
@@ -72,4 +69,5 @@ public class Board {
 	
 	@Column(name = "rmks", columnDefinition = "VARCHAR(512)")
 	private String rmks;
+	
 }

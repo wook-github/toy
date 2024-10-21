@@ -30,6 +30,9 @@ public class File {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "File_Seq_Generator")
 	private BigDecimal fileNumber;
 	
+	@Column(name = "board_number", columnDefinition = "NUMERIC(15,0)")
+	private BigDecimal boardNumber;
+	
 	@Column(name = "file_path", columnDefinition = "VARCHAR(32)")
 	private String filePath;
 	
@@ -60,4 +63,5 @@ public class File {
 	
 	@Column(name = "rmks", columnDefinition = "VARCHAR(512)")
 	private String rmks;
+	
 }

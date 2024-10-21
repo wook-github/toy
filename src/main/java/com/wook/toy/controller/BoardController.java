@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.wook.toy.domain.Answer;
 import com.wook.toy.domain.Board;
 import com.wook.toy.domain.Comment;
+import com.wook.toy.domain.File;
 import com.wook.toy.services.answer.AnswerService;
 import com.wook.toy.services.board.BoardService;
 import com.wook.toy.services.comment.CommentService;
@@ -169,11 +170,11 @@ public class BoardController {
 		try {
 			board.setWriterId(SecurityContextHolder.getContext().getAuthentication().getName());
 			
-			if(mpFileList != null && !mpFileList.isEmpty()) {
-				board.setFileNumber(fileService.saveFile(mpFileList, request));
-			}
-			
 			BigDecimal boardNumber = boardService.insertToUpdateBoard(board);
+			
+			if(mpFileList != null && !mpFileList.isEmpty()) {
+				fileService.saveFile(mpFileList, boardNumber, request);
+			}
 			
 			HashMap<String, Object> rslt = new HashMap<String, Object>();
 			rslt.put("boardNumber", boardNumber);
@@ -188,7 +189,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/updateBoard")
-	public ResponseEntity<String> updateBoard(@RequestParam("attachFileList") List<MultipartFile> mpFileList
+	public ResponseEntity<String> updateBoard(@RequestParam(required=false, value="attachFileList") List<MultipartFile> mpFileList
 			, @RequestParam(required=false, value="deleteFileList") List<String> deleteFileList
 			, Board board
 			, HttpServletRequest request) {
@@ -199,11 +200,11 @@ public class BoardController {
 				fileService.deleteFile(deleteFileList);
 			}
 			
-			if(mpFileList != null && !mpFileList.isEmpty()) {
-				board.setFileNumber(fileService.saveFile(mpFileList, request));
-			}
-			
 			BigDecimal boardNumber = boardService.insertToUpdateBoard(board);
+			
+			if(mpFileList != null && !mpFileList.isEmpty()) {
+				fileService.saveFile(mpFileList, boardNumber, request);
+			}
 			
 			HashMap<String, Object> rslt = new HashMap<String, Object>();
 			rslt.put("boardNumber", boardNumber);
@@ -340,10 +341,7 @@ public class BoardController {
 			Board boardInfo = boardService.getBoardInfo(boardNumber, request, response);
 			
 			model.addObject("boardInfo", boardInfo);
-			
-			if(boardInfo.getFileNumber() != null && boardInfo.getFileNumber().compareTo(BigDecimal.ZERO) != 0) {
-				model.addObject("boardFileInfo", fileService.getFileInfo(boardInfo.getFileNumber()));
-			}
+			model.addObject("boardFileList", fileService.getFileList(boardNumber));
 			
 			Answer answer = new Answer();
 			answer.setBoardNumber(boardNumber);
@@ -368,10 +366,8 @@ public class BoardController {
 			Board boardInfo = boardService.getBoardInfo(boardNumber, request, response);
 			
 			model.addObject("boardInfo", boardInfo);
+			model.addObject("boardFileList", fileService.getFileList(boardNumber));
 			
-			if(boardInfo.getFileNumber() != null && boardInfo.getFileNumber().compareTo(BigDecimal.ZERO) != 0) {
-				model.addObject("boardFileInfo", fileService.getFileInfo(boardInfo.getFileNumber()));
-			}
 			param.put("pageMode", "U");
 		} else {
 			model.addObject("boardInfo", new Board());

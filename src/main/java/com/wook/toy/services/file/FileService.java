@@ -29,7 +29,7 @@ public class FileService {
 	
 	
 	@Transactional(rollbackFor = Exception.class)
-	public BigDecimal saveFile(List<MultipartFile> mpFileList, HttpServletRequest request) {
+	public BigDecimal saveFile(List<MultipartFile> mpFileList, BigDecimal boardNumber, HttpServletRequest request) {
 		BigDecimal rtnVal = new BigDecimal(0);
 		
 		for(MultipartFile mpFile : mpFileList) {
@@ -54,6 +54,7 @@ public class FileService {
 				SimpleDateFormat formatYmd = new SimpleDateFormat("yyyyMMdd");
 				
 				File file = new File();
+				file.setBoardNumber(boardNumber);
 				file.setFilePath("/board/");
 				file.setFileExt(fileExt);
 				file.setFileName(fileName);
@@ -75,8 +76,15 @@ public class FileService {
 	
 	@Transactional
 	public File getFileInfo(BigDecimal fileNumber) {
-		return fileRepository.findByFileNumberAndUseYn(fileNumber, "Y");
+		return fileRepository.findByFileNumber(fileNumber);
 	}
+	
+	
+	@Transactional
+	public List<File> getFileList(BigDecimal boardNumber) {
+		return fileRepository.findByBoardNumberAndUseYn(boardNumber, "Y");
+	}
+	
 	
 	@Transactional
 	public void deleteFile(List<String> deleteFileList) {
